@@ -5,7 +5,7 @@ import ArrowSvg from "../../ArrowSvg/ArrowSvg";
 import { MouseEventHandler, useState } from "react";
 import cn from 'classnames'
 
-export default function MenuItem({ href, arrowActive = false, quantityActive = false, ...props }: IMenuItem) {
+export default function MenuItem({ href, arrowActive = false, quantityActive = false, name, ...props }: IMenuItem) {
     const [listActive, setListActive] = useState(false);
 
     const expandList: MouseEventHandler<HTMLDivElement> = (e) => {
@@ -28,7 +28,7 @@ export default function MenuItem({ href, arrowActive = false, quantityActive = f
                             <img src="./sqrt.png" alt="" />
                         </div>
                         <div className={styles['text']}>
-                            Заметки
+                            {name}
                         </div>
                     </div>
                 </div>
