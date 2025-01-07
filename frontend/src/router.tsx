@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout/MainLayout";
+import NotesPage from "./pages/NotesPage/NotesPage";
 
 const router = createBrowserRouter([
     {
@@ -7,7 +8,8 @@ const router = createBrowserRouter([
         element: <MainLayout />,
         children: [
             {
-
+                path: '/notes',
+                element: <NotesPage />
             }
         ]
     }
