@@ -13,7 +13,7 @@ export default function Sidebar() {
                     <h2>VBROS</h2>
                 </div>
                 <div className={styles['menu']}>
-                    <MenuItem href='/' name='Заметки' />
+                    <MenuItem href='/notes ' name='Заметки' />
                     <MenuItem href='/' name='Проекты' />
                     <MenuItem href='/' name='Архив' arrowActive={true} quantityActive={true} />
                     <MenuItem href='/' name='Поддержка' arrowActive={true} quantityActive={true} />
