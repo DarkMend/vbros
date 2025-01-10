@@ -1,5 +1,9 @@
 @import './../../index.scss';
 
+.genjutsu{
+    min-width: 246px;
+}
+
 .sidebar {
     display: flex;
     flex-direction: column;
@@ -9,6 +13,7 @@
     border-right: 1px solid #D9D9D9;
     min-height: 100vh;
     padding: 24px 0 0px 0;
+    position: fixed;
 
     &__nav{
         display: flex;

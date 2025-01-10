@@ -1,0 +1,28 @@
+@import './../../../index.scss';
+
+.notes-item {
+    display: flex;
+    flex-direction: column;
+    background: #F5F5F5;
+    border-radius: 12px;
+    padding: 12px;
+    gap: 6px;
+
+    .title {
+        font-size: 14px;
+        font-weight: 700;
+        color: $font-color;
+    }
+
+    .description {
+        font-size: 12px;
+        font-weight: 500;
+        color: $font-color;
+    }
+
+    .deadline {
+        font-size: 12px;
+        font-weight: 500;
+        color: #BCBCBC;
+    }
+}
