@@ -3,15 +3,18 @@ import NotesItem from './NotesItem/NotesItem'
 import styles from './NotesItems.module.scss'
 import cn from 'classnames'
 
-export default function NotesItems({count, className, ...props}: INotesItems) {
+export default function NotesItems({name, count, className, icon, iconColor, ...props}: INotesItems) {
     return (
         <div className={cn(styles['notes-items'], className)} {...props}>
             <div className={styles['notes-items__head']}>
                 <div className={styles['name']}>
                     <div className={styles['img']}>
-                        <img src="./icons/question-mark.svg" alt="" />
+                        {
+                            icon ? <img src={icon} alt="" /> : <div className={styles['icon-color']} style={{background: iconColor}}></div>
+                        }
+                        
                     </div>
-                    <p>Без статуса</p>
+                    <p>{name}</p>
                 </div>
                 <div className={styles['actions']}>
 

@@ -4,6 +4,7 @@ import Title from '../../components/Title/Title'
 import styles from './NotesPage.module.scss'
 
 export default function NotesPage() {
+
     return (
         <div className={styles['notes']}>
             <div className={styles['head']}>
@@ -15,14 +16,14 @@ export default function NotesPage() {
                 </div>
             </div>
             <div className={styles['notes__wrapper']}>
-                <NotesItems count={2}/>
+                <NotesItems name='Без статуса' icon={'./icons/question-mark.svg'}count={2}/>
                 <div className={styles['notes__wrapper-status']}>
-                    <NotesItems className={styles['notes-items']} count={1}/>
-                    <NotesItems className={styles['notes-items']} count={2} />
-                    <NotesItems className={styles['notes-items']} count={1}/>
-                    <NotesItems className={styles['notes-items']} count={2}/>
-                    <NotesItems className={styles['notes-items']} count={1}/>
-                    <NotesItems className={styles['notes-items']} count={1}/>
+                    <NotesItems name='Планирование' iconColor='#63C3FF' className={styles['notes-items']} count={1}/>
+                    <NotesItems name='Процесс' iconColor='#6BFF63' className={styles['notes-items']} count={2} />
+                    <NotesItems name='Завершение' iconColor='#E4E4E4' className={styles['notes-items']} count={1}/>
+                    <NotesItems name='Без статуса' iconColor='#E4E4E4' className={styles['notes-items']} count={2}/>
+                    <NotesItems name='Без статуса' iconColor='#E4E4E4' className={styles['notes-items']} count={1}/>
+                    <NotesItems name='Без статуса' iconColor='#E4E4E4' className={styles['notes-items']} count={1}/>
                 </div>
             </div>
         </div>

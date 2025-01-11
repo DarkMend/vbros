@@ -1,4 +1,8 @@
+
 export interface INotesItems{
     count?: number;
-    className?: string
+    className?: string;
+    icon?: string;
+    iconColor?: string;
+    name: string; 
 }
