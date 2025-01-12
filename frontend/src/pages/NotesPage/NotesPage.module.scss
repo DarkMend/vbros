@@ -8,15 +8,20 @@
 
     .notes__wrapper {
         display: grid;
-        grid-template-columns: minmax(200px, auto) minmax(300px, auto);
+        grid-template-columns: minmax(300px, auto) minmax(300px, auto);
         margin-top: 30px;
         gap: 24px;
+        min-height: calc(100vh - 120px);
 
         .notes__wrapper-status {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            display: flex;
             gap: 24px;
-            grid-auto-flow: dense;
+            overflow-x: auto;
+
+            .notes-items{
+                flex: 1;
+                min-width: 300px;
+            }
         }
     }
 }

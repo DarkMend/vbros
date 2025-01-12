@@ -21,7 +21,7 @@ export default function NotesPage() {
                     <NotesItems name='Планирование' iconColor='#63C3FF' className={styles['notes-items']} count={1}/>
                     <NotesItems name='Процесс' iconColor='#6BFF63' className={styles['notes-items']} count={2} />
                     <NotesItems name='Завершение' iconColor='#E4E4E4' className={styles['notes-items']} count={1}/>
-                    <NotesItems name='Без статуса' iconColor='#E4E4E4' className={styles['notes-items']} count={2}/>
+                    <NotesItems name='Без статуса' iconColor='#E4E4E4' className={styles['notes-items']} count={6}/>
                     <NotesItems name='Без статуса' iconColor='#E4E4E4' className={styles['notes-items']} count={1}/>
                     <NotesItems name='Без статуса' iconColor='#E4E4E4' className={styles['notes-items']} count={1}/>
                 </div>
