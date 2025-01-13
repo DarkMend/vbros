@@ -3,7 +3,6 @@ import NotesItem from './NotesItem/NotesItem'
 import styles from './NotesItems.module.scss'
 import cn from 'classnames'
 import { useState } from 'react'
-import SelectList from '../SelectList/SelectList'
 
 export default function NotesItems({name, count, className, icon, iconColor, ...props}: INotesItems) {
     const [visibleItem, setVisibleItem] = useState(false);
@@ -24,7 +23,6 @@ export default function NotesItems({name, count, className, icon, iconColor, ...
                     <div className={cn(styles['actions__item'], styles['eye'])} onClick={() => setVisibleItem(state => !state)}>
                         <img src={!visibleItem ? './icons/eye.svg' : './icons/close-eye.svg' } alt="" />
                     </div>
-                    <SelectList />
                 </div>
             </div>
             <div className={cn(styles['notes-items__wrapper'], {
