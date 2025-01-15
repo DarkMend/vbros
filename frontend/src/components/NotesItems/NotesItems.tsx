@@ -3,12 +3,20 @@ import NotesItem from './NotesItem/NotesItem'
 import styles from './NotesItems.module.scss'
 import cn from 'classnames'
 import { useState } from 'react'
+import { useDrop } from 'react-dnd'
 
 export default function NotesItems({name, count, className, icon, iconColor, ...props}: INotesItems) {
     const [visibleItem, setVisibleItem] = useState(false);
 
+    const [ , dropRef] = useDrop({
+        accept: 'item',
+        drop(data){
+            console.log(data);
+        }
+    })
+
     return (
-        <div className={cn(styles['notes-items'], className)} {...props}>
+        <div className={cn(styles['notes-items'], className)} {...props} ref={dropRef}>
             <div className={styles['notes-items__head']}>
                 <div className={styles['name']}>
                     <div className={styles['img']}>
@@ -29,7 +37,7 @@ export default function NotesItems({name, count, className, icon, iconColor, ...
                 [styles['visible-items']]: visibleItem
             })}>
                 {
-                    count && Array.from({length: count}, (_, index) => <NotesItem key={index}/>)
+                    count && Array.from({length: count}, (_, index) => <NotesItem key={index} data={{title: 'Title', description: 'Description', date: '16.01.2003'}}/>)
                 }
             </div>
         </div>
