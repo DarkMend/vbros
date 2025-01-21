@@ -8,6 +8,7 @@
     padding: 12px;
     gap: 6px;
     opacity: 1;
+    cursor: pointer;
 
     .title {
         font-size: 14px;
@@ -37,8 +38,4 @@
     &.isDragging{
         opacity: 0.5;
     }
-}
-
-.preview{
-    opacity: 1;
 }
