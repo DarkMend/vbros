@@ -8,15 +8,20 @@ import { useDrop } from 'react-dnd'
 export default function NotesItems({name, count, className, icon, iconColor, ...props}: INotesItems) {
     const [visibleItem, setVisibleItem] = useState(false);
 
-    const [ , dropRef] = useDrop({
+    const [ {isDragging}, dropRef] = useDrop({
         accept: 'item',
         drop(data){
             console.log(data);
-        }
+        },
+        collect: (monitor) => ({
+            isDragging: monitor.isOver()
+        })
     })
 
     return (
-        <div className={cn(styles['notes-items'], className)} {...props} ref={dropRef}>
+        <div className={cn(styles['notes-items'], className, {
+            [styles['isDragging']]: isDragging
+        })} {...props} ref={dropRef}>
             <div className={styles['notes-items__head']}>
                 <div className={styles['name']}>
                     <div className={styles['img']}>
