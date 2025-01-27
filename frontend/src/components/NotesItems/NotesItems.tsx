@@ -4,25 +4,25 @@ import styles from './NotesItems.module.scss'
 import cn from 'classnames'
 import { useState } from 'react'
 
-export default function NotesItems({name, count, className, icon, iconColor, ...props}: INotesItems) {
+export default function NotesItems({ name, count, className, icon, iconColor, ...props }: INotesItems) {
     const [visibleItem, setVisibleItem] = useState(false);
 
     return (
         <div className={cn(styles['notes-items'], className, {
-        })} {...props} >
+        })} {...props}>
             <div className={styles['notes-items__head']}>
                 <div className={styles['name']}>
                     <div className={styles['img']}>
                         {
-                            icon ? <img src={icon} alt="" /> : <div className={styles['icon-color']} style={{background: iconColor}}></div>
+                            icon ? <img src={icon} alt="" /> : <div className={styles['icon-color']} style={{ background: iconColor }}></div>
                         }
-                        
+
                     </div>
                     <p>{name}</p>
                 </div>
                 <div className={styles['actions']}>
                     <div className={cn(styles['actions__item'], styles['eye'])} onClick={() => setVisibleItem(state => !state)}>
-                        <img src={!visibleItem ? './icons/eye.svg' : './icons/close-eye.svg' } alt="" />
+                        <img src={!visibleItem ? './icons/eye.svg' : './icons/close-eye.svg'} alt="" />
                     </div>
                 </div>
             </div>
@@ -30,7 +30,7 @@ export default function NotesItems({name, count, className, icon, iconColor, ...
                 [styles['visible-items']]: visibleItem
             })}>
                 {
-                    count && Array.from({length: count}, (_, index) => <NotesItem key={index} data={{title: 'Title', description: 'Description', date: '16.01.2003'}}/>)
+                    count && Array.from({ length: count }, (_, index) => <NotesItem key={index} data={{ id: Math.random(), title: 'Title', description: 'Description', date: '16.01.2003' }} />)
                 }
             </div>
         </div>
