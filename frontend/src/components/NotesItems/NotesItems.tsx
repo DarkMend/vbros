@@ -2,14 +2,21 @@ import { INotesItems } from './NotesItems.props'
 import NotesItem from './NotesItem/NotesItem'
 import styles from './NotesItems.module.scss'
 import cn from 'classnames'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
+import { useDroppable } from '@dnd-kit/core'
+import {v4} from 'uuid'
 
 export default function NotesItems({ name, count, className, icon, iconColor, ...props }: INotesItems) {
     const [visibleItem, setVisibleItem] = useState(false);
+    const id = useMemo(() => v4(), []);
+    const idItem = useMemo(() => v4(), []);
+    const {setNodeRef, isOver, over} = useDroppable({
+        id: id,
+    })
 
     return (
         <div className={cn(styles['notes-items'], className, {
-        })} {...props}>
+        })} {...props} ref={setNodeRef}>
             <div className={styles['notes-items__head']}>
                 <div className={styles['name']}>
                     <div className={styles['img']}>
@@ -30,7 +37,7 @@ export default function NotesItems({ name, count, className, icon, iconColor, ..
                 [styles['visible-items']]: visibleItem
             })}>
                 {
-                    count && Array.from({ length: count }, (_, index) => <NotesItem key={index} data={{ id: Math.random(), title: 'Title', description: 'Description', date: '16.01.2003' }} />)
+                    count && Array.from({ length: count }, (_, index) => <NotesItem key={index} data={{ id: idItem, title: 'Title', description: 'Description', date: '16.01.2003' }} />)
                 }
             </div>
         </div>
