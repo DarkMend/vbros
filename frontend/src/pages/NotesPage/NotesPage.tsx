@@ -1,7 +1,9 @@
+import { useQuery } from '@tanstack/react-query'
 import ActionButton from '../../components/ActionButton/ActionButton'
 import NotesItems from '../../components/NotesItems/NotesItems'
 import Title from '../../components/Title/Title'
 import styles from './NotesPage.module.scss'
+import axios from 'axios'
 
 export default function NotesPage() {
 

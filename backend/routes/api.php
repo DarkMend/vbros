@@ -15,4 +15,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [NoteController::class, 'index']);
+Route::get('/notes', [NoteController::class, 'index']);
