@@ -3,9 +3,16 @@ import ActionButton from '../../components/ActionButton/ActionButton'
 import NotesItems from '../../components/NotesItems/NotesItems'
 import Title from '../../components/Title/Title'
 import styles from './NotesPage.module.scss'
-import axios from 'axios'
+import { noteService } from '../../services/note.service'
 
 export default function NotesPage() {
+
+    const {data} = useQuery({
+        queryKey: ['notes'],
+        queryFn: () => noteService.getNotes()
+    })
+
+    console.log(data);
 
     return (
         <div className={styles['notes']}>
