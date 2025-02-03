@@ -9,10 +9,9 @@ export default function NotesPage() {
 
     const {data} = useQuery({
         queryKey: ['notes'],
-        queryFn: () => noteService.getNotes()
+        queryFn: () => noteService.getNotes(),
+        select: (data) => data.data.data
     })
-
-    console.log(data);
 
     return (
         <div className={styles['notes']}>
@@ -25,7 +24,7 @@ export default function NotesPage() {
                 </div>
             </div>
             <div className={styles['notes__wrapper']}>
-                <NotesItems name='Без статуса' icon={'./icons/question-mark.svg'}count={2}/>
+                <NotesItems name='Без статуса' icon={'./icons/question-mark.svg'} count={2}/>
                 <div className={styles['notes__wrapper-status']}>
                     <NotesItems name='Планирование' iconColor='#63C3FF' className={styles['notes-items']} count={1}/>
                     <NotesItems name='Процесс' iconColor='#6BFF63' className={styles['notes-items']} count={2} />

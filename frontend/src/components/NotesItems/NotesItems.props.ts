@@ -1,3 +1,4 @@
+import { INote } from "../../interfaces/note.interface";
 
 export interface INotesItems{
     count?: number;
@@ -5,4 +6,5 @@ export interface INotesItems{
     icon?: string;
     iconColor?: string;
     name: string; 
+    notes: INote[]
 }

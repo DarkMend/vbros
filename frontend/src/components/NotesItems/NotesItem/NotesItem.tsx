@@ -3,11 +3,12 @@ import "react-loading-skeleton/dist/skeleton.css";
 import styles from "./NotesItem.module.scss";
 import cn from "classnames";
 import { useDraggable } from "@dnd-kit/core";
+import { INotesItem } from "./NotesItem.props";
 
-export default function NotesItem({ data, ...props }: { data: Object }) {
+export default function NotesItem({ note }: INotesItem) {
 
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: data.id,
+    id: note.id,
 
   });
 
@@ -21,12 +22,12 @@ export default function NotesItem({ data, ...props }: { data: Object }) {
       <div
         className={cn(styles["notes-item"])} style={style} ref={ setNodeRef } {...attributes} {...listeners}
       >
-        <div className={styles["title"]}>{data.title}</div>
+        <div className={styles["title"]}>{note.title}</div>
         <div className={styles["description"]}>
           <Skeleton height={17} />
-          {data.description}
+          {note.description}
         </div>
-        <div className={styles["deadline"]}>{data.date}</div>
+        <div className={styles["deadline"]}>{note.date.toLocaleDateString()}</div>
       </div>
     </>
   );

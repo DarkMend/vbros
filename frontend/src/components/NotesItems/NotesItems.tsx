@@ -2,14 +2,11 @@ import { INotesItems } from './NotesItems.props'
 import NotesItem from './NotesItem/NotesItem'
 import styles from './NotesItems.module.scss'
 import cn from 'classnames'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { useDroppable } from '@dnd-kit/core'
-import {v4} from 'uuid'
 
-export default function NotesItems({ name, count, className, icon, iconColor, ...props }: INotesItems) {
+export default function NotesItems({ name, count, className, icon, iconColor, notes, ...props }: INotesItems) {
     const [visibleItem, setVisibleItem] = useState(false);
-    const id = useMemo(() => v4(), []);
-    const idItem = useMemo(() => v4(), []);
     const {setNodeRef, isOver, over} = useDroppable({
         id: id,
     })
@@ -37,7 +34,7 @@ export default function NotesItems({ name, count, className, icon, iconColor, ..
                 [styles['visible-items']]: visibleItem
             })}>
                 {
-                    count && Array.from({ length: count }, (_, index) => <NotesItem key={index} data={{ id: idItem, title: 'Title', description: 'Description', date: '16.01.2003' }} />)
+                    notes && notes.map((el) => <NotesItem key={el.id} note={el} />)
                 }
             </div>
         </div>
