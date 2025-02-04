@@ -27,7 +27,7 @@ export default function NotesItem({ note }: INotesItem) {
           <Skeleton height={17} />
           {note.description}
         </div>
-        <div className={styles["deadline"]}>{note.date.toLocaleDateString()}</div>
+        <div className={styles["deadline"]}>{new Date(note.created_at).toLocaleDateString()}</div>
       </div>
     </>
   );

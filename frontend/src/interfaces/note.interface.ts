@@ -4,5 +4,5 @@ export interface INote {
     title: string,
     description: string,
     status_id: number,
-    date: Date
+    created_at: Date
 }
