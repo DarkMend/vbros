@@ -8,7 +8,7 @@ import { INote } from '../../interfaces/note.interface'
 
 export default function NotesPage() {
 
-    const {data} = useQuery({
+    const {data, isLoading, isPending} = useQuery({
         queryKey: ['notes'],
         queryFn: () => noteService.getNotes(),
         select: (data) => data.data.data

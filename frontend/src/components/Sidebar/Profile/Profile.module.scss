@@ -25,3 +25,10 @@
     padding-top: 34px;
     padding-bottom: 12px;
 }
+
+.arrow{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+}
