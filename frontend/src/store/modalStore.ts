@@ -13,5 +13,4 @@ export const modalStore = create<IModalStore>(set => ({
     content: null,
     openModal: (content) => set({isOpen: false, content}),
     closeModal: () => set({isOpen: false, content: null}) 
-
 }));
