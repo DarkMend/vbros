@@ -5,7 +5,6 @@ import Title from '../../components/Title/Title'
 import styles from './NotesPage.module.scss'
 import { noteService } from '../../services/note.service'
 import { INote } from '../../interfaces/note.interface'
-import Modal from '../../components/Modal/Modal'
 
 export default function NotesPage() {
 
@@ -17,7 +16,6 @@ export default function NotesPage() {
 
     return (
         <>
-            <Modal />
             <div className={styles['notes']}>
                 <div className={styles['head']}>
                     <Title>Заметки</Title>

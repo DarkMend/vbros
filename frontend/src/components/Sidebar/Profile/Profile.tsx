@@ -1,7 +1,22 @@
+import { useModalStore } from '../../../store/modalStore'
 import ProfileIconButton from '../../ProfileIconButton/ProfileIconButton'
 import styles from './Profile.module.scss'
 
 export default function Profile() {
+    const {openModal} = useModalStore();
+
+    const handleOpenModal = () => {
+        const modalContent = (
+            <div>
+                adasdd
+            </div>
+        );
+
+        console.log('a')
+
+        openModal(modalContent);
+    }
+
     return (
         <>
             <div className={styles['premium']}>
@@ -18,7 +33,7 @@ export default function Profile() {
                     </div>
                 </div>
                 <div className={styles['arrow']}>
-                    <ProfileIconButton>
+                    <ProfileIconButton onClick={handleOpenModal}>
                         <img src="./icons/gear.svg" alt="" />
                     </ProfileIconButton>
                     <ProfileIconButton>

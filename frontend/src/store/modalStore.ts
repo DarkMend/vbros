@@ -8,9 +8,9 @@ export interface IModalStore {
     closeModal: () => void
 }
 
-export const modalStore = create<IModalStore>(set => ({
+export const useModalStore = create<IModalStore>(set => ({
     isOpen: false, 
     content: null,
-    openModal: (content) => set({isOpen: false, content}),
+    openModal: (content) => set({isOpen: true, content}),
     closeModal: () => set({isOpen: false, content: null}) 
 }));

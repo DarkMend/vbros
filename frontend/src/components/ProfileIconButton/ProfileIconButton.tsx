@@ -1,7 +1,7 @@
-import { ReactNode } from 'react'
 import styles from './ProfileIconButton.module.scss'
+import { IProfileIconButton } from './ProfileIconButton.props'
 
-export default function ProfileIconButton({children, ...props}: {children: ReactNode}) {
+export default function ProfileIconButton({children, ...props}: IProfileIconButton) {
     return (
         <button {...props} className={styles['button']}>
             {children}
