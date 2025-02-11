@@ -8,11 +8,19 @@ export default function Profile() {
     const handleOpenModal = () => {
         const modalContent = (
             <div>
-                adasdd
+                once
             </div>
         );
 
-        console.log('a')
+        openModal(modalContent);
+    }
+
+    const handleOpenTwinModal = () => {
+        const modalContent = (
+            <div>
+                twin
+            </div>
+        );
 
         openModal(modalContent);
     }
@@ -36,7 +44,7 @@ export default function Profile() {
                     <ProfileIconButton onClick={handleOpenModal}>
                         <img src="./icons/gear.svg" alt="" />
                     </ProfileIconButton>
-                    <ProfileIconButton>
+                    <ProfileIconButton onClick={handleOpenTwinModal}>
                         <img src="./icons/exit.svg" alt="" />
                     </ProfileIconButton>
                 </div>
