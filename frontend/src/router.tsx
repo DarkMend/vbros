@@ -3,6 +3,7 @@ import MainLayout from "./layouts/MainLayout/MainLayout";
 import NotesPage from "./pages/NotesPage/NotesPage";
 import AuthLayout from "./layouts/AuthLayout/AuthLayout";
 import LoginPage from "./pages/LoginPage/LoginPage";
+import StartPage from "./pages/StartPage/StartPage";
 
 const router = createBrowserRouter([
     {
@@ -17,11 +18,15 @@ const router = createBrowserRouter([
     },
     {
         path: '/auth',
-        element: <AuthLayout/>,
+        element: <AuthLayout />,
         children: [
             {
                 path: '/auth/login',
                 element: <LoginPage />
+            },
+            {
+                path: '/auth/start',
+                element: <StartPage />
             }
         ]
     }

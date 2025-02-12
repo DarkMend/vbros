@@ -8,6 +8,7 @@ export default function LoginPage() {
                 <input type="text" />
                 <button>Войти</button>
             </form>
+            <img src="./logo.svg" alt="Логтип сайта" />
         </div>
     )
 }

@@ -10,9 +10,9 @@ export default function Sidebar() {
                 <div className={styles['sidebar__nav']}>
                     <div className={styles['logo']}>
                         <div className={styles['img']}>
-                            <img src="./sqrt.png" alt="" />
+                            <img src="./logo.svg" alt="" />
                         </div>
-                        <h2>VBROS</h2>
+                        <h2>Вброс</h2>
                     </div>
                     <div className={styles['menu']}>
                         <MenuItem href='/notes' name='Заметки' />

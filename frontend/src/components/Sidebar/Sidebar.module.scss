@@ -28,8 +28,18 @@
         align-items: center;
         gap: 12px;
 
+        .img{
+            width: 20px;
+
+            img{
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+        }
+
         h2 {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 500;
         }
     }
