@@ -1,34 +1,49 @@
 .button {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 
-    padding: 12px;
-    width: 128px;
-    border: none;
-    border-radius: 100px;
+  padding: 12px;
+  width: 128px;
+  border: none;
+  border-radius: 100px;
 
-    font-size: 16px;
-    font-weight: 600;
+  font-size: 16px;
+  font-weight: 600;
 
-    background: black;
-    color: white;
-    cursor: pointer;
+  background: black;
+  color: white;
+  cursor: pointer;
 
-    transition: all .3s ease;
+  transition: all 0.3s ease;
 
+  .svg-icon {
+    fill: white;
+  }
 
-    .svg-icon {
-        fill: white;
-    }
+  .icon {
+    display: block;
+    position: absolute;
+    transition: all 0.3s ease;
+    transform: scale(0);
+    width: 0;
+    right: 20px;
+  }
 
+  &:hover {
     .icon {
-        transition: all .3s ease;
+      transform: scale(1);
+      width: fit-content;
     }
+    p{
+        transform: translateX(-5px);
+    }
+  }
 
-    &:hover .icon {
-        
-    }
+  p {
+    transition: all 0.3s ease;
+  }
 }
