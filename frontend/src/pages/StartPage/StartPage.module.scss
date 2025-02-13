@@ -31,19 +31,10 @@
 
         .button-reg{
             width: 290px;
-            background: none;
-            color: black;
-            border: 1px solid #D3D3D3;
+        }
 
-            &:hover{
-                border-color: black;
-            }
-            
-            svg{
-                path{
-                    fill: black;
-                }
-            }
+        .button-auth{
+            width: 128px;
         }
     }
 }

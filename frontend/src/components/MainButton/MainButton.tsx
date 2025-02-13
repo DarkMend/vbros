@@ -2,9 +2,11 @@ import styles from './MainButton.module.scss';
 import { IMainButton } from './MainButton.props';
 import cn from 'classnames'
 
-export default function MainButton({ children, className, ...props }: IMainButton) {
+export default function MainButton({ children, className, theme, ...props }: IMainButton) {
     return (
-        <button className={cn(styles['button'], className)} {...props}>
+        <button className={cn(styles['button'], {
+            [styles['white-theme']]: theme === 'white',
+        }, className)} {...props}>
             <div className={styles['button__wrapper']}>
                 <p>
                     {children}

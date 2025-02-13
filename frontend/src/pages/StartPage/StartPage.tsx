@@ -6,19 +6,16 @@ export default function StartPage() {
     return (
         <div className={styles['start-page']}>
             <div className={styles['start-page__head']}>
-                <div className="logo">
-                    <img src="/logo.svg" alt="Логтип сайта" />
-                </div>
                 <h1>
                     <span>Удобный и минималистичный инструмент</span>, помогающий быстро фиксировать задачи, расставлять приоритеты и не терять фокус.
                 </h1>
             </div>
             <div className={styles['start-page__actions']}>
                 <Link to={`/auth/login`}>
-                    <MainButton>Войти</MainButton>
+                    <MainButton theme='black' className={styles['button-auth']}>Войти</MainButton>
                 </Link>
                 <Link to={`/auth/reg`}>
-                    <MainButton className={styles['button-reg']}>Зарегистрироваться</MainButton>
+                    <MainButton theme='white' className={styles['button-reg']}>Зарегистрироваться</MainButton>
                 </Link>
             </div>
         </div>

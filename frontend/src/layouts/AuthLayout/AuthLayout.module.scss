@@ -5,4 +5,17 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+
+    .page{
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+
+        .logo{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+    }
 }
