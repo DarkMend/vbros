@@ -4,6 +4,7 @@ import NotesPage from "./pages/NotesPage/NotesPage";
 import AuthLayout from "./layouts/AuthLayout/AuthLayout";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import StartPage from "./pages/StartPage/StartPage";
+import RegPage from "./pages/RegPage/RegPage";
 
 const router = createBrowserRouter([
     {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
             {
                 path: '/auth/login',
                 element: <LoginPage />
+            },
+            {
+                path: '/auth/reg',
+                element: <RegPage />
             },
             {
                 path: '/auth/start',
