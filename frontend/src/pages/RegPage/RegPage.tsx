@@ -9,7 +9,7 @@ export default function RegPage() {
             </form>
             <MainButton theme='white' >Зарегистрироваться</MainButton>
             <div className={styles['transition-block']}>
-                <p>У вас уже есть аккаунт?</p>
+                <p className={styles['transition-block__text']}>У вас есть аккаунт?</p>
                 <MainButton theme='white'>Войти</MainButton>
             </div>
         </div>
