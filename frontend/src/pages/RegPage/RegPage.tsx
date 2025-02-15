@@ -4,20 +4,42 @@ import MainInput from "../../components/MainInput/MainInput";
 import styles from "./RegPage.module.scss";
 import { useForm } from "react-hook-form";
 
+export interface IFormReg {
+  name: string,
+  email: string,
+  password: string,
+  password_confirmation: string
+}
+
 export default function RegPage() {
-  const { register, formState: {errors} } = useForm({
-    mode: "onChange",
+  const { register, formState: {errors}, handleSubmit } = useForm<IFormReg>({
+    mode: "onSubmit",
   });
+
+  const onSubmit = (data: IFormReg) => {
+    console.log(data);
+  }
 
   return (
     <div className={styles["auth-page"]}>
       <h1>Создайте аккаунт</h1>
-      <FormLayout>
+      <FormLayout onSubmit={handleSubmit(onSubmit)}>
         <MainInput placeholder="Имя" {...register('name', {
             required: 'Заполните имя',
-        })} errorMessage={errors.name && errors.name.message} />
-        <MainInput placeholder="ss" />
-        <MainInput placeholder="ff" />
+        })} errorMessage={errors.name?.message} />
+        <MainInput placeholder="Почта" {...register('email', {
+          required: 'Заполните почту',
+          pattern: {
+            value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+            message: 'Введите корректную почту'
+          }
+        })} errorMessage={errors.email?.message}/>
+        <MainInput placeholder="Пароль" {...register('password', {
+          required: 'Заполните пароль'
+        })} errorMessage={errors.password?.message}/>
+        <MainInput placeholder="Подтверждение пароля" {...register('password_confirmation', {
+          required: 'Заполните подтверждение пароля'
+        })} errorMessage={errors.password_confirmation?.message}/>
       </FormLayout>
       <div className={styles["transition-block"]}>
         <p className={styles["transition-block__text"]}>У вас есть аккаунт?</p>
