@@ -4,6 +4,7 @@ import MainButton from "../../components/MainButton/MainButton";
 import MainInput from "../../components/MainInput/MainInput";
 import styles from "./RegPage.module.scss";
 import { useForm } from "react-hook-form";
+import { useCreateUser } from "../../utils/hooks/User/useCreateUser";
 
 export interface IFormReg {
   name: string;
@@ -22,8 +23,12 @@ export default function RegPage() {
     mode: "onSubmit",
   });
 
+  const { mutate } = useCreateUser({
+
+  })
+
   const onSubmit = (data: IFormReg) => {
-    console.log(data);
+    mutate(data);
   };
 
   return (

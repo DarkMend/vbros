@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\NoteController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,3 +18,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/notes', [NoteController::class, 'index']);
+
+Route::post('/auth/reg', [AuthController::class, 'create']);
