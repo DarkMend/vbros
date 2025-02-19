@@ -27,11 +27,11 @@ class AuthController extends Controller
             'password_confirmation.required' => 'Введите подтверждение пароля',  
         ]);
 
-        User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password'])
-        ]);
+        // User::create([
+        //     'name' => $data['name'],
+        //     'email' => $data['email'],
+        //     'password' => Hash::make($data['password'])
+        // ]);
 
         return response()->json(['message' => 'Аккаунт создан'], 200);
     }

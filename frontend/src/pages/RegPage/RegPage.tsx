@@ -23,7 +23,7 @@ export default function RegPage() {
     mode: "onSubmit",
   });
 
-  const { mutate } = useCreateUser({
+  const { mutate, isPending } = useCreateUser({
 
   })
 
@@ -34,7 +34,7 @@ export default function RegPage() {
   return (
     <div className={styles["auth-page"]}>
       <h1>Создайте аккаунт</h1>
-      <FormLayout onSubmit={handleSubmit(onSubmit)}>
+      <FormLayout onSubmit={handleSubmit(onSubmit)} isLoading={isPending}>
         <MainInput
           placeholder="Имя"
           {...register("name", {
