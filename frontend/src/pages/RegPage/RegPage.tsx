@@ -24,7 +24,9 @@ export default function RegPage() {
   });
 
   const { mutate, isPending } = useCreateUser({
-
+    onSuccess(){
+      
+    }
   })
 
   const onSubmit = (data: IFormReg) => {
