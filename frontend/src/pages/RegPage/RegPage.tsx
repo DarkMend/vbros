@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import FormLayout from "../../components/FormLayout/FormLayout";
 import MainButton from "../../components/MainButton/MainButton";
 import MainInput from "../../components/MainInput/MainInput";
 import styles from "./RegPage.module.scss";
 import { useForm } from "react-hook-form";
 import { useCreateUser } from "../../utils/hooks/User/useCreateUser";
+import { toast } from "react-toastify";
 
 export interface IFormReg {
   name: string;
@@ -14,6 +15,9 @@ export interface IFormReg {
 }
 
 export default function RegPage() {
+
+  const router = useNavigate();
+
   const {
     register,
     formState: { errors },
@@ -25,7 +29,13 @@ export default function RegPage() {
 
   const { mutate, isPending } = useCreateUser({
     onSuccess(){
-      
+      toast.success('Акакунт успешно создан');
+      router('/auth/login');
+    },
+    onError(error){
+      toast.error(error.response?.data?.message, {
+        autoClose: false,
+      });
     }
   })
 
@@ -88,5 +98,5 @@ export default function RegPage() {
         </Link>
       </div>
     </div>
-  );
+  )
 }

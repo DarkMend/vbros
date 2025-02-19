@@ -19,19 +19,19 @@ class AuthController extends Controller
             'name.required' => 'Заполните поле имя',
             'name.string' => 'Имя должно состять из символов',
             'email.required' => 'Заполните поле почты',
-            'email.uniqure:users' => 'Почта уже используется',
+            'email.unique' => 'Почта уже используется',
             'email.email' => 'Некорректная почта',
             'password.required' => 'Введите пароль',
             'password.confirmed' => 'Пароли не совпадают',
-            'password.min:6' => 'В пароле должно быть от 6 символов',
+            'password.min' => 'В пароле должно быть от 6 символов',
             'password_confirmation.required' => 'Введите подтверждение пароля',  
         ]);
 
-        // User::create([
-        //     'name' => $data['name'],
-        //     'email' => $data['email'],
-        //     'password' => Hash::make($data['password'])
-        // ]);
+        User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password'])
+        ]);
 
         return response()->json(['message' => 'Аккаунт создан'], 200);
     }
