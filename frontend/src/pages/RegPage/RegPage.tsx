@@ -46,7 +46,7 @@ export default function RegPage() {
   return (
     <div className={styles["auth-page"]}>
       <h1>Создайте аккаунт</h1>
-      <FormLayout onSubmit={handleSubmit(onSubmit)} isLoading={isPending}>
+      <FormLayout onSubmit={handleSubmit(onSubmit)} isLoading={isPending} buttonText="Зарегистрироватся">
         <MainInput
           placeholder="Имя"
           {...register("name", {

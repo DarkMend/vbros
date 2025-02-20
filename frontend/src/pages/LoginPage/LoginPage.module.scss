@@ -1,5 +1,27 @@
-.login{
+.auth-page{
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 32px;
+    width: 290px;
+
+    h1{
+        font-size: 16px;
+        font-weight: 500;
+        text-align: center;
+    }
+
+    .transition-block{
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+        padding: 12px;
+        border: 1px solid #F1F1F1;
+        border-radius: 24px;
+        
+        &__text{
+            font-size: 16px;
+            font-weight: 500;
+        }
+    }
 }

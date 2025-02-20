@@ -35,4 +35,9 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Аккаунт создан'], 200);
     }
+
+    public function login() {
+        
+    }
+
 }
