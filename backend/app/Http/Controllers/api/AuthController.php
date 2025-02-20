@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -36,8 +37,23 @@ class AuthController extends Controller
         return response()->json(['message' => 'Аккаунт создан'], 200);
     }
 
-    public function login() {
+    public function login(Request $request) {
+        $data = $request->validate([
+            'email' => ['required'],
+            'password' => ['required'],
+        ], [
+            'email.required' => 'Заполните поле почты',
+            'password.required' => 'Введите пароль',
+        ]);
+
+        if(!Auth::attempt($data)){
+            return response()->json(['message' => 'Неверная почта или пароль'], 401);
+        }
+
+        $user = User::query()->where('email', $data['email'])->firstOrFail();
+        $token = $user->createToken($user['email'])->plainTextToken;
         
+        return response()->json(['message' => 'Вы успешно вошли'], 200);
     }
 
 }
