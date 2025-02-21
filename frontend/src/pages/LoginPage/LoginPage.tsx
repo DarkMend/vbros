@@ -6,8 +6,15 @@ import MainButton from "../../components/MainButton/MainButton";
 import { useForm } from "react-hook-form";
 import { useLoginUser } from "../../utils/hooks/User/useLoginUser";
 import { IUser } from "../../interfaces/user.interface";
+import { toast } from "react-toastify";
+import Cookies from 'js-cookie';
 
 type IFormLogin = Omit<IUser, 'name'>
+
+export interface ILoginResponse {
+  message: string,
+  token: string
+}
 
 export default function LoginPage() {
 
@@ -15,7 +22,17 @@ export default function LoginPage() {
       mode: 'onSubmit'
     });
 
-    const { mutate, isPending } = useLoginUser();
+    const { mutate, isPending } = useLoginUser({
+      onSuccess(data) {
+        Cookies.set('access_token', data.data.token, { sameSite: 'strict' });
+        document.location.href = '/' 
+      },
+      onError(erorr){
+        toast.error(erorr.response?.data?.message, {
+          autoClose: false
+        });
+      }
+    });
 
     const onSubmit = (data: IFormLogin) => {
       mutate(data);
