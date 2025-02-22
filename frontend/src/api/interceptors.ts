@@ -1,4 +1,5 @@
 import axios, { CreateAxiosDefaults } from "axios";
+import Cookies from 'js-cookie'
 
 const URL = import.meta.env.VITE_APP_URL_API;
 
@@ -8,3 +9,21 @@ const options: CreateAxiosDefaults = {
 }
 
 export const axiosClassic = axios.create(options);
+
+export const axiosWithAuth = axios.create(options);
+
+axiosWithAuth.interceptors.request.use(consfig => {
+    const token = Cookies.get('access_token');
+
+    if(token) consfig.headers.Authorization = `Bearer ${token}`;
+
+    return consfig;
+},
+error => {
+    return Promise.reject(error);
+})
+
+axiosClassic.interceptors.response.use(
+    response => response,
+    
+)
