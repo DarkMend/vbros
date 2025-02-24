@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import FormLayout from "../../components/FormLayout/FormLayout";
 import MainInput from "../../components/MainInput/MainInput";
 import styles from "./LoginPage.module.scss";
@@ -22,10 +22,13 @@ export default function LoginPage() {
       mode: 'onSubmit'
     });
 
+    const route = useNavigate();
+
     const { mutate, isPending } = useLoginUser({
       onSuccess(data) {
-        Cookies.set('access_token', data.data.token, { sameSite: 'strict' });
-        document.location.href = '/' 
+        Cookies.set('access_token', data.token, { sameSite: 'strict' });
+        toast.success(data?.message);
+        route('/');
       },
       onError(erorr){
         toast.error(erorr.response?.data?.message, {

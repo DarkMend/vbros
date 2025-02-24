@@ -1,5 +1,6 @@
 import { axiosClassic } from "../api/interceptors";
 import { IUser } from "../interfaces/user.interface";
+import { IResponseLogin } from "../utils/hooks/User/useLoginUser";
 
 export const userService = {
     async createUser(data: IUser) {
@@ -7,6 +8,6 @@ export const userService = {
     },
 
     async loginUser(data: Omit<IUser, 'name'>) {
-        return axiosClassic.post<unknown>('/auth/login', data);
+        return axiosClassic.post<IResponseLogin>('/auth/login', data);
     }
 }
