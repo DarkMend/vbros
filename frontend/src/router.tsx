@@ -5,11 +5,15 @@ import AuthLayout from "./layouts/AuthLayout/AuthLayout";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import StartPage from "./pages/StartPage/StartPage";
 import RegPage from "./pages/RegPage/RegPage";
+import PrivateProvider from "./providers/PrivateProvider";
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <MainLayout />,
+        element: 
+        <PrivateProvider>
+            <MainLayout />
+        </PrivateProvider>,
         children: [
             {
                 path: '/notes',
