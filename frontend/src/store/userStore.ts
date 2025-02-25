@@ -6,6 +6,6 @@ export interface IUserStore {
 }
 
 export const useUserStore = create<IUserStore>(set => ({
-    user: {id: null, name: undefined, email: undefined},
-    // setUser: () => set()
+    user: {id: undefined, name: undefined, email: undefined},
+    setUser: (data: IUser) => set({user: {id: data.id, name: data.name, email: data.email}})
 }));
