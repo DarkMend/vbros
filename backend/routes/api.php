@@ -23,3 +23,7 @@ Route::middleware('guest')->controller(AuthController::class)->group(function() 
     Route::post('/auth/reg', 'create');
     Route::post('/auth/login', 'login');
 });
+
+Route::middleware('auth:sanctum')->controller(AuthController::class)->group(function() {
+    Route::get('/auth/info', 'info');
+});
