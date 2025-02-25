@@ -27,9 +27,9 @@ error => {
 axiosClassic.interceptors.response.use(
     response => response,
     error => {
-        if(error.response.status == 401){
-            removeToken();
-            document.location.href='/auth/start';
-        }
+        // if(error.response.status == 401){
+        //     removeToken();
+        //     document.location.href='/auth/start';
+        // }
     }
 )

@@ -12,6 +12,6 @@ export const userService = {
     },
 
     async infoUser(){
-        return axiosWithAuth.get('/auth/info');
+        return axiosWithAuth.get<IUser>('/auth/info');
     }
 }

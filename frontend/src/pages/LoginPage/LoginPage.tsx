@@ -13,33 +13,35 @@ type IFormLogin = Omit<IUser, 'name'>
 
 export interface ILoginResponse {
   message: string,
-  token: string
+  token: string,
+  user: IUser
 }
 
 export default function LoginPage() {
 
-    const {register, formState: {errors}, handleSubmit} = useForm<IFormLogin>({
-      mode: 'onSubmit'
-    });
+  const { register, formState: { errors }, handleSubmit } = useForm<IFormLogin>({
+    mode: 'onSubmit'
+  });
 
-    const route = useNavigate();
+  const route = useNavigate();
 
-    const { mutate, isPending } = useLoginUser({
-      onSuccess(data) {
-        Cookies.set('access_token', data.token, { sameSite: 'strict' });
-        toast.success(data?.message);
-        route('/');
-      },
-      onError(erorr){
-        toast.error(erorr.response?.data?.message, {
-          autoClose: false
-        });
-      }
-    });
-
-    const onSubmit = (data: IFormLogin) => {
-      mutate(data);
+  const { mutate, isPending } = useLoginUser({
+    onSuccess(data) {
+      Cookies.set('access_token', data.token, { sameSite: 'strict' });
+      toast.success(data?.message);
+      route('/');
+    },
+    onError(error) {
+      toast.error(error.response?.data?.message, {
+        autoClose: false
+      });
+      
     }
+  });
+
+  const onSubmit = (data: IFormLogin) => {
+    mutate(data);
+  }
 
   return (
     <div className={styles["auth-page"]}>

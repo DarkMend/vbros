@@ -7,7 +7,8 @@ const KEY = 'loginUser'
 
 export interface IResponseLogin {
     message: string,
-    token: string
+    token: string,
+    user: IUser
 }
 
 export const useLoginUser = (options?: IMutationOptions<IResponseLogin, Omit<IUser, 'name'>>) =>  useMutation<IResponseLogin, IBasicResponseError, Omit<IUser, 'name'>>({
