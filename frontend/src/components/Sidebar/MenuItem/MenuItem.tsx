@@ -25,7 +25,7 @@ export default function MenuItem({ href, arrowActive = false, quantityActive = f
                     </div> */}
                     <div className={styles['nav__href']}>
                         <div className={styles['icon']}>
-                            <img src={`./icons/${icon}.svg`} alt="" />
+                            {icon}
                         </div>
                         <div className={styles['text']}>
                             {name}

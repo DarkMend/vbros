@@ -1,6 +1,5 @@
 import axios, { CreateAxiosDefaults } from "axios";
 import Cookies from 'js-cookie'
-import { removeToken } from "../utils/helpers/removeToken";
 
 const URL = import.meta.env.VITE_APP_URL_API;
 
@@ -13,12 +12,12 @@ export const axiosClassic = axios.create(options);
 
 export const axiosWithAuth = axios.create(options);
 
-axiosWithAuth.interceptors.request.use(consfig => {
+axiosWithAuth.interceptors.request.use(config => {
     const token = Cookies.get('access_token');
 
-    if(token) consfig.headers.Authorization = `Bearer ${token}`;
+    if(token) config.headers.Authorization = `Bearer ${token}`;
 
-    return consfig;
+    return config;
 },
 error => {
     return Promise.reject(error);
