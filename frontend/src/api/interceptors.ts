@@ -24,7 +24,7 @@ error => {
     return Promise.reject(error);
 })
 
-axiosClassic.interceptors.response.use(
+axiosWithAuth.interceptors.response.use(
     response => response,
     error => {
         // if(error.response.status == 401){
