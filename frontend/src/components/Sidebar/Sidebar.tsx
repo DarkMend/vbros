@@ -15,10 +15,11 @@ export default function Sidebar() {
                         <h2>Вброс</h2>
                     </div>
                     <div className={styles['menu']}>
-                        <MenuItem href='/notes' name='Заметки' />
-                        <MenuItem href='/' name='Проекты' />
-                        <MenuItem href='/' name='Архив' arrowActive={true} quantityActive={true} />
-                        <MenuItem href='/' name='Поддержка' arrowActive={true} quantityActive={true} />
+                        <MenuItem href='/notes' name='Рабочая область' icon='work-obl'/>
+                        <MenuItem href='/' name='Заметки по этапам' icon='notes'/>
+                        <MenuItem href='/' name='Проекты' icon='team-works' />
+                        <MenuItem href='/' name='Проекты' icon='favourite' />
+                        <MenuItem href='/' name='Поддержка' icon='support'/>
                     </div>
                 </div>
                 <div className={styles['profile__wrapper']}>

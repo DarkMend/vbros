@@ -3,6 +3,10 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    padding: 12px;
+    border-radius: 12px;
+    color: #636363;
+    transition: all .3s ease;
 
     &__main {
         display: flex;
@@ -11,42 +15,47 @@
         gap: 10px;
     }
 
-    .quantity {
-        font-size: 14px;
-        color: #ADADAD;
-
-        &.none{
-            display: none;
-        }
+    &:hover{
+        background: #F5F5F5;
+        color: black;
     }
 
-    .arrow {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        width: 15px;
-        cursor: pointer;
-        transition: all .3s ease;
+    // .quantity {
+    //     font-size: 14px;
+    //     color: #ADADAD;
 
-        &.active{
-            transform: rotate(90deg);
-        }
+    //     &.none{
+    //         display: none;
+    //     }
+    // }
 
-        &:hover{
-            transform: scale(1.2);
-        }
+    // .arrow {
+    //     display: flex;
+    //     flex-direction: row;
+    //     align-items: center;
+    //     justify-content: center;
+    //     width: 15px;
+    //     cursor: pointer;
+    //     transition: all .3s ease;
 
-        &.active:hover{
-            transform: scale(1.2) rotate(90deg);
-        }
+    //     &.active{
+    //         transform: rotate(90deg);
+    //     }
 
-        &.none{
-            svg{
-                display: none;
-            }
-        }
-    }
+    //     &:hover{
+    //         transform: scale(1.2);
+    //     }
+
+    //     &.active:hover{
+    //         transform: scale(1.2) rotate(90deg);
+    //     }
+
+    //     &.none{
+    //         svg{
+    //             display: none;
+    //         }
+    //     }
+    // }
 }
 
 .nav__href {
@@ -72,22 +81,22 @@
     }
 }
 
-.nav__list{
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    margin-top: 0;
-    margin-left: 50px;
-    transition: all .3s ease;
-    height: 0;
-    opacity: 0;
-    visibility: hidden;
+// .nav__list{
+//     display: flex;
+//     flex-direction: column;
+//     gap: 16px;
+//     margin-top: 0;
+//     margin-left: 50px;
+//     transition: all .3s ease;
+//     height: 0;
+//     opacity: 0;
+//     visibility: hidden;
 
-    &.active{
-        margin-top: 16px;
-        margin-left: 50px;
-        height: auto;
-        opacity: 1;
-        visibility: visible;
-    }
-}
+//     &.active{
+//         margin-top: 16px;
+//         margin-left: 50px;
+//         height: auto;
+//         opacity: 1;
+//         visibility: visible;
+//     }
+// }

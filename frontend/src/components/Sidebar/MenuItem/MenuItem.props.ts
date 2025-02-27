@@ -3,4 +3,5 @@ export interface IMenuItem {
     arrowActive?: boolean;
     quantityActive?: boolean;
     name: string;
+    icon?: string
 }
