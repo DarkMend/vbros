@@ -35,7 +35,7 @@ export default function LoginPage() {
       toast.error(error.response?.data?.message, {
         autoClose: false
       });
-      
+      console.log(error);
     }
   });
 
