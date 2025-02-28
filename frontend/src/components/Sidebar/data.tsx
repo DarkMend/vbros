@@ -12,7 +12,7 @@ interface IMenu {
 
 export const menu: IMenu[] = [
   {
-    href: "/",
+    href: "/workspace",
     icon: <WorkspaceIcon />,
     name: "Рабочая область",
   },
@@ -22,12 +22,12 @@ export const menu: IMenu[] = [
     name: "Заметки по этапам",
   },
   {
-    href: "/",
+    href: "/team-project",
     icon: <TeamWortsIcon />,
     name: "Проекты",
   },
   {
-    href: "/",
+    href: "/favourite",
     icon: <Favourite />,
     name: "Избранное",
   },
