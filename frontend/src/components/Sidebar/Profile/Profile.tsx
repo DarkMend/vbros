@@ -1,36 +1,13 @@
 import { useModalStore } from '../../../store/modalStore'
 import ProfileIconButton from '../../ProfileIconButton/ProfileIconButton'
 import styles from './Profile.module.scss'
+import ProfileSettings from './ProfileSettings/ProfileSettings';
 
 export default function Profile() {
-    const {openModal} = useModalStore();
-
-    const handleOpenModal = () => {
-        const modalContent = (
-            <div>
-                once
-            </div>
-        );
-
-        openModal(modalContent);
-    }
-
-    const handleOpenTwinModal = () => {
-        const modalContent = (
-            <div>
-                twin
-            </div>
-        );
-
-        openModal(modalContent);
-    }
+    // const openModal = useModalStore(state => state.openModal);
 
     return (
         <>
-            <div className={styles['premium']}>
-                <p>Премиум</p>
-                <button>Купить</button>
-            </div>
             <div className={styles['profile']}>
                 <div className={styles['profile__user']}>
                     <div className={styles['ava']}>
@@ -41,12 +18,10 @@ export default function Profile() {
                     </div>
                 </div>
                 <div className={styles['arrow']}>
-                    <ProfileIconButton onClick={handleOpenModal}>
-                        <img src="./icons/gear.svg" alt="" />
+                    <ProfileIconButton >
+                        <img src="./icons/menu-select.svg" alt="октрыть меню" />
                     </ProfileIconButton>
-                    <ProfileIconButton onClick={handleOpenTwinModal}>
-                        <img src="./icons/exit.svg" alt="" />
-                    </ProfileIconButton>
+                    <ProfileSettings />
                 </div>
             </div>
         </>
