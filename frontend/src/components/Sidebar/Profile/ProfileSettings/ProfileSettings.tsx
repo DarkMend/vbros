@@ -4,10 +4,18 @@ import AccountIcon from "./../../../../../public/icons/account.svg";
 import GearIcon from "./../../../../../public/icons/gear.svg";
 import SupportIcon from "./../../../../../public/icons/support.svg";
 import ExitIcon from "./../../../../../public/icons/exit.svg";
+import cn from "classnames";
+import { IProfileSettings } from "./ProfileSettigns.props";
 
-export default function ProfileSettings() {
+export default function ProfileSettings({
+  isActive = false,
+}: IProfileSettings) {
   return (
-    <div className={styles["profile-settings"]}>
+    <div
+      className={cn(styles["profile-settings"], {
+        [styles["active"]]: isActive,
+      })}
+    >
       <div className={styles["profile-settings__wrapper"]}>
         <ProfileSettingsItem name="Аккаунт" icon={<AccountIcon />} />
         <ProfileSettingsItem name="Настройки" icon={<GearIcon />} />

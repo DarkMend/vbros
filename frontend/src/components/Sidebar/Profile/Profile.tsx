@@ -1,8 +1,11 @@
+import { useState } from "react";
 import ProfileIconButton from "../../ProfileIconButton/ProfileIconButton";
 import styles from "./Profile.module.scss";
 import ProfileSettings from "./ProfileSettings/ProfileSettings";
 
 export default function Profile() {
+  const [isActive, setIsActive] = useState(false);
+
   return (
     <>
       <div className={styles["profile"]}>
@@ -13,10 +16,10 @@ export default function Profile() {
           <div className={styles["name"]}>Аяз</div>
         </div>
         <div className={styles["arrow"]}>
-          <ProfileIconButton>
+          <ProfileIconButton onClick={() => setIsActive((state) => !state)}>
             <img src="./icons/menu-select.svg" alt="октрыть меню" />
           </ProfileIconButton>
-          <ProfileSettings />
+          <ProfileSettings isActive={isActive} />
         </div>
       </div>
     </>
