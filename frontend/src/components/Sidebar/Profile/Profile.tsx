@@ -1,10 +1,28 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ProfileIconButton from "../../ProfileIconButton/ProfileIconButton";
 import styles from "./Profile.module.scss";
 import ProfileSettings from "./ProfileSettings/ProfileSettings";
 
 export default function Profile() {
   const [isActive, setIsActive] = useState(false);
+  const profileSettingsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        profileSettingsRef.current &&
+        !profileSettingsRef.current.contains(e.target as Node)
+      ) {
+        setIsActive(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [profileSettingsRef]);
 
   return (
     <>
@@ -17,9 +35,9 @@ export default function Profile() {
         </div>
         <div className={styles["arrow"]}>
           <ProfileIconButton onClick={() => setIsActive((state) => !state)}>
-            <img src="./icons/menu-select.svg" alt="октрыть меню" />
+            <img src="./icons/menu-select.svg" alt="открыть меню" />
           </ProfileIconButton>
-          <ProfileSettings isActive={isActive} />
+          <ProfileSettings isActive={isActive} ref={profileSettingsRef} />
         </div>
       </div>
     </>
