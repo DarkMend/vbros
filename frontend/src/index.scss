@@ -1,38 +1,41 @@
 @font-face {
-  font-family: 'Inter';
-  src: url('../public/fonts/Inter/Inter_18pt-Bold.ttf');
+  font-family: "Inter";
+  src: url("../public/fonts/Inter/Inter_18pt-Bold.ttf");
   font-weight: 700;
 }
 
 @font-face {
-  font-family: 'Inter';
-  src: url('../public/fonts/Inter/Inter_18pt-SemiBold.ttf');
+  font-family: "Inter";
+  src: url("../public/fonts/Inter/Inter_18pt-SemiBold.ttf");
   font-weight: 600;
 }
 
 @font-face {
-  font-family: 'Inter';
-  src: url('../public/fonts/Inter/Inter_18pt-Medium.ttf');
+  font-family: "Inter";
+  src: url("../public/fonts/Inter/Inter_18pt-Medium.ttf");
   font-weight: 500;
 }
 
 @font-face {
-  font-family: 'Inter';
-  src: url('../public/fonts/Inter/Inter_18pt-Regular.ttf');
+  font-family: "Inter";
+  src: url("../public/fonts/Inter/Inter_18pt-Regular.ttf");
   font-weight: 300;
 }
 
-*, *::after, *::before{
+*,
+*::after,
+*::before {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Inter";
 }
 
-body{
-  font-family: 'Inter';
+body {
+  font-family: "Inter";
 }
 
-a{
+a {
   text-decoration: none;
   color: inherit;
 }
