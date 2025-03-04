@@ -1,10 +1,15 @@
-import styles from './ProfileIconButton.module.scss'
-import { IProfileIconButton } from './ProfileIconButton.props'
+import { forwardRef } from "react";
+import styles from "./ProfileIconButton.module.scss";
+import { IProfileIconButton } from "./ProfileIconButton.props";
 
-export default function ProfileIconButton({children, ...props}: IProfileIconButton) {
+const ProfileIconButton = forwardRef<HTMLButtonElement, IProfileIconButton>(
+  ({ children, ...props }, ref) => {
     return (
-        <button {...props} className={styles['button']}>
-            {children}
-        </button>
-    )
-}
+      <button {...props} className={styles["button"]} ref={ref}>
+        {children}
+      </button>
+    );
+  }
+);
+
+export default ProfileIconButton;

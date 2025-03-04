@@ -6,9 +6,17 @@ import ProfileSettings from "./ProfileSettings/ProfileSettings";
 export default function Profile() {
   const [isActive, setIsActive] = useState(false);
   const profileSettingsRef = useRef<HTMLDivElement>(null);
+  const profileIconButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
+      if (
+        profileIconButtonRef.current &&
+        profileIconButtonRef.current.contains(e.target as Node)
+      ) {
+        return;
+      }
+
       if (
         profileSettingsRef.current &&
         !profileSettingsRef.current.contains(e.target as Node)
@@ -34,7 +42,10 @@ export default function Profile() {
           <div className={styles["name"]}>Аяз</div>
         </div>
         <div className={styles["arrow"]}>
-          <ProfileIconButton onClick={() => setIsActive((state) => !state)}>
+          <ProfileIconButton
+            onClick={() => setIsActive((state) => !state)}
+            ref={profileIconButtonRef}
+          >
             <img src="./icons/menu-select.svg" alt="открыть меню" />
           </ProfileIconButton>
           <ProfileSettings isActive={isActive} ref={profileSettingsRef} />
