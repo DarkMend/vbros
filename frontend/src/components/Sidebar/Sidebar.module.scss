@@ -1,58 +1,68 @@
-@import './../../index.scss';
+@import "./../../index.scss";
 
-.genjutsu{
-    min-width: 246px;
+.genjutsu {
+  min-width: 246px;
 }
 
 .sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 30px;
+  min-width: 246px;
+  border-right: 1px solid #d9d9d9;
+  min-height: 100vh;
+  padding-top: 24px;
+  position: fixed;
+
+  &__nav {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     gap: 30px;
-    min-width: 246px;
-    border-right: 1px solid #D9D9D9;
-    min-height: 100vh;
-    padding: 24px 0 0px 0;
-    position: fixed;
+  }
 
-    &__nav{
-        display: flex;
-        flex-direction: column;
-        gap: 30px;
-        padding: 0 12px;
+  .logo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    padding: 0px 24px;
+
+    .img {
+      width: 20px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
     }
 
-    .logo {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 12px;
-        padding: 0px 12px;
-
-        .img{
-            width: 20px;
-
-            img{
-                width: 100%;
-                height: 100%;
-                object-fit: contain;
-            }
-        }
-
-        h2 {
-            font-size: 16px;
-            font-weight: 500;
-        }
+    h2 {
+      font-size: 16px;
+      font-weight: 500;
     }
+  }
 
-    .menu{
-        display: flex;
-        flex-direction: column;
-    }
+  .menu {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 
-    .profile__wrapper{
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
+    &__wrapper {
+      padding: 0px 12px;
     }
+  }
+
+  .line {
+    width: 100%;
+    height: 1px;
+    background: #d9d9d9;
+  }
+
+  .profile__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
 }

@@ -16,14 +16,31 @@ export default function Sidebar() {
             <h2>Вброс</h2>
           </div>
           <div className={styles["menu"]}>
-            {menu.map((item) => (
-              <MenuItem
-                key={item.name}
-                href={item.href}
-                name={item.name}
-                icon={item.icon}
-              />
-            ))}
+            <div className={styles["menu__wrapper"]}>
+              {menu
+                .filter((item) => item.href !== "/favourite")
+                .map((item) => (
+                  <MenuItem
+                    key={item.name}
+                    href={item.href}
+                    name={item.name}
+                    icon={item.icon}
+                  />
+                ))}
+            </div>
+            <div className={styles["line"]}></div>
+            <div className={styles["menu__wrapper"]}>
+              {menu
+                .filter((item) => item.href == "/favourite")
+                .map((item) => (
+                  <MenuItem
+                    key={item.name}
+                    href={item.href}
+                    name={item.name}
+                    icon={item.icon}
+                  />
+                ))}
+            </div>
           </div>
         </div>
         <div className={styles["profile__wrapper"]}>
