@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import ProfileIconButton from "../../ProfileIconButton/ProfileIconButton";
 import styles from "./Profile.module.scss";
 import ProfileSettings from "./ProfileSettings/ProfileSettings";
+import MenuSelectIcon from "./../../../../public/icons/menu-select.svg";
 
 export default function Profile() {
   const [isActive, setIsActive] = useState(false);
@@ -46,7 +47,7 @@ export default function Profile() {
             onClick={() => setIsActive((state) => !state)}
             ref={profileIconButtonRef}
           >
-            <img src="./icons/menu-select.svg" alt="открыть меню" />
+            <MenuSelectIcon />
           </ProfileIconButton>
           <ProfileSettings isActive={isActive} ref={profileSettingsRef} />
         </div>
