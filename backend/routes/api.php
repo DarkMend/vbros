@@ -26,4 +26,5 @@ Route::middleware('guest')->controller(AuthController::class)->group(function() 
 
 Route::middleware('auth:sanctum')->controller(AuthController::class)->group(function() {
     Route::get('/auth/info', 'info');
+    Route::post('/auth/logout', 'logout');
 });

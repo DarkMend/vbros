@@ -1,34 +1,28 @@
 import axios, { CreateAxiosDefaults } from "axios";
-import Cookies from 'js-cookie'
+import Cookies from "js-cookie";
 
 const URL = import.meta.env.VITE_APP_URL_API;
 
 const options: CreateAxiosDefaults = {
-    baseURL: URL,
-    withCredentials: true
-}
+  baseURL: URL,
+  withCredentials: true,
+};
 
 export const axiosClassic = axios.create(options);
 
 export const axiosWithAuth = axios.create(options);
 
-axiosWithAuth.interceptors.request.use(config => {
-    const token = Cookies.get('access_token');
+axiosWithAuth.interceptors.request.use(
+  (config) => {
+    const token = Cookies.get("access_token");
 
-    if(token) config.headers.Authorization = `Bearer ${token}`;
+    if (token) config.headers.Authorization = `Bearer ${token}`;
 
     return config;
-},
-error => {
+  },
+  (error) => {
     return Promise.reject(error);
-})
+  }
+);
 
-axiosWithAuth.interceptors.response.use(
-    response => response,
-    error => {
-        // if(error.response.status == 401){
-        //     removeToken();
-        //     document.location.href='/auth/start';
-        // }
-    }
-)
+axiosWithAuth.interceptors.response.use((response) => response);

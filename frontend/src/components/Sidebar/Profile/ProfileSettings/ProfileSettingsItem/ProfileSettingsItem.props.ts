@@ -1,6 +1,7 @@
-import { ReactNode } from "react";
+import { ButtonHTMLAttributes, ReactNode } from "react";
 
-export interface IProfileSettingsItem{
-    icon: ReactNode,
-    name: string
+export interface IProfileSettingsItem
+  extends ButtonHTMLAttributes<HTMLButtonElement> {
+  icon: ReactNode;
+  name: string;
 }

@@ -7,9 +7,20 @@ import ExitIcon from "./../../../../../public/icons/exit.svg";
 import cn from "classnames";
 import { IProfileSettings } from "./ProfileSettigns.props";
 import { forwardRef } from "react";
+import { userService } from "../../../../services/user.service";
+import { useNavigate } from "react-router-dom";
+import { removeToken } from "../../../../utils/helpers/removeToken";
 
 const ProfileSettings = forwardRef<HTMLDivElement, IProfileSettings>(
   ({ isActive = false, ...props }, ref) => {
+    const navigate = useNavigate();
+
+    const logout = async () => {
+      await userService.logout();
+      removeToken();
+      navigate("/auth/start");
+    };
+
     return (
       <div
         className={cn(styles["profile-settings"], {
@@ -28,7 +39,11 @@ const ProfileSettings = forwardRef<HTMLDivElement, IProfileSettings>(
         </div>
         <div className={styles["hr"]}></div>
         <div className={styles["profile-settings__wrapper"]}>
-          <ProfileSettingsItem name="Выйти" icon={<ExitIcon />} />
+          <ProfileSettingsItem
+            name="Выйти"
+            icon={<ExitIcon />}
+            onClick={logout}
+          />
         </div>
       </div>
     );
