@@ -14,17 +14,20 @@ import { useMutation } from "@tanstack/react-query";
 
 const ProfileSettings = forwardRef<HTMLDivElement, IProfileSettings>(
   ({ isActive = false, ...props }, ref) => {
+
     const navigate = useNavigate();
 
-    const { mutate } = useMutation({
+    const { mutate, isPending } = useMutation({
       mutationKey: ["logout"],
       mutationFn: () => userService.logout(),
+      onSuccess() {
+        removeToken();
+        navigate("/auth/start");
+      }
     });
 
     const logout = async () => {
       mutate();
-      removeToken();
-      navigate("/auth/start");
     };
 
     return (
@@ -46,6 +49,7 @@ const ProfileSettings = forwardRef<HTMLDivElement, IProfileSettings>(
         <div className={styles["hr"]}></div>
         <div className={styles["profile-settings__wrapper"]}>
           <ProfileSettingsItem
+            isLoading={isPending}
             name="Выйти"
             icon={<ExitIcon />}
             onClick={logout}
