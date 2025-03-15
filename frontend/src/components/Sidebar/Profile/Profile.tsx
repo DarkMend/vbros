@@ -3,11 +3,13 @@ import ProfileIconButton from "../../ProfileIconButton/ProfileIconButton";
 import styles from "./Profile.module.scss";
 import ProfileSettings from "./ProfileSettings/ProfileSettings";
 import MenuSelectIcon from "./../../../../public/icons/menu-select.svg";
+import { useUserStore } from "../../../store/userStore";
 
 export default function Profile() {
   const [isActive, setIsActive] = useState(false);
   const profileSettingsRef = useRef<HTMLDivElement>(null);
   const profileIconButtonRef = useRef<HTMLButtonElement>(null);
+  const user = useUserStore(state => state.user);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -40,7 +42,7 @@ export default function Profile() {
           <div className={styles["ava"]}>
             <img src="./icons/circle.svg" alt="" />
           </div>
-          <div className={styles["name"]}>Аяз</div>
+          <div className={styles["name"]}>{user?.name}</div>
         </div>
         <div className={styles["arrow"]}>
           <ProfileIconButton

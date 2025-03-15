@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios";
 import { axiosClassic, axiosWithAuth } from "../api/interceptors";
 import { IUser } from "../interfaces/user.interface";
 import { IResponseLogin } from "../utils/hooks/User/useLoginUser";
@@ -11,8 +12,9 @@ export const userService = {
     return axiosClassic.post<IResponseLogin>("/auth/login", data);
   },
 
-  async infoUser() {
-    return axiosWithAuth.get<IUser>("/auth/info");
+  async infoUser(): Promise<IUser | undefined> {
+    const response: AxiosResponse<{ data: IUser }> = await axiosWithAuth.get("/auth/info");
+    return response.data.data;
   },
 
   async logout() {

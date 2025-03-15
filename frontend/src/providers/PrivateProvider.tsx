@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../store/userStore";
 import { useQuery } from "@tanstack/react-query";
 import { userService } from "../services/user.service";
-import { IUser } from "../interfaces/user.interface";
 import PageLoader from "../components/PageLoader/PageLoader";
 
 export default function PrivateProvider({ children }: { children: ReactNode }) {
@@ -21,7 +20,7 @@ export default function PrivateProvider({ children }: { children: ReactNode }) {
 
     useEffect(() => {
         if (data) {
-            setUser(data as IUser);
+            setUser(data);
         }
         
         if (!token) {
