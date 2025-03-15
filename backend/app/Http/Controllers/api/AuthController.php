@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Helpers\ImageHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
@@ -33,10 +35,20 @@ class AuthController extends Controller
                 'password_confirmation.required' => 'Введите подтверждение пароля',
             ]);
 
+            $avatarData = ImageHelper::generateLetterImage($data['name']);
+            
+            if(!$avatarData){
+                $avatarPath = 'users/avatars/67d5b3cf6e9fe.png';
+            }else{
+                $avatarPath = 'users/avatars/' . uniqid() . '.png';
+                Storage::disk('public')->put($avatarPath, base64_decode(str_replace('data:image/png;base64,', '', $avatarData)));
+            }
+
             User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
-                'password' => Hash::make($data['password'])
+                'password' => Hash::make($data['password']),
+                'avatar' => $avatarPath
             ]);
 
             return response()->json(['message' => 'Аккаунт создан'], 200);
