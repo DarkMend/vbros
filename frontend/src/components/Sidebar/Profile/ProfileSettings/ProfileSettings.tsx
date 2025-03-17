@@ -12,11 +12,14 @@ import { useNavigate } from "react-router-dom";
 import { removeToken } from "../../../../utils/helpers/removeToken";
 import { useMutation } from "@tanstack/react-query";
 import { useUserStore } from "../../../../store/userStore";
+import { useModalStore } from "../../../../store/modalStore";
+import AccountModal from "../../../Modals/AccountModal/AccountModal";
 
 const ProfileSettings = forwardRef<HTMLDivElement, IProfileSettings>(
   ({ isActive = false, ...props }, ref) => {
     const navigate = useNavigate();
     const user = useUserStore();
+    const modal = useModalStore();
 
     const { mutate, isPending } = useMutation({
       mutationKey: ["logout"],
@@ -41,7 +44,7 @@ const ProfileSettings = forwardRef<HTMLDivElement, IProfileSettings>(
         ref={ref}
       >
         <div className={styles["profile-settings__wrapper"]}>
-          <ProfileSettingsItem name="Аккаунт" icon={<AccountIcon />} />
+          <ProfileSettingsItem name="Аккаунт" onClick={() => modal.openModal(<AccountModal />)} icon={<AccountIcon />} />
           <ProfileSettingsItem name="Настройки" icon={<GearIcon />} />
         </div>
         <div className={styles["hr"]}></div>
