@@ -8,8 +8,8 @@ class ImageHelper
         string $name,
         int $width = 200,
         int $height = 200,
-        string $backgroundColor = '#CCCCCC',
-        string $textColor = '#333333',
+        string $backgroundColor = '#FFCCCC',
+        string $textColor = '#FF0000',
         int $fontSize = 80,
         string $fontPath = null
     ): ?string {
@@ -42,13 +42,9 @@ class ImageHelper
             return  null;
         }
 
-        $textBox = imagettfbbox($fontSize, 0, $fontPath, $firstLetter);
-        $textWidth = abs($textBox[2] - $textBox[0]);
-        $textHeight = abs($textBox[7] - $textBox[1]);
-        $x = ($width / 2) - ($textWidth / 2);
-        $y = ($height / 2) + ($textHeight / 2) - ($textHeight / 4); 
+        $coords = self::calculateCenteredCoordinates($image, $fontPath, $fontSize, $firstLetter);
 
-        imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontPath, $firstLetter);
+        imagettftext($image, $fontSize, 0, $coords['x'], $coords['y'], $textColor, $fontPath, $firstLetter);
 
         ob_start();
         imagepng($image);
@@ -73,5 +69,19 @@ class ImageHelper
             'g' => hexdec(substr($hex, 2, 2)),
             'b' => hexdec(substr($hex, 4, 2)),
         ];
+    }
+
+    private static function calculateCenteredCoordinates($image, $fontPath, $fontSize, $text) {
+        $width = imagesx($image);
+        $height = imagesy($image);
+
+        $textBox = imagettfbbox($fontSize, 0, $fontPath, $text);
+        $textWidth = abs($textBox[2] - $textBox[0]);
+        $textHeight = abs($textBox[7] - $textBox[1]);
+
+        $x = ($width - $textWidth) / 2;
+        $y = ($height / 2) + ($fontSize / 2) - ($fontSize * 0.1);
+
+        return ['x' => $x, 'y' => $y];
     }
 }
