@@ -9,7 +9,7 @@ export default function Profile() {
   const [isActive, setIsActive] = useState(false);
   const profileSettingsRef = useRef<HTMLDivElement>(null);
   const profileIconButtonRef = useRef<HTMLButtonElement>(null);
-  const user = useUserStore(state => state.user);
+  const user = useUserStore((state) => state.user);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -40,7 +40,7 @@ export default function Profile() {
       <div className={styles["profile"]}>
         <div className={styles["profile__user"]}>
           <div className={styles["ava"]}>
-            <img src="./icons/circle.svg" alt="" />
+            <img src={user?.avatar} alt="" />
           </div>
           <div className={styles["name"]}>{user?.name}</div>
         </div>

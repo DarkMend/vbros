@@ -7,32 +7,25 @@ import { userService } from "../services/user.service";
 import PageLoader from "../components/PageLoader/PageLoader";
 
 export default function PrivateProvider({ children }: { children: ReactNode }) {
+  const token = Cookies.get("access_token");
+  const route = useNavigate();
+  const setUser = useUserStore((state) => state.setUser);
 
-    const token = Cookies.get('access_token');
-    const route = useNavigate();
-    const setUser = useUserStore(state => state.setUser);
+  const { data, isLoading } = useQuery({
+    queryKey: ["user"],
+    queryFn: () => userService.infoUser(),
+    enabled: !!token,
+  });
 
-    const { data, isLoading } = useQuery({
-        queryKey: ['user'],
-        queryFn: () => userService.infoUser(),
-        enabled: !!token
-    })
+  useEffect(() => {
+    if (data) {
+      setUser(data);
+    }
 
-    useEffect(() => {
-        if (data) {
-            setUser(data);
-        }
-        
-        if (!token) {
-            route('/auth/start')
-        }
-    }, [token, route, data]);
+    if (!token) {
+      route("/auth/start");
+    }
+  }, [token, route, data, setUser]);
 
-    return (
-        <div>
-            {
-                isLoading ? <PageLoader /> : children
-            }
-        </div>
-    )
+  return <div>{isLoading ? <PageLoader /> : children}</div>;
 }

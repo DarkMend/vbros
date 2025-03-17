@@ -1,13 +1,17 @@
 import { create } from "zustand";
 import { IUser } from "../interfaces/user.interface";
-import { devtools } from 'zustand/middleware';
+import { devtools } from "zustand/middleware";
 
 export interface IUserStore {
-    user: IUser | null,
-    setUser: (data: IUser) => void
+  user: IUser | null;
+  setUser: (data: IUser) => void;
+  deleteUser: () => void;
 }
 
-export const useUserStore = create<IUserStore>()(devtools(set => ({
+export const useUserStore = create<IUserStore>()(
+  devtools((set) => ({
     user: null,
-    setUser: (data: IUser) => set({ user: data })
-})));
+    setUser: (data: IUser) => set({ user: data }),
+    deleteUser: () => set({ user: null }),
+  }))
+);

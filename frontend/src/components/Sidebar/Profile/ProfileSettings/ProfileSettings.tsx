@@ -11,19 +11,21 @@ import { userService } from "../../../../services/user.service";
 import { useNavigate } from "react-router-dom";
 import { removeToken } from "../../../../utils/helpers/removeToken";
 import { useMutation } from "@tanstack/react-query";
+import { useUserStore } from "../../../../store/userStore";
 
 const ProfileSettings = forwardRef<HTMLDivElement, IProfileSettings>(
   ({ isActive = false, ...props }, ref) => {
-
     const navigate = useNavigate();
+    const user = useUserStore();
 
     const { mutate, isPending } = useMutation({
       mutationKey: ["logout"],
       mutationFn: () => userService.logout(),
       onSuccess() {
+        user.deleteUser();
         removeToken();
         navigate("/auth/start");
-      }
+      },
     });
 
     const logout = async () => {
