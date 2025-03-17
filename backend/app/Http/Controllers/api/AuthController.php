@@ -35,20 +35,10 @@ class AuthController extends Controller
                 'password_confirmation.required' => 'Введите подтверждение пароля',
             ]);
 
-            $avatarData = ImageHelper::generateLetterImage($data['name']);
-            
-            if(!$avatarData){
-                $avatarPath = 'users/avatars/67d5b3cf6e9fe.png';
-            }else{
-                $avatarPath = 'users/avatars/' . uniqid() . '.png';
-                Storage::disk('public')->put($avatarPath, base64_decode(str_replace('data:image/png;base64,', '', $avatarData)));
-            }
-
             User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
-                'avatar' => $avatarPath
             ]);
 
             return response()->json(['message' => 'Аккаунт создан'], 200);

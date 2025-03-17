@@ -4,6 +4,7 @@ import styles from "./Profile.module.scss";
 import ProfileSettings from "./ProfileSettings/ProfileSettings";
 import MenuSelectIcon from "./../../../../public/icons/menu-select.svg";
 import { useUserStore } from "../../../store/userStore";
+import AvatarPlug from "../../AvatarPlug/AvatarPlug";
 
 export default function Profile() {
   const [isActive, setIsActive] = useState(false);
@@ -40,7 +41,11 @@ export default function Profile() {
       <div className={styles["profile"]}>
         <div className={styles["profile__user"]}>
           <div className={styles["ava"]}>
-            <img src={user?.avatar} alt="" />
+            {user?.avatar == null ? (
+              <AvatarPlug name={user?.name} />
+            ) : (
+              <img src={user?.avatar} alt="" />
+            )}
           </div>
           <div className={styles["name"]}>{user?.name}</div>
         </div>

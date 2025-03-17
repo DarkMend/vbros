@@ -42,9 +42,12 @@ class ImageHelper
             return  null;
         }
 
-        $coords = self::calculateCenteredCoordinates($image, $fontPath, $fontSize, $firstLetter);
+        $textBox = imagettfbbox($fontSize, 0, $fontPath, $firstLetter);
+        $textWidth = abs($textBox[2] - $textBox[0]);
+        $x = ($width / 2) - ($textWidth / 2);
+        $y = ($height / 2) + ($fontSize / 2) - ($fontSize * 0.1);
 
-        imagettftext($image, $fontSize, 0, $coords['x'], $coords['y'], $textColor, $fontPath, $firstLetter);
+        imagettftext($image, $fontSize, 0, $x, $y, $textColor, $fontPath, $firstLetter);
 
         ob_start();
         imagepng($image);
@@ -71,17 +74,5 @@ class ImageHelper
         ];
     }
 
-    private static function calculateCenteredCoordinates($image, $fontPath, $fontSize, $text) {
-        $width = imagesx($image);
-        $height = imagesy($image);
 
-        $textBox = imagettfbbox($fontSize, 0, $fontPath, $text);
-        $textWidth = abs($textBox[2] - $textBox[0]);
-        $textHeight = abs($textBox[7] - $textBox[1]);
-
-        $x = ($width - $textWidth) / 2;
-        $y = ($height / 2) + ($fontSize / 2) - ($fontSize * 0.1);
-
-        return ['x' => $x, 'y' => $y];
-    }
 }
