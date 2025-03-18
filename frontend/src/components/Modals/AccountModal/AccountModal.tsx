@@ -12,19 +12,22 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { userService } from "../../../services/user.service";
 import { removeToken } from "../../../utils/helpers/removeToken";
+import { useModalStore } from "../../../store/modalStore";
 
 export default function AccountModal() {
   const { user, deleteUser } = useUserStore();
+  const {closeModal} = useModalStore();
 
   const navigate = useNavigate();
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationKey: ["logout"],
     mutationFn: () => userService.logout(),
     onSuccess() {
       deleteUser();
       removeToken();
       navigate("/auth/start");
+      closeModal();
     },
   });
 
@@ -59,7 +62,7 @@ export default function AccountModal() {
           />
         </div>
         <div className={styles["hr"]}></div>
-        <ModalButton icon={<ExitIcon />} onClick={logout}>
+        <ModalButton icon={<ExitIcon />} isLoading={isPending} onClick={logout}>
           Выйти
         </ModalButton>
       </div>
