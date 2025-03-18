@@ -6,9 +6,31 @@ import AccountUserIcon from "./../../../../public/icons/account-user.svg";
 import styles from "./AccountModal.module.scss";
 import AccountModalItem from "./AccountModalItem/AccountModalItem";
 import AccountMailIcon from "./../../../../public/icons/mail.svg";
+import ModalButton from "../../ModalButton/ModalButton";
+import ExitIcon from "./../../../../public/icons/exit.svg";
+import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { userService } from "../../../services/user.service";
+import { removeToken } from "../../../utils/helpers/removeToken";
 
 export default function AccountModal() {
-  const { user } = useUserStore();
+  const { user, deleteUser } = useUserStore();
+
+  const navigate = useNavigate();
+
+  const { mutate } = useMutation({
+    mutationKey: ["logout"],
+    mutationFn: () => userService.logout(),
+    onSuccess() {
+      deleteUser();
+      removeToken();
+      navigate("/auth/start");
+    },
+  });
+
+  const logout = async () => {
+    mutate();
+  };
 
   return (
     <ModalLayout icon={<AccountIcon />} title="Аккаунт">
@@ -37,6 +59,9 @@ export default function AccountModal() {
           />
         </div>
         <div className={styles["hr"]}></div>
+        <ModalButton icon={<ExitIcon />} onClick={logout}>
+          Выйти
+        </ModalButton>
       </div>
     </ModalLayout>
   );

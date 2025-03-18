@@ -44,7 +44,11 @@ const ProfileSettings = forwardRef<HTMLDivElement, IProfileSettings>(
         ref={ref}
       >
         <div className={styles["profile-settings__wrapper"]}>
-          <ProfileSettingsItem name="Аккаунт" onClick={() => modal.openModal(<AccountModal />)} icon={<AccountIcon />} />
+          <ProfileSettingsItem
+            name="Аккаунт"
+            onClick={() => modal.openModal(<AccountModal />)}
+            icon={<AccountIcon />}
+          />
           <ProfileSettingsItem name="Настройки" icon={<GearIcon />} />
         </div>
         <div className={styles["hr"]}></div>
