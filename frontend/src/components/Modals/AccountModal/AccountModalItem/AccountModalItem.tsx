@@ -13,6 +13,7 @@ export default function AccountModalItem({
   return (
     <div className={styles["list-item"]}>
       <div className={styles["list-item__name"]}>
+        <div className={styles["list-item__name-hover"]}>{name}</div>
         <div className={styles["icon"]}>{icon}</div>
         <p>{name}</p>
       </div>
