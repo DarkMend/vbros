@@ -7,33 +7,15 @@ import ExitIcon from "./../../../../../public/icons/exit.svg";
 import cn from "classnames";
 import { IProfileSettings } from "./ProfileSettigns.props";
 import { forwardRef } from "react";
-import { userService } from "../../../../services/user.service";
-import { useNavigate } from "react-router-dom";
-import { removeToken } from "../../../../utils/helpers/removeToken";
-import { useMutation } from "@tanstack/react-query";
-import { useUserStore } from "../../../../store/userStore";
 import { useModalStore } from "../../../../store/modalStore";
 import AccountModal from "../../../Modals/AccountModal/AccountModal";
+import { useLogoutUser } from "../../../../utils/hooks/User/useLogoutUser";
 
 const ProfileSettings = forwardRef<HTMLDivElement, IProfileSettings>(
   ({ isActive = false, ...props }, ref) => {
-    const navigate = useNavigate();
-    const user = useUserStore();
     const modal = useModalStore();
 
-    const { mutate, isPending } = useMutation({
-      mutationKey: ["logout"],
-      mutationFn: () => userService.logout(),
-      onSuccess() {
-        user.deleteUser();
-        removeToken();
-        navigate("/auth/start");
-      },
-    });
-
-    const logout = async () => {
-      mutate();
-    };
+    const { logout, isPending } = useLogoutUser();
 
     return (
       <div

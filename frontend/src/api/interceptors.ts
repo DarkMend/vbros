@@ -1,5 +1,6 @@
 import axios, { CreateAxiosDefaults } from "axios";
 import Cookies from "js-cookie";
+import { removeToken } from "../utils/helpers/removeToken";
 
 const URL = import.meta.env.VITE_APP_URL_API;
 
@@ -25,4 +26,12 @@ axiosWithAuth.interceptors.request.use(
   }
 );
 
-axiosWithAuth.interceptors.response.use((response) => response);
+axiosWithAuth.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response.status == 401) {
+      removeToken();
+      window.location.href = "/auth/login";
+    }
+  }
+);

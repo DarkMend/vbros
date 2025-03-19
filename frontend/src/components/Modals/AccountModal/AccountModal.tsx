@@ -8,32 +8,12 @@ import AccountModalItem from "./AccountModalItem/AccountModalItem";
 import AccountMailIcon from "./../../../../public/icons/mail.svg";
 import ModalButton from "../../ModalButton/ModalButton";
 import ExitIcon from "./../../../../public/icons/exit.svg";
-import { useNavigate } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
-import { userService } from "../../../services/user.service";
-import { removeToken } from "../../../utils/helpers/removeToken";
-import { useModalStore } from "../../../store/modalStore";
+import { useLogoutUser } from "../../../utils/hooks/User/useLogoutUser";
 
 export default function AccountModal() {
-  const { user, deleteUser } = useUserStore();
-  const {closeModal} = useModalStore();
+  const { user } = useUserStore();
 
-  const navigate = useNavigate();
-
-  const { mutate, isPending } = useMutation({
-    mutationKey: ["logout"],
-    mutationFn: () => userService.logout(),
-    onSuccess() {
-      deleteUser();
-      removeToken();
-      navigate("/auth/start");
-      closeModal();
-    },
-  });
-
-  const logout = async () => {
-    mutate();
-  };
+  const { logout, isPending } = useLogoutUser();
 
   return (
     <ModalLayout icon={<AccountIcon />} title="Аккаунт">
