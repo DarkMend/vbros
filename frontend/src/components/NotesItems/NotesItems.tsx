@@ -30,14 +30,10 @@ export default function NotesItems({
       <div className={styles["notes-items__head"]}>
         <div className={styles["name"]}>
           <div className={styles["img"]}>
-            {icon ? (
-              <img src={icon} alt="" />
-            ) : (
-              <div
-                className={styles["icon-color"]}
-                style={{ background: iconColor }}
-              ></div>
-            )}
+            <div
+              className={styles["icon-color"]}
+              style={{ background: iconColor, boxShadow: `0px 2px 4px 0px ${iconColor}` }}
+            ></div>
           </div>
           <p>{name}</p>
         </div>

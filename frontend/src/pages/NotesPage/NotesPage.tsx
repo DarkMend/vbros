@@ -29,6 +29,7 @@ export default function NotesPage() {
             <NotesItems
               name="Без статуса"
               iconColor="#FF9D00"
+              className={styles["notes-items"]}
               notes={data?.filter((el: INote) => el.status_id == 1)}
             />
             <NotesItems

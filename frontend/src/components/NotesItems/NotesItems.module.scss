@@ -5,6 +5,7 @@
   flex-direction: column;
   gap: 16px;
   width: 100%;
+  min-width: 251px;
 
   .notes-items__head {
     display: flex;
@@ -42,7 +43,7 @@
       .icon-color {
         width: 100%;
         height: 100%;
-        border-radius: 100px;
+        border-radius: 6px;
         object-fit: cover;
       }
     }
