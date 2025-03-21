@@ -13,11 +13,17 @@ export const userService = {
   },
 
   async infoUser(): Promise<IUser | undefined> {
-    const response: AxiosResponse<{ data: IUser }> = await axiosWithAuth.get("/auth/info");
+    const response: AxiosResponse<{ data: IUser }> = await axiosWithAuth.get(
+      "/auth/info"
+    );
     return response.data.data;
   },
 
   async logout() {
     return axiosWithAuth.post("/auth/logout");
+  },
+
+  async changeAvatar(data: FormData) {
+    return axiosWithAuth.post("/user/changeAvatar", data);
   },
 };

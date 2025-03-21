@@ -9,17 +9,32 @@ import AccountMailIcon from "./../../../../public/icons/mail.svg";
 import ModalButton from "../../ModalButton/ModalButton";
 import ExitIcon from "./../../../../public/icons/exit.svg";
 import { useLogoutUser } from "../../../utils/hooks/User/useLogoutUser";
+import ImagePlus from "./../../../../public/icons/image-plus.svg";
 
 export default function AccountModal() {
   const { user } = useUserStore();
 
   const { logout, isPending } = useLogoutUser();
 
+  const changeAvatar = () => {};
+
   return (
     <ModalLayout icon={<AccountIcon />} title="Аккаунт">
       <div className={styles["account"]}>
         <div className={styles["account__head"]}>
           <div className={styles["avatar"]}>
+            <div className={styles["avatar-plus"]}>
+              <label htmlFor="avatar">
+                <ImagePlus />
+              </label>
+              <input
+                type="file"
+                id="avatar"
+                name="avatar"
+                style={{ display: "none" }}
+                onChange={changeAvatar}
+              />
+            </div>
             {user?.avatar == null ? (
               <AvatarPlug name={user?.name} />
             ) : (
