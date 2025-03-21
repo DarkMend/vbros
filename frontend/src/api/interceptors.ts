@@ -33,5 +33,6 @@ axiosWithAuth.interceptors.response.use(
       removeToken();
       window.location.href = "/auth/login";
     }
+    return Promise.reject(error);
   }
 );

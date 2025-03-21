@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -19,7 +20,11 @@ class UserController extends Controller
 
         ]);
 
-        $image = $request->file('avatar')->store('users.avatars');
+        if($user->avatar && Storage::exists($user->avatar)){
+            Storage::delete($user->avatar);
+        }
+
+        $image = $request->file('avatar')->store('users/avatars');
 
         $user->update([
             'avatar' => $image

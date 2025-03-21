@@ -1,4 +1,3 @@
-import { useUserStore } from "../../../store/userStore";
 import AvatarPlug from "../../AvatarPlug/AvatarPlug";
 import ModalLayout from "../../ModalLayout/ModalLayout";
 import AccountIcon from "./../../../../public/icons/account.svg";
@@ -10,13 +9,44 @@ import ModalButton from "../../ModalButton/ModalButton";
 import ExitIcon from "./../../../../public/icons/exit.svg";
 import { useLogoutUser } from "../../../utils/hooks/User/useLogoutUser";
 import ImagePlus from "./../../../../public/icons/image-plus.svg";
+import { ChangeEvent, useState } from "react";
+import { useChangeAvatarUser } from "../../../utils/hooks/User/useChangeAvatarUser";
+import Loader from "../../Loader/Loader";
+import { toast } from "react-toastify";
+import { useQuery } from "@tanstack/react-query";
+import { userService } from "../../../services/user.service";
 
 export default function AccountModal() {
-  const { user } = useUserStore();
+  const [isLoadingAvatar, setIsLoadingAvatar] = useState(false);
+  const { data, refetch } = useQuery({
+    queryKey: ["user"],
+    queryFn: () => userService.infoUser(),
+  });
 
   const { logout, isPending } = useLogoutUser();
 
-  const changeAvatar = () => {};
+  const { mutate, isPending: isPendingAvatar } = useChangeAvatarUser({
+    onSuccess() {
+      toast.success("Изображение успешно изменено");
+      setIsLoadingAvatar(true);
+      refetch().finally(() => {
+        setIsLoadingAvatar(false);
+      });
+    },
+    onError(data) {
+      toast.error(data.response?.data?.message);
+    },
+  });
+
+  const changeAvatar = (e: ChangeEvent<HTMLInputElement>) => {
+    const avatar = e.target.files?.[0] || null;
+    if (avatar) {
+      const formData = new FormData();
+      formData.append("avatar", avatar);
+      console.log(formData.get("avatar"));
+      mutate(formData);
+    }
+  };
 
   return (
     <ModalLayout icon={<AccountIcon />} title="Аккаунт">
@@ -25,7 +55,9 @@ export default function AccountModal() {
           <div className={styles["avatar"]}>
             <div className={styles["avatar-plus"]}>
               <label htmlFor="avatar">
-                <ImagePlus />
+                <div className={styles["avatar-plus__icon"]}>
+                  <ImagePlus />
+                </div>
               </label>
               <input
                 type="file"
@@ -33,27 +65,32 @@ export default function AccountModal() {
                 name="avatar"
                 style={{ display: "none" }}
                 onChange={changeAvatar}
+                disabled={isPendingAvatar && true}
               />
             </div>
-            {user?.avatar == null ? (
-              <AvatarPlug name={user?.name} />
+            {isPendingAvatar || isLoadingAvatar ? (
+              <div className={styles["loader"]}>
+                <Loader />
+              </div>
+            ) : data?.avatar == null ? (
+              <AvatarPlug name={data?.name} />
             ) : (
-              <img src={user.avatar} alt="" />
+              <img src={data?.avatar} alt="" />
             )}
           </div>
-          <div className={styles["name"]}>{user?.name}</div>
+          <div className={styles["name"]}>{data?.name}</div>
         </div>
         <div className={styles["hr"]}></div>
         <div className={styles["account__wrapper"]}>
           <AccountModalItem
             icon={<AccountUserIcon />}
             name="Имя пользователя"
-            content={user?.name}
+            content={data?.name}
           />
           <AccountModalItem
             icon={<AccountMailIcon />}
             name="Почта"
-            content={user?.email}
+            content={data?.email}
           />
         </div>
         <div className={styles["hr"]}></div>

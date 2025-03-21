@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\NoteController;
+use App\Http\Controllers\api\UserController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,4 +28,8 @@ Route::middleware('guest')->controller(AuthController::class)->group(function() 
 Route::middleware('auth:sanctum')->controller(AuthController::class)->group(function() {
     Route::get('/auth/info', 'info');
     Route::post('/auth/logout', 'logout');
+});
+
+Route::middleware('auth:sanctum')->controller(UserController::class)->prefix('user')->group(function(){
+    Route::post('/changeAvatar', 'avatarChange');
 });

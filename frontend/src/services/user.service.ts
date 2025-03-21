@@ -24,6 +24,6 @@ export const userService = {
   },
 
   async changeAvatar(data: FormData) {
-    return axiosWithAuth.post("/user/changeAvatar", data);
+    return axiosWithAuth.post<unknown>("/user/changeAvatar", data);
   },
 };
