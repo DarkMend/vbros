@@ -3,7 +3,7 @@ import ModalLayout from "../../ModalLayout/ModalLayout";
 import AccountIcon from "./../../../../public/icons/account.svg";
 import AccountUserIcon from "./../../../../public/icons/account-user.svg";
 import styles from "./AccountModal.module.scss";
-import AccountModalItem from "./AccountModalItem/AccountModalItem";
+import ModalMenuItem from "../../ModalMenuItem/ModalMenuItem";
 import AccountMailIcon from "./../../../../public/icons/mail.svg";
 import ModalButton from "../../ModalButton/ModalButton";
 import ExitIcon from "./../../../../public/icons/exit.svg";
@@ -82,12 +82,12 @@ export default function AccountModal() {
         </div>
         <div className={styles["hr"]}></div>
         <div className={styles["account__wrapper"]}>
-          <AccountModalItem
+          <ModalMenuItem
             icon={<AccountUserIcon />}
             name="Имя пользователя"
             content={data?.name}
           />
-          <AccountModalItem
+          <ModalMenuItem
             icon={<AccountMailIcon />}
             name="Почта"
             content={data?.email}

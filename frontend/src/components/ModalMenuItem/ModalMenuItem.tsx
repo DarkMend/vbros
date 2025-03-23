@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
-import styles from "./AccountModalItem.module.scss";
+import styles from "./ModalMenuItem.module.scss";
 
-export default function AccountModalItem({
+export default function ModalMenuItem({
   icon,
   name,
   content,
