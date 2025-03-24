@@ -8,7 +8,7 @@ export default function ModalMenuItem({
   name,
   content,
   clickContent,
-  edit = true
+  edit = false
 }: {
   icon: ReactNode;
   name: string;

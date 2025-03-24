@@ -94,6 +94,7 @@ export default function AccountModal() {
             name="Имя пользователя"
             content={data?.name}
             clickContent={openChangeName}
+            edit={true}
           />
           <ModalMenuItem
             icon={<AccountMailIcon />}
