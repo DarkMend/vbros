@@ -47,9 +47,11 @@ export default function Profile() {
               <img src={user?.avatar} alt="" />
             )}
           </div>
-          <div className={styles["name"]}>
+          <div className={styles['nameWrapper']}>
             <div className={styles['name__href']}>{user?.name}</div>
-            {user?.name}
+            <div className={styles["name"]}>
+              {user?.name}
+            </div>
           </div>
         </div>
         <div className={styles["arrow"]}>

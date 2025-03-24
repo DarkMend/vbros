@@ -12,19 +12,23 @@
     align-items: center;
     gap: 10px;
 
+    .nameWrapper{
+      position: relative;
+    }
+
+    .name__href{
+      position: absolute;
+      top: -20px;
+      left: 0;
+      z-index: 1;
+    }
+
     .name{
       max-width: 155px;
       white-space: nowrap;
       text-overflow: ellipsis;
-      overflow-x: hidden;
+      overflow: hidden;
       position: relative;
-
-      &__href{
-        position: absolute;
-        top: -20px;
-        left: 0;
-        z-index: 1;
-      }
     }
 
     .ava {
