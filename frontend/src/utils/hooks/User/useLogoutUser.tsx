@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { userService } from "../../../services/user.service";
 import { useUserStore } from "../../../store/userStore";
 import { removeToken } from "../../helpers/removeToken";
@@ -10,6 +10,7 @@ export const useLogoutUser = () => {
   const { deleteUser } = useUserStore();
   const { closeModal } = useModalStore();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
     mutationKey: [KEY],
@@ -23,6 +24,7 @@ export const useLogoutUser = () => {
   });
 
   const logout = () => {
+    queryClient.clear();
     mutate();
   };
 

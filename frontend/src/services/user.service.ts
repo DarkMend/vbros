@@ -26,4 +26,8 @@ export const userService = {
   async changeAvatar(data: FormData) {
     return axiosWithAuth.post<unknown>("/user/changeAvatar", data);
   },
+
+  async changeName(data: Pick<IUser, 'name'>) {
+    return axiosWithAuth.post('/user/changeName', data);
+  }
 };

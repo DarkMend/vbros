@@ -32,4 +32,5 @@ Route::middleware('auth:sanctum')->controller(AuthController::class)->group(func
 
 Route::middleware('auth:sanctum')->controller(UserController::class)->prefix('user')->group(function(){
     Route::post('/changeAvatar', 'avatarChange');
+    Route::post('/changeName', 'changeName');
 });

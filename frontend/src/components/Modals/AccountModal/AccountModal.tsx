@@ -15,6 +15,8 @@ import Loader from "../../Loader/Loader";
 import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
 import { userService } from "../../../services/user.service";
+import { useModalStore } from "../../../store/modalStore";
+import ChangeNameModal from "../ChangeNameModal/ChangeNameModal";
 
 export default function AccountModal() {
   const [isLoadingAvatar, setIsLoadingAvatar] = useState(false);
@@ -22,6 +24,7 @@ export default function AccountModal() {
     queryKey: ["user"],
     queryFn: () => userService.infoUser(),
   });
+  const {openModal} = useModalStore();
 
   const { logout, isPending } = useLogoutUser();
 
@@ -47,6 +50,10 @@ export default function AccountModal() {
       mutate(formData);
     }
   };
+
+  const openChangeName = () => {
+    openModal(<ChangeNameModal />); 
+  }
 
   return (
     <ModalLayout icon={<AccountIcon />} title="Аккаунт">
@@ -86,6 +93,7 @@ export default function AccountModal() {
             icon={<AccountUserIcon />}
             name="Имя пользователя"
             content={data?.name}
+            clickContent={openChangeName}
           />
           <ModalMenuItem
             icon={<AccountMailIcon />}

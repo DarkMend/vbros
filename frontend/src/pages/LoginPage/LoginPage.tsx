@@ -56,6 +56,7 @@ export default function LoginPage() {
               message: "Введите корректную почту",
             },
           })}
+          
           errorMessage={errors.email?.message}
         />
         <MainInput
@@ -68,7 +69,7 @@ export default function LoginPage() {
         />
       </FormLayout>
       <div className={styles["transition-block"]}>
-        <p className={styles["transition-block__text"]}>У вас есть аккаунт?</p>
+        <p className={styles["transition-block__text"]}>У вас нет аккаунта?</p>
         <Link to={"/auth/reg"}>
           <MainButton theme="white">Зарегистрироваться</MainButton>
         </Link>

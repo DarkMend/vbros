@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  cursor: pointer;
+  // cursor: pointer;
   transition: all 0.3s ease;
   padding: 5px 0;
   border-radius: 5px;
@@ -24,7 +24,7 @@
     min-width: 0;
     position: relative;
     transition: all 0.3s ease;
-    cursor: pointer;
+    cursor: default;
 
     &-hover {
       position: absolute;
@@ -77,5 +77,6 @@
   &__content {
     font-size: 16px;
     font-weight: 500;
+    cursor: pointer;
   }
 }

@@ -32,4 +32,17 @@ class UserController extends Controller
 
         return response()->json(['message' => 'Вы сменили изображение'], 200);
     }
+
+    public function changeName(Request $request) {
+        $user = User::find(auth()->id());
+        $data = $request -> validate([
+            'name' => ['required', 'string', 'unique:users']
+        ], [
+            'name.required' => 'Введите имя пользователя',
+            'name.unique' => 'Имя уже занято' 
+        ]);
+
+        $user->update($data);
+        return response()->json(['message' => 'Вы успешно сменили имя'], 200);
+    }
 }
