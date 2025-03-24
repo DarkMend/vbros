@@ -19,12 +19,12 @@ export const useLogoutUser = () => {
       deleteUser();
       removeToken();
       navigate("/auth/start");
+      queryClient.clear();
       closeModal();
     },
   });
 
   const logout = () => {
-    queryClient.clear();
     mutate();
   };
 
