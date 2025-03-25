@@ -5,6 +5,7 @@ import Title from "../../components/Title/Title";
 import styles from "./NotesPage.module.scss";
 import { noteService } from "../../services/note.service";
 import { INote } from "../../interfaces/note.interface";
+import NoteSidebar from "../../components/NoteSidebar/NoteSidebar";
 
 export default function NotesPage() {
   const { data, isLoading, isPending } = useQuery({
@@ -16,6 +17,7 @@ export default function NotesPage() {
   return (
     <>
       <div className={styles["notes"]}>
+        <NoteSidebar />
         <div className={styles["head"]}>
           <Title>Заметки</Title>
           <div className={styles["actions"]}>
