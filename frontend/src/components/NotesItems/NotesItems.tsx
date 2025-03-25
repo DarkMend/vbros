@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 import { useDroppable } from "@dnd-kit/core";
 import { v4 } from "uuid";
 import MenuSelectIcon from "./../../../public/icons/menu-select.svg";
+import AddNoteItem from "./AddNoteItem/AddNoteItem";
 
 export default function NotesItems({
   name,
@@ -58,6 +59,7 @@ export default function NotesItems({
         })}
       >
         {notes && notes.map((el) => <NotesItem key={el.id} note={el} />)}
+        <AddNoteItem />
       </div>
     </div>
   );
