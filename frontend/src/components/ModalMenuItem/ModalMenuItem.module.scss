@@ -75,11 +75,14 @@
     }
   }
 
-  &__content {
-    font-size: 16px;
-    font-weight: 500;
+  &__wrapper {
     position: relative;
-    cursor: default;
+
+    &:hover .edit {
+      visibility: visible;
+      opacity: 1;
+      top: -35px;
+    }
 
     .edit {
       visibility: hidden;
@@ -108,12 +111,15 @@
       }
     }
 
-    &:hover {
-      .edit {
-        visibility: visible;
-        opacity: 1;
-        top: -35px;
-      }
+    .list-item__content {
+      font-size: 16px;
+      font-weight: 500;
+      position: relative;
+      cursor: default;
+      text-overflow: ellipsis;
+      max-width: 170px;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 }

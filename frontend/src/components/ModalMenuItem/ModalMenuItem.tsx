@@ -23,13 +23,15 @@ export default function ModalMenuItem({
         <div className={styles["icon"]}>{icon}</div>
         <p>{name}</p>
       </div>
-      <div className={styles["list-item__content"]} >
+      <div className={styles["list-item__wrapper"]}>
         <div className={classNames(styles['edit'], {
           [styles['active']]: edit
         })} onClick={clickContent}>
           <EditIcon />
         </div>
-        {content}
+        <div className={styles['list-item__content']}>
+          {content}
+        </div>
       </div>
     </div>
   );
