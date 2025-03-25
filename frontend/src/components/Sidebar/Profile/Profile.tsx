@@ -48,7 +48,7 @@ export default function Profile() {
             )}
           </div>
           <div className={styles['nameWrapper']}>
-            <div className={styles['name__href']}>{user?.name}</div>
+            {/* <div className={styles['name__href']}>{user?.name}</div> */}
             <div className={styles["name"]}>
               {user?.name}
             </div>
