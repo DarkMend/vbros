@@ -12,6 +12,28 @@
   flex-direction: column;
   justify-content: space-between;
 
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    .info {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
+    }
+  }
+
+  .textarea {
+    width: 100%;
+    border: none;
+    outline: none;
+    resize: none;
+    font-size: 15px;
+    font-weight: 400;
+  }
+
   .header {
     display: flex;
     flex-direction: row;

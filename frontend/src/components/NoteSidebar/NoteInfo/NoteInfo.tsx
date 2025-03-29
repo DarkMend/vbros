@@ -9,7 +9,13 @@ export interface INoteInfo {
 
 export default function NoteInfo({ icon, text, color }: INoteInfo) {
   return (
-    <div className={styles.info}>
+    <div
+      className={styles.info}
+      style={{
+        background: color && `${color}1A`,
+        border: color && "none",
+      }}
+    >
       <div className={styles.icon}>
         {icon ? (
           icon
@@ -18,7 +24,7 @@ export default function NoteInfo({ icon, text, color }: INoteInfo) {
             className={styles.circle}
             style={{
               background: color,
-              boxShadow: "0px 2px 4px 0px #008CFF80",
+              boxShadow: `0px 2px 4px 0px ${color}`,
             }}
           ></div>
         )}

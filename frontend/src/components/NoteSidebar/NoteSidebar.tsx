@@ -2,6 +2,7 @@ import styles from "./NoteSidebar.module.scss";
 import BackIcon from "../../../public/icons/back.svg";
 import FileIcon from "../../../public/icons/file-outline.svg";
 import NoteInfo from "./NoteInfo/NoteInfo";
+import CalendarIcon from "../../../public/icons/calendar.svg";
 
 export default function NoteSidebar() {
   return (
@@ -17,8 +18,15 @@ export default function NoteSidebar() {
         </div>
         <div className={styles.info}>
           <NoteInfo text="To do" color="#FF9D00" />
+          <NoteInfo text="03.01.2025" icon={<CalendarIcon />} />
         </div>
-        <div className={styles.main}></div>
+        <div className={styles.main}>
+          <textarea
+            name=""
+            className={styles.textarea}
+            placeholder="Введите текст"
+          ></textarea>
+        </div>
       </div>
       <div className={styles.close}>
         <div className={styles.closeSvg}>
