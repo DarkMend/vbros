@@ -4,8 +4,14 @@ import FileIcon from "../../../public/icons/file-outline.svg";
 import NoteInfo from "./NoteInfo/NoteInfo";
 import CalendarIcon from "../../../public/icons/calendar.svg";
 import ModalButton from "../ModalButton/ModalButton";
+import { useSibebarStore } from "../../store/sidebar.store";
+import { useModalStore } from "../../store/modalStore";
+import ChangeNoteStatusModal from "../Modals/ChangeNoteStatusModal/ChangeNoteStatusModal";
 
 export default function NoteSidebar() {
+  const { closeSidebar } = useSibebarStore();
+  const { openModal } = useModalStore();
+
   return (
     <div className={styles.noteSidebar}>
       <div className={styles.content}>
@@ -18,7 +24,11 @@ export default function NoteSidebar() {
           </div>
         </div>
         <div className={styles.info}>
-          <NoteInfo text="To do" color="#FF9D00" />
+          <NoteInfo
+            text="To do"
+            color="#FF9D00"
+            onClick={() => openModal(<ChangeNoteStatusModal />)}
+          />
           <NoteInfo text="03.01.2025" icon={<CalendarIcon />} />
         </div>
         <div className={styles.main}>
@@ -30,7 +40,7 @@ export default function NoteSidebar() {
         </div>
       </div>
       <div className={styles.actions}>
-        <button className={styles.close}>
+        <button className={styles.close} onClick={closeSidebar}>
           <div className={styles.closeSvg}>
             <BackIcon />
           </div>

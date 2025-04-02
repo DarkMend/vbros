@@ -17,6 +17,7 @@ import { useQuery } from "@tanstack/react-query";
 import { userService } from "../../../services/user.service";
 import { useModalStore } from "../../../store/modalStore";
 import ChangeNameModal from "../ChangeNameModal/ChangeNameModal";
+import SeparationLine from "../../SeparationLine/SeparationLine";
 
 export default function AccountModal() {
   const [isLoadingAvatar, setIsLoadingAvatar] = useState(false);
@@ -24,7 +25,7 @@ export default function AccountModal() {
     queryKey: ["user"],
     queryFn: () => userService.infoUser(),
   });
-  const {openModal} = useModalStore();
+  const { openModal } = useModalStore();
 
   const { logout, isPending } = useLogoutUser();
 
@@ -52,8 +53,8 @@ export default function AccountModal() {
   };
 
   const openChangeName = () => {
-    openModal(<ChangeNameModal />); 
-  }
+    openModal(<ChangeNameModal />);
+  };
 
   return (
     <ModalLayout icon={<AccountIcon />} title="Аккаунт">
@@ -87,7 +88,7 @@ export default function AccountModal() {
           </div>
           <div className={styles["name"]}>{data?.name}</div>
         </div>
-        <div className={styles["hr"]}></div>
+        <SeparationLine />
         <div className={styles["account__wrapper"]}>
           <ModalMenuItem
             icon={<AccountUserIcon />}

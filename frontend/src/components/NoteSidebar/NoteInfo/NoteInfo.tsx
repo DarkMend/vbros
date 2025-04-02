@@ -1,13 +1,13 @@
-import { ReactNode } from "react";
+import { ButtonHTMLAttributes, ReactNode } from "react";
 import styles from "./NoteInfo.module.scss";
 
-export interface INoteInfo {
+export interface INoteInfo extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: ReactNode;
   text: string;
   color?: string;
 }
 
-export default function NoteInfo({ icon, text, color }: INoteInfo) {
+export default function NoteInfo({ icon, text, color, ...props }: INoteInfo) {
   return (
     <button
       className={styles.info}
@@ -15,6 +15,7 @@ export default function NoteInfo({ icon, text, color }: INoteInfo) {
         background: color && `${color}1A`,
         border: color && "none",
       }}
+      {...props}
     >
       <div className={styles.icon}>
         {icon ? (
