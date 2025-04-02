@@ -44,10 +44,21 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getAvatarUrl() {
-        if(!$this->avatar){
+    public function getAvatarUrl()
+    {
+        if (!$this->avatar) {
             return null;
         }
         return Storage::url($this->avatar);
+    }
+
+    public function statuses()
+    {
+        return $this->hasMany(Status::class);
+    }
+
+    public function notes()
+    {
+        return $this->hasMany(Note::class);
     }
 }

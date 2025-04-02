@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users_statuses', function (Blueprint $table) {
+        Schema::create('statuses', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('color');
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->integer('status_id');
-            $table->string('status_name');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_statuses');
+        Schema::dropIfExists('statuses');
     }
 };
