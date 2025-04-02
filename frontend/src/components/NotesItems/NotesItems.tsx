@@ -7,6 +7,8 @@ import { useDroppable } from "@dnd-kit/core";
 import { v4 } from "uuid";
 import MenuSelectIcon from "./../../../public/icons/menu-select.svg";
 import AddNoteItem from "./AddNoteItem/AddNoteItem";
+import { useSibebarStore } from "../../store/sidebar.store";
+import NoteSidebar from "../NoteSidebar/NoteSidebar";
 
 export default function NotesItems({
   name,
@@ -17,6 +19,8 @@ export default function NotesItems({
   ...props
 }: INotesItems) {
   const [visibleItem, setVisibleItem] = useState(false);
+  const sidebarStore = useSibebarStore();
+
   const id = useMemo(() => v4(), []);
   const { setNodeRef, isOver, over } = useDroppable({
     id: id,
@@ -33,7 +37,10 @@ export default function NotesItems({
           <div className={styles["img"]}>
             <div
               className={styles["icon-color"]}
-              style={{ background: iconColor, boxShadow: `0px 2px 4px 0px ${iconColor}` }}
+              style={{
+                background: iconColor,
+                boxShadow: `0px 2px 4px 0px ${iconColor}`,
+              }}
             ></div>
           </div>
           <p>{name}</p>
@@ -59,7 +66,9 @@ export default function NotesItems({
         })}
       >
         {notes && notes.map((el) => <NotesItem key={el.id} note={el} />)}
-        <AddNoteItem />
+        <AddNoteItem
+          onClick={() => sidebarStore.openSidebar(<NoteSidebar />)}
+        />
       </div>
     </div>
   );

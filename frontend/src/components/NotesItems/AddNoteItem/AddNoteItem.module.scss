@@ -1,42 +1,44 @@
-.noteItem{
-    width: 100%;
-    padding: 13px 17px;
-    border: 1px solid #E4E4E4;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all .3s ease;
+.noteItem {
+  width: 100%;
+  padding: 13px 17px;
+  border: 1px solid #e4e4e4;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: none;
 
-    &:hover{
-        border-color: black;
+  &:hover {
+    border-color: black;
 
-        .text, svg{
-            color: black !important;
-        }
+    .text,
+    svg {
+      color: black !important;
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+
+    .icon {
+      width: 15px;
+      height: 15px;
+      color: #c9c9c9;
+
+      svg {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        transition: all 0.3s ease;
+      }
     }
 
-    .content{
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 8px;
-
-        .icon {
-          width: 15px;
-          height: 15px;
-          color: #C9C9C9;
-
-          svg{
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            transition: all .3s ease;
-          }
-        }
-
-        .text{
-            font-size: 15px;
-            color: #C9C9C9;
-            transition: all .3s ease;
-        }
+    .text {
+      font-size: 15px;
+      color: #c9c9c9;
+      transition: all 0.3s ease;
     }
+  }
 }
