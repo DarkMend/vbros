@@ -3,6 +3,7 @@ import BackIcon from "../../../public/icons/back.svg";
 import FileIcon from "../../../public/icons/file-outline.svg";
 import NoteInfo from "./NoteInfo/NoteInfo";
 import CalendarIcon from "../../../public/icons/calendar.svg";
+import ModalButton from "../ModalButton/ModalButton";
 
 export default function NoteSidebar() {
   return (
@@ -28,11 +29,14 @@ export default function NoteSidebar() {
           ></textarea>
         </div>
       </div>
-      <div className={styles.close}>
-        <div className={styles.closeSvg}>
-          <BackIcon />
-        </div>
-        <div className={styles.closeText}>Назад</div>
+      <div className={styles.actions}>
+        <button className={styles.close}>
+          <div className={styles.closeSvg}>
+            <BackIcon />
+          </div>
+          <div className={styles.closeText}>Назад</div>
+        </button>
+        <ModalButton className={styles.button}>Сохранить</ModalButton>
       </div>
     </div>
   );

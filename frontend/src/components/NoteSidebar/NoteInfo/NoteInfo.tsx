@@ -9,7 +9,7 @@ export interface INoteInfo {
 
 export default function NoteInfo({ icon, text, color }: INoteInfo) {
   return (
-    <div
+    <button
       className={styles.info}
       style={{
         background: color && `${color}1A`,
@@ -30,6 +30,6 @@ export default function NoteInfo({ icon, text, color }: INoteInfo) {
         )}
       </div>
       <div className={styles.text}>{text}</div>
-    </div>
+    </button>
   );
 }
