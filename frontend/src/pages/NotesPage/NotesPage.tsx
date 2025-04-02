@@ -5,8 +5,6 @@ import Title from "../../components/Title/Title";
 import styles from "./NotesPage.module.scss";
 import { noteService } from "../../services/note.service";
 import { INote } from "../../interfaces/note.interface";
-import NoteSidebar from "../../components/NoteSidebar/NoteSidebar";
-import NoteSidebarLayout from "../../components/NoteSidebarLaoyut/NoteSidebarLayout";
 
 export default function NotesPage() {
   const { data, isLoading, isPending } = useQuery({
@@ -31,26 +29,7 @@ export default function NotesPage() {
             <NotesItems
               name="Без статуса"
               iconColor="#FF9D00"
-              className={styles["notes-items"]}
               notes={data?.filter((el: INote) => el.status_id == 1)}
-            />
-            <NotesItems
-              name="Планирование"
-              iconColor="#63C3FF"
-              className={styles["notes-items"]}
-              notes={data?.filter((el: INote) => el.status_id == 2)}
-            />
-            <NotesItems
-              name="Процесс"
-              iconColor="#6BFF63"
-              className={styles["notes-items"]}
-              notes={data?.filter((el: INote) => el.status_id == 3)}
-            />
-            <NotesItems
-              name="Завершение"
-              iconColor="#E4E4E4"
-              className={styles["notes-items"]}
-              notes={data?.filter((el: INote) => el.status_id == 4)}
             />
           </div>
         </div>
