@@ -17,10 +17,22 @@ class StatusController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $request->validate([
             'name' => ['required', 'string'],
+            'color' => ['required'],
         ], [
-            'name.required' => 'Введите название'
+            'name.required' => 'Введите название',
+            'name.color' => 'Выберите цвет'
+
         ]);
+
+        Status::create([
+            'name' => $request->name,
+            'color' => $request->color,
+            'user_id' => auth()->id(),
+        ]);
+
+        return response()->json(['message' => 'Успешно'], 200);
+
     }
 }
