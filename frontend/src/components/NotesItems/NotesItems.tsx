@@ -67,6 +67,7 @@ export default function NotesItems({
       >
         {notes && notes.map((el) => <NotesItem key={el.id} note={el} />)}
         <AddNoteItem
+          typeButton="note"
           onClick={() => sidebarStore.openSidebar(<NoteSidebar />)}
         />
       </div>

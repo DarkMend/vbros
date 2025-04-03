@@ -6,6 +6,11 @@
   cursor: pointer;
   transition: all 0.3s ease;
   background: none;
+  height: fit-content;
+
+  &.status {
+    padding: 16px;
+  }
 
   &:hover {
     border-color: black;
@@ -23,8 +28,8 @@
     gap: 8px;
 
     .icon {
-      width: 15px;
-      height: 15px;
+      width: 16px;
+      height: 16px;
       color: #c9c9c9;
 
       svg {
