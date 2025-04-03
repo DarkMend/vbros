@@ -1,5 +1,6 @@
 import { axiosWithAuth } from "../api/interceptors";
 import {
+  IStatus,
   IStatusWithNotes,
   ResponseStatusWithNotes,
 } from "../interfaces/status.interface";
@@ -11,7 +12,7 @@ export const statusService = {
     );
   },
 
-  async createStatuses() {
-    return;
+  async createStatuses(data: IStatus) {
+    return axiosWithAuth.post("/status/store", data);
   },
 };
