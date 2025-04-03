@@ -45,7 +45,7 @@
     }
 
     &:hover {
-      .list-item__name-hover {
+      .list-item__name-hover.active {
         visibility: visible;
         opacity: 1;
         top: -35px;
@@ -88,7 +88,7 @@
       visibility: hidden;
       opacity: 0;
       top: -10px;
-      transition: all .3s ease;
+      transition: all 0.3s ease;
       position: absolute;
       right: 0;
       padding: 4px;
@@ -98,7 +98,6 @@
       height: 30px;
       display: none;
       cursor: pointer;
-
     }
 
     .edit.active {

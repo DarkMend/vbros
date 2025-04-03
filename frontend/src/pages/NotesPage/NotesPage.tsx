@@ -5,11 +5,15 @@ import Title from "../../components/Title/Title";
 import styles from "./NotesPage.module.scss";
 import AddNoteItem from "../../components/NotesItems/AddNoteItem/AddNoteItem";
 import { statusService } from "../../services/status.service";
+import { useModalStore } from "../../store/modalStore";
+import CreateStatusModal from "../../components/Modals/StatusModals/CreateStatusModal/CreateStatusModal";
 
 export default function NotesPage() {
+  const { openModal } = useModalStore();
+
   const { data, isLoading, isPending } = useQuery({
     queryKey: ["statuses"],
-    queryFn: () => statusService.getStatuses(),
+    queryFn: () => statusService.getPersonalStatuses(),
     select: (data) => data.data.data,
   });
 
@@ -34,7 +38,10 @@ export default function NotesPage() {
               />
             ))}
 
-            <AddNoteItem typeButton="status" />
+            <AddNoteItem
+              typeButton="status"
+              onClick={() => openModal(<CreateStatusModal />)}
+            />
           </div>
         </div>
       </div>
