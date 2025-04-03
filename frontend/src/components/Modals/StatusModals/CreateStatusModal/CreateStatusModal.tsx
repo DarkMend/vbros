@@ -11,6 +11,7 @@ import ModalFormLayout from "../../../ModalFormLayout/ModalFormLayout";
 import { IStatus } from "../../../../interfaces/status.interface";
 import { useCreateStatus } from "../../../../utils/hooks/Status/useCreateStatus";
 import { toast } from "react-toastify";
+import { useModalStore } from "../../../../store/modalStore";
 
 export default function CreateStatusModal() {
   const [color, setColor] = useState("#FF9D00");
@@ -20,6 +21,7 @@ export default function CreateStatusModal() {
     handleSubmit,
     reset,
   } = useForm<IStatus>();
+  const { closeModal } = useModalStore();
 
   const { mutate, isPending } = useCreateStatus({
     onError(data) {
@@ -59,6 +61,7 @@ export default function CreateStatusModal() {
           submitButtonText="Создать"
           isPending={isPending}
           onSubmit={handleSubmit(onSubmit)}
+          closeHandle={closeModal}
         >
           <MainInput
             placeholder="Название"
