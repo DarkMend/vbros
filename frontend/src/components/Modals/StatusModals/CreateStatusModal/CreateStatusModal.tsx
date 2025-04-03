@@ -4,6 +4,7 @@ import styles from "./CreateStatusModal.module.scss";
 import ParagraphModal from "../../../ParagraphModal/ParagraphModal";
 import ModalMenuItem from "../../../ModalMenuItem/ModalMenuItem";
 import { useState } from "react";
+import SeparationLine from "../../../SeparationLine/SeparationLine";
 
 export default function CreateStatusModal() {
   const [color, setColor] = useState("#FF9D00");
@@ -17,6 +18,7 @@ export default function CreateStatusModal() {
         <ParagraphModal>
           Для изменения цвета нажмите на квадратик с цветом
         </ParagraphModal>
+        <SeparationLine />
         <ModalMenuItem
           icon={<Palette />}
           name="Выберите цвет"
@@ -24,7 +26,9 @@ export default function CreateStatusModal() {
           overflowHidden={false}
           colorPicker={true}
           color={color}
+          setColor={setColor}
         />
+        <SeparationLine />
       </div>
     </ModalLayout>
   );

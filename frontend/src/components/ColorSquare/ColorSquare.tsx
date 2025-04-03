@@ -7,7 +7,12 @@ const ColorSquare = forwardRef<HTMLDivElement, { color?: string }>(
       <div
         ref={ref}
         className={styles.square}
-        style={{ background: color, boxShadow: `0px 2px 4px 0px ${color}` }}
+        style={{
+          background: color,
+          boxShadow: `0px 2px 4px 0px ${
+            color === "#ffffff" ? "#b3b3b3" : color
+          }`,
+        }}
       ></div>
     );
   }

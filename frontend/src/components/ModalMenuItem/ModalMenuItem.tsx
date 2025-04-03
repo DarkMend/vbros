@@ -14,6 +14,7 @@ export default function ModalMenuItem({
   overflowHidden = true,
   colorPicker = false,
   color,
+  setColor,
 }: {
   icon: ReactNode;
   nameHover?: boolean;
@@ -24,6 +25,7 @@ export default function ModalMenuItem({
   overflowHidden?: boolean;
   colorPicker?: boolean;
   color?: string;
+  setColor?: (color: string) => void;
 }) {
   return (
     <div className={styles["list-item"]}>
@@ -51,7 +53,11 @@ export default function ModalMenuItem({
           className={styles["list-item__content"]}
           style={{ overflow: overflowHidden ? "hidden" : "visible" }}
         >
-          {colorPicker ? <ColorPickerItem color={color} /> : content}
+          {colorPicker ? (
+            <ColorPickerItem color={color} setColor={setColor} />
+          ) : (
+            content
+          )}
         </div>
       </div>
     </div>
