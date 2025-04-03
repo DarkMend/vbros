@@ -32,8 +32,9 @@ export default function NotesPage() {
           <div className={styles["notes__wrapper-status"]}>
             {data?.map((status) => (
               <NotesItems
+                key={status.id}
                 name={status.name}
-                iconColor="#FF9D00"
+                iconColor={status.color}
                 notes={status.notes}
               />
             ))}
