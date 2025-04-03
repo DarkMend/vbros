@@ -39,5 +39,6 @@ Route::middleware('auth:sanctum')->controller(UserController::class)->prefix('us
 Route::middleware('auth:sanctum')->group(function () {
     Route::controller(StatusController::class)->prefix('status')->group(function () {
         Route::get('/all-personal', 'allPersonalStatuses');
+        Route::post('/store', 'store');
     });
 });

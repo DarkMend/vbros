@@ -14,4 +14,13 @@ class StatusController extends Controller
         $statuses = Status::where('user_id', auth()->id())->get();
         return response()->json(['data' => StatusResource::collection($statuses)], 200);
     }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'name' => ['required', 'string'],
+        ], [
+            'name.required' => 'Введите название'
+        ]);
+    }
 }
