@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class StatusController extends Controller
 {
-    public function index()
+    public function allPersonalStatuses()
     {
         $statuses = Status::where('user_id', auth()->id())->get();
         return response()->json(['data' => StatusResource::collection($statuses)], 200);
