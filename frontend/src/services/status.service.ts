@@ -20,7 +20,7 @@ export const statusService = {
     return axiosWithAuth.post(`/status/update/${data.id}`, data);
   },
 
-  async deleteStatus(data: IStatus) {
-    return axiosWithAuth.delete(`/status/delete/${data.id}`);
+  async deleteStatus(id: number) {
+    return axiosWithAuth.delete(`/status/delete/${id}`);
   },
 };

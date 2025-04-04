@@ -1,13 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
 import { statusService } from "../../../services/status.service";
 import { IMutationOptions } from "../Modal";
-import { IStatus } from "../../../interfaces/status.interface";
 
-const KEY = ["deleteStatus"];
+export const KEY_DELETE_STATUS = ["deleteStatus"];
 
-export const useDeleteStatus = (options?: IMutationOptions<unknown, IStatus>) =>
+export const useDeleteStatus = (options?: IMutationOptions<unknown, number>) =>
   useMutation({
-    mutationKey: KEY,
+    mutationKey: KEY_DELETE_STATUS,
     mutationFn: (data) => statusService.deleteStatus(data),
     ...options,
   });

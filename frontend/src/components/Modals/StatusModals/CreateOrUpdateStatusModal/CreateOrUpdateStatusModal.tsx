@@ -17,8 +17,8 @@ import { toast } from "react-toastify";
 import { useModalStore } from "../../../../store/modalStore";
 import { useQueryClient } from "@tanstack/react-query";
 import { useUpdateStatus } from "../../../../utils/hooks/Status/useUpdateStatus";
-import { useDeleteStatus } from "../../../../utils/hooks/Status/useDeleteStatus";
 import ModalConfirmation from "../../../ModalConfirmation/ModalConfirmation";
+import { useDeleteStatusHook } from "./useDeleteStatus";
 
 export interface ICreateOrUpdateStatusModal {
   update?: IStatusWithNotes;
@@ -64,18 +64,6 @@ export default function CreateOrUpdateStatusModal({
     },
   });
 
-  // Удаление
-  const { mutate: deleteMutate, isPending: isDeletePending } = useDeleteStatus({
-    onError(data) {
-      toast.error(data.response?.data?.message);
-    },
-    onSuccess() {
-      toast.success("Cтатус успешно удален");
-      closeModal();
-      queryClient.invalidateQueries({ queryKey: ["statuses"] });
-    },
-  });
-
   const onSubmit = (data: IStatus) => {
     update
       ? updateMutate({ ...data, color, id: update.id })
@@ -86,13 +74,12 @@ export default function CreateOrUpdateStatusModal({
     update &&
       changeContent(
         <ModalConfirmation
-          text={isDeletePending ? "isPending" : "grW"}
-          // text="Вы точно хотите удалить статус и все находящиеся заметки в нём?"
+          text="Вы точно хотите удалить статус и все находящиеся заметки в нём?"
           backAction={() =>
             changeContent(<CreateOrUpdateStatusModal update={update} />)
           }
-          handleConfirmation={() => deleteMutate(update)}
-          isPending={isDeletePending}
+          id={update.id}
+          handleConfirmation={useDeleteStatusHook}
         />
       );
   };
@@ -128,7 +115,6 @@ export default function CreateOrUpdateStatusModal({
           onSubmit={handleSubmit(onSubmit)}
           closeHandle={closeModal}
           deleteButton={update && deleteStatus}
-          deletePending={isDeletePending}
         >
           <MainInput
             placeholder="Название"

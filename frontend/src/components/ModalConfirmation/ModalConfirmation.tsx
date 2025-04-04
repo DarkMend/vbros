@@ -6,30 +6,31 @@ import BackIcon from "../../../public/icons/back.svg";
 import ParagraphModal from "../ParagraphModal/ParagraphModal";
 
 export interface IModalConfirmation {
-  text: string;
-  handleConfirmation: () => void;
+  text?: string;
+  handleConfirmation: () => any;
   backAction: () => void;
   isPending?: boolean;
+  id?: number;
 }
 
 export default function ModalConfirmation({
   text,
   handleConfirmation,
   backAction,
-  isPending,
+  id,
 }: IModalConfirmation) {
+  const { mutate, isPending } = handleConfirmation();
   return (
     <ModalLayout icon={<CalendarCheck2 />} title="Подтверждение">
       <div className={styles.modalConfrim}>
         <ParagraphModal isBlack={true}>{text}</ParagraphModal>
-        <div>{isPending ? "Pending..." : "great"}</div>
         <div className={styles.confirmation}>
           <ModalButton icon={<BackIcon />} onClick={backAction}>
             Назад
           </ModalButton>
           <ModalButton
             typeButton="delete"
-            onClick={handleConfirmation}
+            onClick={() => mutate(id)}
             isLoading={isPending}
           >
             Удалить

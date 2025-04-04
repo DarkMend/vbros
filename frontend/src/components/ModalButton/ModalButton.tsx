@@ -7,7 +7,7 @@ import TrashIcon from "../../../public/icons/trash.svg";
 export default function ModalButton({
   children,
   icon,
-  isLoading = false,
+  isLoading,
   className,
   typeButton,
   ...props
@@ -15,20 +15,21 @@ export default function ModalButton({
   return (
     <button
       className={cn(styles["button"], className, {
-        [styles.delete]: typeButton == "delete",
+        [styles.delete]: typeButton === "delete",
       })}
+      disabled={isLoading}
       {...props}
     >
       {isLoading ? (
         <Loader />
       ) : (
         <>
-          {typeButton == "delete" ? (
+          {typeButton === "delete" ? (
             <TrashIcon />
           ) : (
             icon && <div className={styles["icon"]}>{icon}</div>
           )}
-          <p>{typeButton == "delete" ? "Удалить" : children}</p>
+          <p>{typeButton === "delete" ? "Удалить" : children}</p>
         </>
       )}
     </button>

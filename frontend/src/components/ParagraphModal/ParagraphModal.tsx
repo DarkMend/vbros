@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import styles from "./ParagraphModal.module.scss";
 import cn from "classnames";
 
@@ -5,7 +6,7 @@ export default function ParagraphModal({
   children,
   isBlack,
 }: {
-  children: string;
+  children: ReactNode;
   isBlack?: boolean;
 }) {
   return (
