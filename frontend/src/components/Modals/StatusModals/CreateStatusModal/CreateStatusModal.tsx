@@ -1,4 +1,4 @@
-import { ClipboardPlus, Palette } from "lucide-react";
+import { ClipboardPlus, Palette, Pencil } from "lucide-react";
 import ModalLayout from "../../../ModalLayout/ModalLayout";
 import styles from "./CreateStatusModal.module.scss";
 import ParagraphModal from "../../../ParagraphModal/ParagraphModal";
@@ -50,7 +50,7 @@ export default function CreateStatusModal({
     },
   });
 
-  const { mutate: updateMutate } = useUpdateStatus({
+  const { mutate: updateMutate, isPending: isUpdatePending } = useUpdateStatus({
     onError(data) {
       toast.error(data.response?.data?.message);
     },
@@ -61,11 +61,16 @@ export default function CreateStatusModal({
   });
 
   const onSubmit = (data: IStatus) => {
-    update ? updateMutate({ ...data, color }) : mutate({ ...data, color });
+    update
+      ? updateMutate({ ...data, color, id: update.id })
+      : mutate({ ...data, color });
   };
 
   return (
-    <ModalLayout icon={<ClipboardPlus />} title="Добавить статус блок">
+    <ModalLayout
+      icon={update ? <Pencil /> : <ClipboardPlus />}
+      title={update ? "Редактирование статуса" : "Добавить статус блок"}
+    >
       <div className={styles.status}>
         <ParagraphModal>
           Здесь вы сможете создать свой статус блок.
@@ -85,8 +90,8 @@ export default function CreateStatusModal({
         />
         <SeparationLine />
         <ModalFormLayout
-          submitButtonText="Создать"
-          isPending={isPending}
+          submitButtonText={update ? "Обновить" : "Создать"}
+          isPending={isPending || isUpdatePending}
           onSubmit={handleSubmit(onSubmit)}
           closeHandle={closeModal}
         >

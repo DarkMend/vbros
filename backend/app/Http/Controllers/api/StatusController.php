@@ -33,6 +33,23 @@ class StatusController extends Controller
         ]);
 
         return response()->json(['message' => 'Успешно'], 200);
+    }
 
+    public function update(Request $request, Status $status)
+    {
+        $request->validate([
+            'name' => ['required', 'string'],
+            'color' => ['required'],
+        ], [
+            'name.required' => 'Введите название',
+            'name.color' => 'Выберите цвет'
+        ]);
+
+        $status->update([
+            'name' => $request->name,
+            'color' => $request->color,
+        ]);
+
+        return response()->json(['message' => 'Успешно'], 200);
     }
 }

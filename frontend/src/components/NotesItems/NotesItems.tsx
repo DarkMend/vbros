@@ -22,7 +22,7 @@ export default function NotesItems({ data, className, ...props }: INotesItems) {
 
   return (
     <div
-      className={cn(styles["notes-items"], className, {})}
+      className={cn(styles["notes-items"], className)}
       {...props}
       ref={setNodeRef}
     >
