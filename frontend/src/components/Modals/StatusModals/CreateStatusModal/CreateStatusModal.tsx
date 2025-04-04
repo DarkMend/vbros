@@ -12,6 +12,7 @@ import { IStatus } from "../../../../interfaces/status.interface";
 import { useCreateStatus } from "../../../../utils/hooks/Status/useCreateStatus";
 import { toast } from "react-toastify";
 import { useModalStore } from "../../../../store/modalStore";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function CreateStatusModal() {
   const [color, setColor] = useState("#FF9D00");
@@ -22,6 +23,7 @@ export default function CreateStatusModal() {
     reset,
   } = useForm<IStatus>();
   const { closeModal } = useModalStore();
+  const queryClient = useQueryClient();
 
   const { mutate, isPending } = useCreateStatus({
     onError(data) {
@@ -30,6 +32,7 @@ export default function CreateStatusModal() {
     onSuccess() {
       reset();
       toast.success("Статус успешно создан");
+      queryClient.invalidateQueries({ queryKey: ["statuses"] });
     },
   });
 

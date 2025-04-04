@@ -38,3 +38,22 @@
   background: rgb(181, 180, 180);
   height: 30px;
 }
+
+.skeletonWrapper {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.skeleton {
+  min-width: 251px;
+  border-radius: 10px;
+  height: 53px !important;
+}
+
+.skeletonContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+}

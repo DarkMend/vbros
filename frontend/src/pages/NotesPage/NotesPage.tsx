@@ -7,15 +7,18 @@ import AddNoteItem from "../../components/NotesItems/AddNoteItem/AddNoteItem";
 import { statusService } from "../../services/status.service";
 import { useModalStore } from "../../store/modalStore";
 import CreateStatusModal from "../../components/Modals/StatusModals/CreateStatusModal/CreateStatusModal";
+import SkeletonItem from "../../components/SkeletonItem/SkeletonItem";
 
 export default function NotesPage() {
   const { openModal } = useModalStore();
 
-  const { data, isLoading, isPending } = useQuery({
+  const { data, isLoading, isFetching } = useQuery({
     queryKey: ["statuses"],
     queryFn: () => statusService.getPersonalStatuses(),
     select: (data) => data.data.data,
   });
+
+  const isLoadingStatus = isLoading || isFetching;
 
   return (
     <>
@@ -30,19 +33,33 @@ export default function NotesPage() {
         </div>
         <div className={styles["notes__wrapper"]}>
           <div className={styles["notes__wrapper-status"]}>
-            {data?.map((status) => (
-              <NotesItems
-                key={status.id}
-                name={status.name}
-                iconColor={status.color}
-                notes={status.notes}
-              />
-            ))}
-
-            <AddNoteItem
-              typeButton="status"
-              onClick={() => openModal(<CreateStatusModal />)}
-            />
+            {isLoadingStatus ? (
+              <div className={styles.skeletonWrapper}>
+                {Array.from({ length: 4 }, (_, index) => (
+                  <SkeletonItem
+                    key={"skeleton-" + index}
+                    count={2}
+                    className={styles.skeleton}
+                    classNameContainer={styles.skeletonContainer}
+                  />
+                ))}
+              </div>
+            ) : (
+              <>
+                {data?.map((status) => (
+                  <NotesItems
+                    key={status.id}
+                    name={status.name}
+                    iconColor={status.color}
+                    notes={status.notes}
+                  />
+                ))}
+                <AddNoteItem
+                  typeButton="status"
+                  onClick={() => openModal(<CreateStatusModal />)}
+                />
+              </>
+            )}
           </div>
         </div>
       </div>
