@@ -47,12 +47,7 @@ export default function NotesPage() {
             ) : (
               <>
                 {data?.map((status) => (
-                  <NotesItems
-                    key={status.id}
-                    name={status.name}
-                    iconColor={status.color}
-                    notes={status.notes}
-                  />
+                  <NotesItems key={status.id} data={status} />
                 ))}
                 <AddNoteItem
                   typeButton="status"

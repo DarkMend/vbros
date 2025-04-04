@@ -1,9 +1,6 @@
-import { INote } from "../../interfaces/note.interface";
+import { IStatusWithNotes } from "../../interfaces/status.interface";
 
-export interface INotesItems{
-    className?: string;
-    icon?: string;
-    iconColor?: string;
-    name: string; 
-    notes: INote[]
+export interface INotesItems {
+  className?: string;
+  data: IStatusWithNotes;
 }

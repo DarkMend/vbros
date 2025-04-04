@@ -9,15 +9,9 @@ import MenuSelectIcon from "./../../../public/icons/menu-select.svg";
 import AddNoteItem from "./AddNoteItem/AddNoteItem";
 import { useSibebarStore } from "../../store/sidebar.store";
 import NoteSidebar from "../NoteSidebar/NoteSidebar";
+import ColorSquare from "../ColorSquare/ColorSquare";
 
-export default function NotesItems({
-  name,
-  className,
-  icon,
-  iconColor,
-  notes,
-  ...props
-}: INotesItems) {
+export default function NotesItems({ data, className, ...props }: INotesItems) {
   const [visibleItem, setVisibleItem] = useState(false);
   const sidebarStore = useSibebarStore();
 
@@ -35,15 +29,9 @@ export default function NotesItems({
       <div className={styles["notes-items__head"]}>
         <div className={styles["name"]}>
           <div className={styles["img"]}>
-            <div
-              className={styles["icon-color"]}
-              style={{
-                background: iconColor,
-                boxShadow: `0px 2px 4px 0px ${iconColor}`,
-              }}
-            ></div>
+            <ColorSquare color={data.color} />
           </div>
-          <p>{name}</p>
+          <p>{data.name}</p>
         </div>
         <div className={styles["actions"]}>
           <div
@@ -55,9 +43,9 @@ export default function NotesItems({
               alt=""
             />
           </div>
-          <div className={cn(styles["actions__item"])}>
+          <button className={cn(styles["actions__item"])}>
             <MenuSelectIcon />
-          </div>
+          </button>
         </div>
       </div>
       <div
@@ -65,7 +53,8 @@ export default function NotesItems({
           [styles["visible-items"]]: visibleItem,
         })}
       >
-        {notes && notes.map((el) => <NotesItem key={el.id} note={el} />)}
+        {data.notes &&
+          data.notes.map((el) => <NotesItem key={el.id} note={el} />)}
         <AddNoteItem
           typeButton="note"
           onClick={() => sidebarStore.openSidebar(<NoteSidebar />)}
