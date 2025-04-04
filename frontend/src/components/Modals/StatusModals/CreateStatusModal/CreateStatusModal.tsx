@@ -3,7 +3,7 @@ import ModalLayout from "../../../ModalLayout/ModalLayout";
 import styles from "./CreateStatusModal.module.scss";
 import ParagraphModal from "../../../ParagraphModal/ParagraphModal";
 import ModalMenuItem from "../../../ModalMenuItem/ModalMenuItem";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SeparationLine from "../../../SeparationLine/SeparationLine";
 import MainInput from "../../../MainInput/MainInput";
 import { useForm } from "react-hook-form";
@@ -30,15 +30,13 @@ export default function CreateStatusModal({
     formState: { errors },
     handleSubmit,
     reset,
-  } = useForm<IStatus>();
+  } = useForm<IStatus>({
+    defaultValues: {
+      name: update?.name,
+    },
+  });
   const { closeModal } = useModalStore();
   const queryClient = useQueryClient();
-
-  useEffect(() => {
-    reset({
-      name: update?.name,
-    });
-  }, []);
 
   const { mutate, isPending } = useCreateStatus({
     onError(data) {
