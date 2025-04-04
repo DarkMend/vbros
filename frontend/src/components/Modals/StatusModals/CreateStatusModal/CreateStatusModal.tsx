@@ -3,19 +3,28 @@ import ModalLayout from "../../../ModalLayout/ModalLayout";
 import styles from "./CreateStatusModal.module.scss";
 import ParagraphModal from "../../../ParagraphModal/ParagraphModal";
 import ModalMenuItem from "../../../ModalMenuItem/ModalMenuItem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SeparationLine from "../../../SeparationLine/SeparationLine";
 import MainInput from "../../../MainInput/MainInput";
 import { useForm } from "react-hook-form";
 import ModalFormLayout from "../../../ModalFormLayout/ModalFormLayout";
-import { IStatus } from "../../../../interfaces/status.interface";
+import {
+  IStatus,
+  IStatusWithNotes,
+} from "../../../../interfaces/status.interface";
 import { useCreateStatus } from "../../../../utils/hooks/Status/useCreateStatus";
 import { toast } from "react-toastify";
 import { useModalStore } from "../../../../store/modalStore";
 import { useQueryClient } from "@tanstack/react-query";
 
-export default function CreateStatusModal() {
-  const [color, setColor] = useState("#FF9D00");
+export interface ICreateOrUpdateStatusModal {
+  update?: IStatusWithNotes;
+}
+
+export default function CreateStatusModal({
+  update,
+}: ICreateOrUpdateStatusModal) {
+  const [color, setColor] = useState(update ? update.color : "#FF9D00");
   const {
     register,
     formState: { errors },
@@ -24,6 +33,12 @@ export default function CreateStatusModal() {
   } = useForm<IStatus>();
   const { closeModal } = useModalStore();
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    reset({
+      name: update?.name,
+    });
+  }, []);
 
   const { mutate, isPending } = useCreateStatus({
     onError(data) {

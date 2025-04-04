@@ -2,22 +2,22 @@ import { INotesItems } from "./NotesItems.props";
 import NotesItem from "./NotesItem/NotesItem";
 import styles from "./NotesItems.module.scss";
 import cn from "classnames";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useDroppable } from "@dnd-kit/core";
-import { v4 } from "uuid";
 import MenuSelectIcon from "./../../../public/icons/menu-select.svg";
 import AddNoteItem from "./AddNoteItem/AddNoteItem";
 import { useSibebarStore } from "../../store/sidebar.store";
 import NoteSidebar from "../NoteSidebar/NoteSidebar";
 import ColorSquare from "../ColorSquare/ColorSquare";
+import { useModalStore } from "../../store/modalStore";
+import CreateStatusModal from "../Modals/StatusModals/CreateStatusModal/CreateStatusModal";
 
 export default function NotesItems({ data, className, ...props }: INotesItems) {
   const [visibleItem, setVisibleItem] = useState(false);
   const sidebarStore = useSibebarStore();
-
-  const id = useMemo(() => v4(), []);
-  const { setNodeRef, isOver, over } = useDroppable({
-    id: id,
+  const { openModal } = useModalStore();
+  const { setNodeRef } = useDroppable({
+    id: data.id,
   });
 
   return (
@@ -43,7 +43,10 @@ export default function NotesItems({ data, className, ...props }: INotesItems) {
               alt=""
             />
           </div>
-          <button className={cn(styles["actions__item"])}>
+          <button
+            className={cn(styles["actions__item"])}
+            onClick={() => openModal(<CreateStatusModal update={data} />)}
+          >
             <MenuSelectIcon />
           </button>
         </div>
