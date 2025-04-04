@@ -70,7 +70,7 @@ export default function CreateOrUpdateStatusModal({
       : mutate({ ...data, color });
   };
 
-  const deleteStatus = () => {
+  const openModalConfirmatinDeleteStatus = () => {
     update &&
       changeContent(
         <ModalConfirmation
@@ -114,7 +114,7 @@ export default function CreateOrUpdateStatusModal({
           isPending={isPending || isUpdatePending}
           onSubmit={handleSubmit(onSubmit)}
           closeHandle={closeModal}
-          deleteButton={update && deleteStatus}
+          deleteButton={update && openModalConfirmatinDeleteStatus}
         >
           <MainInput
             placeholder="Название"
