@@ -41,5 +41,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/all-personal', 'allPersonalStatuses');
         Route::post('/store', 'store');
         Route::post('/update/{status}', 'update');
+        Route::delete('/delete/{status}', 'destroy');
     });
 });

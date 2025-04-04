@@ -10,7 +10,7 @@ import { useSibebarStore } from "../../store/sidebar.store";
 import NoteSidebar from "../NoteSidebar/NoteSidebar";
 import ColorSquare from "../ColorSquare/ColorSquare";
 import { useModalStore } from "../../store/modalStore";
-import CreateStatusModal from "../Modals/StatusModals/CreateStatusModal/CreateStatusModal";
+import CreateStatusModal from "../Modals/StatusModals/CreateOrUpdateStatusModal/CreateOrUpdateStatusModal";
 
 export default function NotesItems({ data, className, ...props }: INotesItems) {
   const [visibleItem, setVisibleItem] = useState(false);

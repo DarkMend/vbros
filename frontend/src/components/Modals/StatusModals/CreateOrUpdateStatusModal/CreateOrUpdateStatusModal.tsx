@@ -1,6 +1,6 @@
 import { ClipboardPlus, Palette, Pencil } from "lucide-react";
 import ModalLayout from "../../../ModalLayout/ModalLayout";
-import styles from "./CreateStatusModal.module.scss";
+import styles from "./CreateOrUpdateStatusModal.module.scss";
 import ParagraphModal from "../../../ParagraphModal/ParagraphModal";
 import ModalMenuItem from "../../../ModalMenuItem/ModalMenuItem";
 import { useState } from "react";
@@ -17,12 +17,14 @@ import { toast } from "react-toastify";
 import { useModalStore } from "../../../../store/modalStore";
 import { useQueryClient } from "@tanstack/react-query";
 import { useUpdateStatus } from "../../../../utils/hooks/Status/useUpdateStatus";
+import { useDeleteStatus } from "../../../../utils/hooks/Status/useDeleteStatus";
+import ModalConfirmation from "../../../ModalConfirmation/ModalConfirmation";
 
 export interface ICreateOrUpdateStatusModal {
   update?: IStatusWithNotes;
 }
 
-export default function CreateStatusModal({
+export default function CreateOrUpdateStatusModal({
   update,
 }: ICreateOrUpdateStatusModal) {
   const [color, setColor] = useState(update ? update.color : "#FF9D00");
@@ -36,9 +38,10 @@ export default function CreateStatusModal({
       name: update?.name,
     },
   });
-  const { closeModal } = useModalStore();
+  const { closeModal, changeContent } = useModalStore();
   const queryClient = useQueryClient();
 
+  // Cоздание
   const { mutate, isPending } = useCreateStatus({
     onError(data) {
       toast.error(data.response?.data?.message);
@@ -50,6 +53,7 @@ export default function CreateStatusModal({
     },
   });
 
+  // Редактирование
   const { mutate: updateMutate, isPending: isUpdatePending } = useUpdateStatus({
     onError(data) {
       toast.error(data.response?.data?.message);
@@ -60,10 +64,37 @@ export default function CreateStatusModal({
     },
   });
 
+  // Удаление
+  const { mutate: deleteMutate, isPending: isDeletePending } = useDeleteStatus({
+    onError(data) {
+      toast.error(data.response?.data?.message);
+    },
+    onSuccess() {
+      toast.success("Cтатус успешно удален");
+      closeModal();
+      queryClient.invalidateQueries({ queryKey: ["statuses"] });
+    },
+  });
+
   const onSubmit = (data: IStatus) => {
     update
       ? updateMutate({ ...data, color, id: update.id })
       : mutate({ ...data, color });
+  };
+
+  const deleteStatus = () => {
+    update &&
+      changeContent(
+        <ModalConfirmation
+          text={isDeletePending ? "isPending" : "grW"}
+          // text="Вы точно хотите удалить статус и все находящиеся заметки в нём?"
+          backAction={() =>
+            changeContent(<CreateOrUpdateStatusModal update={update} />)
+          }
+          handleConfirmation={() => deleteMutate(update)}
+          isPending={isDeletePending}
+        />
+      );
   };
 
   return (
@@ -73,7 +104,9 @@ export default function CreateStatusModal({
     >
       <div className={styles.status}>
         <ParagraphModal>
-          Здесь вы сможете создать свой статус блок.
+          {update
+            ? "Здесь вы сможете обновить свой статус блок"
+            : "Здесь вы сможете создать свой статус блок"}
         </ParagraphModal>
         <ParagraphModal>
           Для изменения цвета нажмите на квадратик с цветом
@@ -94,6 +127,8 @@ export default function CreateStatusModal({
           isPending={isPending || isUpdatePending}
           onSubmit={handleSubmit(onSubmit)}
           closeHandle={closeModal}
+          deleteButton={update && deleteStatus}
+          deletePending={isDeletePending}
         >
           <MainInput
             placeholder="Название"

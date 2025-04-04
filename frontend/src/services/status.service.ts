@@ -19,4 +19,8 @@ export const statusService = {
   async updateStatus(data: IStatus) {
     return axiosWithAuth.post(`/status/update/${data.id}`, data);
   },
+
+  async deleteStatus(data: IStatus) {
+    return axiosWithAuth.delete(`/status/delete/${data.id}`);
+  },
 };

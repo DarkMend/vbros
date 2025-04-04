@@ -8,6 +8,8 @@ export interface IModalFormLayout extends FormHTMLAttributes<HTMLFormElement> {
   children: ReactNode;
   isPending: boolean;
   closeHandle?: () => void;
+  deleteButton?: () => void;
+  deletePending?: boolean;
 }
 
 export default function ModalFormLayout({
@@ -15,13 +17,21 @@ export default function ModalFormLayout({
   children,
   isPending,
   closeHandle,
+  deleteButton,
+  deletePending,
   ...props
 }: IModalFormLayout) {
   return (
     <form {...props} className={styles.form}>
       {children}
       <div className={styles.actions}>
-        <ModalButton icon={<BackIcon />} onClick={closeHandle} type="button">
+        <ModalButton
+          icon={<BackIcon />}
+          onClick={deleteButton || closeHandle}
+          type="button"
+          isLoading={deletePending}
+          typeButton={deleteButton && "delete"}
+        >
           Назад
         </ModalButton>
         <ModalButton isLoading={isPending}>{submitButtonText}</ModalButton>

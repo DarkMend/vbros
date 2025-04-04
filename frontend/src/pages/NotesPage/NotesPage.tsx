@@ -6,7 +6,7 @@ import styles from "./NotesPage.module.scss";
 import AddNoteItem from "../../components/NotesItems/AddNoteItem/AddNoteItem";
 import { statusService } from "../../services/status.service";
 import { useModalStore } from "../../store/modalStore";
-import CreateStatusModal from "../../components/Modals/StatusModals/CreateStatusModal/CreateStatusModal";
+import CreateOrUpdateStatusModal from "../../components/Modals/StatusModals/CreateOrUpdateStatusModal/CreateOrUpdateStatusModal";
 import SkeletonItem from "../../components/SkeletonItem/SkeletonItem";
 
 export default function NotesPage() {
@@ -51,7 +51,7 @@ export default function NotesPage() {
                 ))}
                 <AddNoteItem
                   typeButton="status"
-                  onClick={() => openModal(<CreateStatusModal />)}
+                  onClick={() => openModal(<CreateOrUpdateStatusModal />)}
                 />
               </>
             )}

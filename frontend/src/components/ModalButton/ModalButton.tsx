@@ -2,22 +2,33 @@ import Loader from "../Loader/Loader";
 import styles from "./ModalButton.module.scss";
 import { IModalButton } from "./ModalButton.props";
 import cn from "classnames";
+import TrashIcon from "../../../public/icons/trash.svg";
 
 export default function ModalButton({
   children,
   icon,
   isLoading = false,
   className,
+  typeButton,
   ...props
 }: IModalButton) {
   return (
-    <button className={cn(styles["button"], className)} {...props}>
+    <button
+      className={cn(styles["button"], className, {
+        [styles.delete]: typeButton == "delete",
+      })}
+      {...props}
+    >
       {isLoading ? (
         <Loader />
       ) : (
         <>
-          {icon && <div className={styles["icon"]}>{icon}</div>}
-          <p>{children}</p>
+          {typeButton == "delete" ? (
+            <TrashIcon />
+          ) : (
+            icon && <div className={styles["icon"]}>{icon}</div>
+          )}
+          <p>{typeButton == "delete" ? "Удалить" : children}</p>
         </>
       )}
     </button>

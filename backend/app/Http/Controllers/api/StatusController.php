@@ -52,4 +52,10 @@ class StatusController extends Controller
 
         return response()->json(['message' => 'Успешно'], 200);
     }
+
+    public function destroy(Status $status)
+    {
+        $status->delete();
+        return response()->json(['message' => 'Успешно'], 200);
+    }
 }
