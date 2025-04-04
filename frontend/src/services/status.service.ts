@@ -12,7 +12,11 @@ export const statusService = {
     );
   },
 
-  async createStatuses(data: IStatus) {
+  async createStatus(data: IStatus) {
     return axiosWithAuth.post("/status/store", data);
+  },
+
+  async updateStatus(data: IStatus) {
+    return axiosWithAuth.post("/status/update", data);
   },
 };

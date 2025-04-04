@@ -16,6 +16,7 @@ import { useCreateStatus } from "../../../../utils/hooks/Status/useCreateStatus"
 import { toast } from "react-toastify";
 import { useModalStore } from "../../../../store/modalStore";
 import { useQueryClient } from "@tanstack/react-query";
+import { useUpdateStatus } from "../../../../utils/hooks/Status/useUpdateStatus";
 
 export interface ICreateOrUpdateStatusModal {
   update?: IStatusWithNotes;
@@ -49,8 +50,18 @@ export default function CreateStatusModal({
     },
   });
 
+  const { mutate: updateMutate } = useUpdateStatus({
+    onError(data) {
+      toast.error(data.response?.data?.message);
+    },
+    onSuccess() {
+      toast.success("Статус успешно обновлен");
+      queryClient.invalidateQueries({ queryKey: ["statuses"] });
+    },
+  });
+
   const onSubmit = (data: IStatus) => {
-    mutate({ ...data, color });
+    update ? updateMutate({ ...data, color }) : mutate({ ...data, color });
   };
 
   return (

@@ -8,6 +8,6 @@ const KEY = ["createStatus"];
 export const useCreateStatus = (options?: IMutationOptions<unknown, IStatus>) =>
   useMutation({
     mutationKey: KEY,
-    mutationFn: (data) => statusService.createStatuses(data),
+    mutationFn: (data) => statusService.createStatus(data),
     ...options,
   });
