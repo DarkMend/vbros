@@ -21,7 +21,7 @@ export default function ChangeNameModal() {
     formState: { errors },
     handleSubmit,
   } = useForm<IFormChangeName>();
-  const { openModal } = useModalStore();
+  const { changeContent } = useModalStore();
   const queryClient = useQueryClient();
   const { mutate, isPending } = useChangeName({
     onSuccess() {
@@ -34,7 +34,7 @@ export default function ChangeNameModal() {
   });
 
   const back = () => {
-    openModal(<AccountModal />);
+    changeContent(<AccountModal />);
   };
 
   const onSubmit: SubmitHandler<IFormChangeName> = (data) => {

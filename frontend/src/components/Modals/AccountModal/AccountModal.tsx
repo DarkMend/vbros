@@ -25,7 +25,7 @@ export default function AccountModal() {
     queryKey: ["user"],
     queryFn: () => userService.infoUser(),
   });
-  const { openModal } = useModalStore();
+  const { openModal, changeContent } = useModalStore();
 
   const { logout, isPending } = useLogoutUser();
 
@@ -53,7 +53,7 @@ export default function AccountModal() {
   };
 
   const openChangeName = () => {
-    openModal(<ChangeNameModal />);
+    changeContent(<ChangeNameModal />);
   };
 
   return (

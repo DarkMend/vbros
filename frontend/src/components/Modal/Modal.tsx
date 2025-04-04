@@ -5,7 +5,7 @@ import { useModalStore } from "../../store/modalStore";
 import { AnimatePresence, motion } from "motion/react";
 
 export default function Modal() {
-  const { isOpen, content, closeModal } = useModalStore();
+  const { isOpen, content, closeModal, isContentOpen } = useModalStore();
 
   return createPortal(
     <AnimatePresence>
@@ -17,15 +17,21 @@ export default function Modal() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
+          key="modal-animate"
         >
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -20, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            {content}
-          </motion.div>
+          <AnimatePresence>
+            {isContentOpen && (
+              <motion.div
+                key="content-animate"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -20, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                {content}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
       )}
     </AnimatePresence>,
