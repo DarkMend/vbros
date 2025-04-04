@@ -17,7 +17,7 @@ export const useModalStore = create<IModalStore>((set) => ({
   openModal: (content) => set({ isOpen: true, content, isContentOpen: true }),
   closeModal: () => {
     set({ content: null, isContentOpen: false });
-    setTimeout(() => set({ isOpen: false }), 100);
+    setTimeout(() => set({ isOpen: false }), 0);
   },
   changeContent: (content: ReactNode) => {
     set({ isContentOpen: false });

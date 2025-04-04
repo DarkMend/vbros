@@ -16,7 +16,7 @@ export default function Modal() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.2 }}
           key="modal-animate"
         >
           <AnimatePresence>
@@ -26,7 +26,7 @@ export default function Modal() {
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: -20, opacity: 0 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.2, default: { type: "spring" } }}
               >
                 {content}
               </motion.div>
