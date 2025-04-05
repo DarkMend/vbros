@@ -5,9 +5,11 @@ namespace App\Http\Controllers\api;
 use App\Helpers\ImageHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use App\Models\Status;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
@@ -35,11 +37,30 @@ class AuthController extends Controller
                 'password_confirmation.required' => 'Введите подтверждение пароля',
             ]);
 
-            User::create([
-                'name' => $data['name'],
-                'email' => $data['email'],
-                'password' => Hash::make($data['password']),
-            ]);
+            DB::transaction(function () use ($data) {
+                $user = User::create([
+                    'name' => $data['name'],
+                    'email' => $data['email'],
+                    'password' => Hash::make($data['password']),
+                ]);
+
+                Status::create([
+                    'name' => 'В обработке',
+                    'user_id' => $user->id,
+                    'color' => '#FF9D00'
+                ]);
+                Status::create([
+                    'name' => 'В процессе',
+                    'user_id' => $user->id,
+                    'color' => '#008CFF'
+                ]);
+                Status::create([
+                    'name' => 'Завершено',
+                    'user_id' => $user->id,
+                    'color' => '#44FF00'
+                ]);
+            });
+
 
             return response()->json(['message' => 'Аккаунт создан'], 200);
         } catch (ValidationException $error) {
