@@ -65,13 +65,15 @@ export default function CreateOrUpdateStatusModal({
   });
 
   const onSubmit = (data: IStatus) => {
-    update
-      ? updateMutate({ ...data, color, id: update.id })
-      : mutate({ ...data, color });
+    if (update) {
+      updateMutate({ ...data, color, id: update.id });
+    } else {
+      mutate({ ...data, color });
+    }
   };
 
   const openModalConfirmatinDeleteStatus = () => {
-    update &&
+    if (update) {
       changeContent(
         <ModalConfirmation
           text="Вы точно хотите удалить статус и все находящиеся заметки в нём?"
@@ -82,6 +84,7 @@ export default function CreateOrUpdateStatusModal({
           handleConfirmation={useDeleteStatusHook}
         />
       );
+    }
   };
 
   return (
