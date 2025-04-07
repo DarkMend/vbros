@@ -5,7 +5,7 @@ import SeparationLine from "../../SeparationLine/SeparationLine";
 import styles from "./ChangeNoteStatusModal.module.scss";
 import { IStatus } from "../../../interfaces/status.interface";
 import ModalMenuItem from "../../ModalMenuItem/ModalMenuItem";
-import SelectNote from "../../SelectNote/SelectNote";
+import Select from "../../Select/Select";
 
 export interface IChangeNoteStatusModal {
   statuses?: IStatus[];
@@ -21,7 +21,7 @@ export default function ChangeNoteStatusModal({
           При выборе другого статус-блока, ваша заметка будет перенесена на
           соответствующий статус-блок
         </ParagraphModal>
-        <SelectNote></SelectNote>
+        <Select></Select>
       </div>
     </ModalLayout>
   );
