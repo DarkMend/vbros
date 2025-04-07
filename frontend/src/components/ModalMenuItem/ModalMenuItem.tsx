@@ -3,6 +3,7 @@ import styles from "./ModalMenuItem.module.scss";
 import { EditIcon } from "lucide-react";
 import cn from "classnames";
 import ColorPickerItem from "./ColorPickerItem/ColorPickerItem";
+import ColorSquare from "../ColorSquare/ColorSquare";
 
 export default function ModalMenuItem({
   icon,
@@ -16,7 +17,7 @@ export default function ModalMenuItem({
   color,
   setColor,
 }: {
-  icon: ReactNode;
+  icon?: ReactNode;
   nameHover?: boolean;
   name: string;
   content?: ReactNode;
@@ -37,7 +38,7 @@ export default function ModalMenuItem({
         >
           {name}
         </div>
-        <div className={styles["icon"]}>{icon}</div>
+        {icon && <div className={styles["icon"]}>{icon}</div>}
         <p>{name}</p>
       </div>
       <div className={styles["list-item__wrapper"]}>
@@ -56,7 +57,10 @@ export default function ModalMenuItem({
           {colorPicker ? (
             <ColorPickerItem color={color} setColor={setColor} />
           ) : (
-            content
+            <div className={styles.listItemWrapper}>
+              <ColorSquare color={color} />
+              {content}
+            </div>
           )}
         </div>
       </div>

@@ -3,8 +3,17 @@ import ModalLayout from "../../ModalLayout/ModalLayout";
 import ParagraphModal from "../../ParagraphModal/ParagraphModal";
 import SeparationLine from "../../SeparationLine/SeparationLine";
 import styles from "./ChangeNoteStatusModal.module.scss";
+import { IStatus } from "../../../interfaces/status.interface";
+import ModalMenuItem from "../../ModalMenuItem/ModalMenuItem";
+import SelectNote from "../../SelectNote/SelectNote";
 
-export default function ChangeNoteStatusModal() {
+export interface IChangeNoteStatusModal {
+  statuses?: IStatus[];
+}
+
+export default function ChangeNoteStatusModal({
+  statuses,
+}: IChangeNoteStatusModal) {
   return (
     <ModalLayout title="Статус заметки" icon={<Pencil />}>
       <div className={styles.statuses}>
@@ -12,7 +21,7 @@ export default function ChangeNoteStatusModal() {
           При выборе другого статус-блока, ваша заметка будет перенесена на
           соответствующий статус-блок
         </ParagraphModal>
-        <SeparationLine />
+        <SelectNote></SelectNote>
       </div>
     </ModalLayout>
   );

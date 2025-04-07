@@ -11,6 +11,7 @@ import NoteSidebar from "../NoteSidebar/NoteSidebar";
 import ColorSquare from "../ColorSquare/ColorSquare";
 import { useModalStore } from "../../store/modalStore";
 import CreateStatusModal from "../Modals/StatusModals/CreateOrUpdateStatusModal/CreateOrUpdateStatusModal";
+import FileIcon from "../../../public/icons/file-outline.svg";
 
 export default function NotesItems({ data, className, ...props }: INotesItems) {
   const [visibleItem, setVisibleItem] = useState(false);
@@ -60,7 +61,11 @@ export default function NotesItems({ data, className, ...props }: INotesItems) {
           data.notes.map((el) => <NotesItem key={el.id} note={el} />)}
         <AddNoteItem
           typeButton="note"
-          onClick={() => sidebarStore.openSidebar(<NoteSidebar />)}
+          onClick={() =>
+            sidebarStore.openSidebar(
+              <NoteSidebar title="Создать заметку" icon={<FileIcon />} />
+            )
+          }
         />
       </div>
     </div>
