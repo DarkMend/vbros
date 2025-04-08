@@ -1,11 +1,10 @@
 import { Pencil } from "lucide-react";
 import ModalLayout from "../../ModalLayout/ModalLayout";
 import ParagraphModal from "../../ParagraphModal/ParagraphModal";
-import SeparationLine from "../../SeparationLine/SeparationLine";
 import styles from "./ChangeNoteStatusModal.module.scss";
 import { IStatus } from "../../../interfaces/status.interface";
-import ModalMenuItem from "../../ModalMenuItem/ModalMenuItem";
 import Select from "../../Select/Select";
+import { useStatusStore } from "../../../store/statusStore";
 
 export interface IChangeNoteStatusModal {
   statuses?: IStatus[];
@@ -14,6 +13,8 @@ export interface IChangeNoteStatusModal {
 export default function ChangeNoteStatusModal({
   statuses,
 }: IChangeNoteStatusModal) {
+  const { status, setStatus } = useStatusStore();
+
   return (
     <ModalLayout title="Статус заметки" icon={<Pencil />}>
       <div className={styles.statuses}>
@@ -21,7 +22,7 @@ export default function ChangeNoteStatusModal({
           При выборе другого статус-блока, ваша заметка будет перенесена на
           соответствующий статус-блок
         </ParagraphModal>
-        <Select></Select>
+        <Select statuses={statuses} value={status} setValue={setStatus} />
       </div>
     </ModalLayout>
   );

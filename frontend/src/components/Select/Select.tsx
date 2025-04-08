@@ -1,60 +1,114 @@
-import * as Select from "@radix-ui/react-select";
-import { Check, ChevronDown } from "lucide-react";
+import { Popover } from "radix-ui";
+import { ChevronDown } from "lucide-react";
 import styles from "./Select.module.scss";
 import { AnimatePresence, motion } from "motion/react";
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import cn from "classnames";
+import ColorSquare from "../ColorSquare/ColorSquare";
+import { IStatus } from "../../interfaces/status.interface";
 
-export default function SelectMain() {
-  const [active, setActive] = useState(false);
-  const [value, setValue] = useState("Сюда");
+const animationVariants = {
+  hidden: {
+    opacity: 0,
+    transform: "translateY(-15px)",
+  },
 
-  return (
-    <Select.Root
-      open={active}
-      onOpenChange={setActive}
-      value={value}
-      onValueChange={setValue}
-    >
-      <Select.Trigger className={styles.selectTrigger}>
-        <Select.Value placeholder="Выберите статус" />
-        <Select.SelectIcon
-          className={cn(styles.selectIcon, {
-            [styles.active]: active,
-          })}
-        >
-          <ChevronDown />
-        </Select.SelectIcon>
-      </Select.Trigger>
-      <AnimatePresence>
-        {active && (
-          <Select.Content
-            position="popper"
-            align="center"
-            className={styles.content}
-            style={{ width: `var(--radix-select-trigger-width)` }}
-            sideOffset={5}
-            asChild
-          >
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Select.Item value="apple" className={styles.selectItem}>
-                <Select.ItemText>Яблоко</Select.ItemText>
-                <Select.ItemIndicator>
-                  <Check />
-                </Select.ItemIndicator>
-              </Select.Item>
-              <Select.Item value="banana" className={styles.selectItem}>
-                <Select.ItemText>Банан</Select.ItemText>
-              </Select.Item>
-            </motion.div>
-          </Select.Content>
-        )}
-      </AnimatePresence>
-    </Select.Root>
-  );
+  visible: {
+    opacity: 1,
+    transform: "translateY(0px)",
+  },
+
+  exit: {
+    opacity: 0,
+    transform: "translateY(-15px)",
+  },
+};
+
+export interface ISelectIcon {
+  statuses?: IStatus[];
+  value: IStatus | null;
+  setValue: (value: IStatus) => void;
 }
+
+const Select = forwardRef<HTMLButtonElement, ISelectIcon>(
+  ({ statuses, value, setValue }, ref) => {
+    const [open, setOpen] = useState(false);
+
+    const handleChange = (item: IStatus) => {
+      setValue(item);
+      setOpen(false);
+    };
+
+    return (
+      <Popover.Root open={open} onOpenChange={() => setOpen((state) => !state)}>
+        <Popover.Trigger
+          ref={ref}
+          asChild
+          className={styles.selectTrigger}
+          style={
+            value
+              ? { background: `${value.color}1A` }
+              : { background: "#6363631a" }
+          }
+        >
+          <button>
+            {value ? (
+              <div className={styles.triggerContent}>
+                <ColorSquare color={value.color} />
+                <p>{value.name}</p>
+              </div>
+            ) : (
+              <p>Выберите статус</p>
+            )}
+
+            <div
+              className={cn(styles.selectIcon, {
+                [styles.active]: open,
+              })}
+            >
+              <ChevronDown />
+            </div>
+          </button>
+        </Popover.Trigger>
+        <AnimatePresence>
+          {open && (
+            <Popover.Portal forceMount>
+              <Popover.Content
+                asChild
+                sideOffset={10}
+                className={styles.content}
+              >
+                <motion.div
+                  variants={animationVariants}
+                  initial="hidden"
+                  exit="exit"
+                  animate="visible"
+                >
+                  {statuses?.map((item) => (
+                    <div
+                      key={item.id}
+                      className={cn(styles.selectItem)}
+                      style={
+                        value?.id == item.id
+                          ? {
+                              background: `${item.color}1A`,
+                            }
+                          : undefined
+                      }
+                      onClick={() => handleChange(item)}
+                    >
+                      <ColorSquare color={item.color} />
+                      {item.name}
+                    </div>
+                  ))}
+                </motion.div>
+              </Popover.Content>
+            </Popover.Portal>
+          )}
+        </AnimatePresence>
+      </Popover.Root>
+    );
+  }
+);
+
+export default Select;

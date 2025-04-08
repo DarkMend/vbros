@@ -9,6 +9,7 @@ import ChangeNoteStatusModal from "../Modals/ChangeNoteStatusModal/ChangeNoteSta
 import { ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { statusService } from "../../services/status.service";
+import { useStatusStore } from "../../store/statusStore";
 
 export interface INoteSidebar {
   title: string;
@@ -18,6 +19,8 @@ export interface INoteSidebar {
 export default function NoteSidebar({ title, icon }: INoteSidebar) {
   const { closeSidebar } = useSibebarStore();
   const { openModal } = useModalStore();
+  const { status } = useStatusStore();
+
   const { data } = useQuery({
     queryKey: ["statuses"],
     queryFn: () => statusService.getPersonalStatuses(),
@@ -34,11 +37,18 @@ export default function NoteSidebar({ title, icon }: INoteSidebar) {
           </div>
         </div>
         <div className={styles.info}>
-          <NoteInfo
-            text="To do"
-            color="#FF9D00"
-            onClick={() => openModal(<ChangeNoteStatusModal statuses={data} />)}
-          />
+          {data ? (
+            <NoteInfo
+              text={status ? status?.name : ""}
+              color={status?.color}
+              onClick={() =>
+                openModal(<ChangeNoteStatusModal statuses={data} />)
+              }
+            />
+          ) : (
+            "Нету"
+          )}
+
           <NoteInfo text="03.01.2025" icon={<CalendarIcon />} />
         </div>
         <div className={styles.main}>
