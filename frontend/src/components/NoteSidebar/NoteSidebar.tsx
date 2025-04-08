@@ -9,7 +9,8 @@ import ChangeNoteStatusModal from "../Modals/ChangeNoteStatusModal/ChangeNoteSta
 import { ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { statusService } from "../../services/status.service";
-import { useStatusStore } from "../../store/statusStore";
+import { useNoteStore } from "../../store/noteStore";
+import DateModal from "../Modals/DateModal/DateModal";
 
 export interface INoteSidebar {
   title: string;
@@ -19,7 +20,7 @@ export interface INoteSidebar {
 export default function NoteSidebar({ title, icon }: INoteSidebar) {
   const { closeSidebar } = useSibebarStore();
   const { openModal } = useModalStore();
-  const { status } = useStatusStore();
+  const { status, date } = useNoteStore();
 
   const { data } = useQuery({
     queryKey: ["statuses"],
@@ -49,7 +50,11 @@ export default function NoteSidebar({ title, icon }: INoteSidebar) {
             "Нету"
           )}
 
-          <NoteInfo text="03.01.2025" icon={<CalendarIcon />} />
+          <NoteInfo
+            text={date?.toLocaleDateString()}
+            icon={<CalendarIcon />}
+            onClick={() => openModal(<DateModal />)}
+          />
         </div>
         <div className={styles.main}>
           <textarea

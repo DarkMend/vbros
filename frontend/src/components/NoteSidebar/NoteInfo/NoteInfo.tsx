@@ -3,7 +3,7 @@ import styles from "./NoteInfo.module.scss";
 
 export interface INoteInfo extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: ReactNode;
-  text: string;
+  text: ReactNode;
   color?: string;
 }
 

@@ -4,7 +4,7 @@ import ParagraphModal from "../../ParagraphModal/ParagraphModal";
 import styles from "./ChangeNoteStatusModal.module.scss";
 import { IStatus } from "../../../interfaces/status.interface";
 import Select from "../../Select/Select";
-import { useStatusStore } from "../../../store/statusStore";
+import { useNoteStore } from "../../../store/noteStore";
 
 export interface IChangeNoteStatusModal {
   statuses?: IStatus[];
@@ -13,7 +13,7 @@ export interface IChangeNoteStatusModal {
 export default function ChangeNoteStatusModal({
   statuses,
 }: IChangeNoteStatusModal) {
-  const { status, setStatus } = useStatusStore();
+  const { status, setStatus } = useNoteStore();
 
   return (
     <ModalLayout title="Статус заметки" icon={<Pencil />}>

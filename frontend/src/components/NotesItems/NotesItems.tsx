@@ -12,14 +12,22 @@ import ColorSquare from "../ColorSquare/ColorSquare";
 import { useModalStore } from "../../store/modalStore";
 import CreateStatusModal from "../Modals/StatusModals/CreateOrUpdateStatusModal/CreateOrUpdateStatusModal";
 import FileIcon from "../../../public/icons/file-outline.svg";
+import { useNoteStore } from "../../store/noteStore";
 
 export default function NotesItems({ data, className, ...props }: INotesItems) {
   const [visibleItem, setVisibleItem] = useState(false);
-  const sidebarStore = useSibebarStore();
+  const { openSidebar } = useSibebarStore();
   const { openModal } = useModalStore();
+  const { setStatus, setDate } = useNoteStore();
   const { setNodeRef } = useDroppable({
     id: data.id,
   });
+
+  const openCreateNoteSidebar = () => {
+    setStatus(data);
+    setDate(new Date());
+    openSidebar(<NoteSidebar title="Создать заметку" icon={<FileIcon />} />);
+  };
 
   return (
     <div
@@ -59,14 +67,7 @@ export default function NotesItems({ data, className, ...props }: INotesItems) {
       >
         {data.notes &&
           data.notes.map((el) => <NotesItem key={el.id} note={el} />)}
-        <AddNoteItem
-          typeButton="note"
-          onClick={() =>
-            sidebarStore.openSidebar(
-              <NoteSidebar title="Создать заметку" icon={<FileIcon />} />
-            )
-          }
-        />
+        <AddNoteItem typeButton="note" onClick={openCreateNoteSidebar} />
       </div>
     </div>
   );
