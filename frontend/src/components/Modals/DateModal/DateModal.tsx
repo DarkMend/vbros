@@ -4,6 +4,7 @@ import styles from "./DateModal.module.scss";
 import Calendar from "react-calendar";
 import { useNoteStore } from "../../../store/noteStore";
 import { useModalStore } from "../../../store/modalStore";
+import ParagraphModal from "../../ParagraphModal/ParagraphModal";
 
 export default function DateModal() {
   const { date, setDate } = useNoteStore();
@@ -17,6 +18,9 @@ export default function DateModal() {
   return (
     <ModalLayout title="Дедлайн" icon={<CalendarIcon />}>
       <div className={styles.dateChange}>
+        <ParagraphModal>
+          Здесь вы можете выбрать пердварительную дату завершения
+        </ParagraphModal>
         <Calendar
           onClickDay={changeDate}
           value={date}
@@ -24,11 +28,15 @@ export default function DateModal() {
           minDetail="year"
           next2Label={null}
           prev2Label={null}
+          minDate={new Date()}
           tileClassName={({ date: day, view }) => {
             if (view === "month") {
               const classes = [];
               if (day.getDay() === 0 || day.getDay() === 6) {
-                classes.push(styles.weekend);
+                classes.push("weekend");
+              }
+              if (date && day.toDateString() === date.toDateString()) {
+                classes.push("selectedDay");
               }
               return classes.join(" ");
             }

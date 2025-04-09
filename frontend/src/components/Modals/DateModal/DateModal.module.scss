@@ -1,120 +1,112 @@
 .dateChange {
-  padding: 20px;
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  gap: 24px;
 
-  // Переопределение стилей react-calendar
-  .react-calendar {
-    width: 100%;
-    max-width: 400px;
-    border: none;
-    background: transparent;
-    font-family: inherit;
+  // Глобальное переопределение с :global
+  :global {
+    .react-calendar {
+      width: 100%;
+      background: white;
+      font-family: inherit;
+      border-radius: 8px;
 
-    &__navigation {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
+      &__navigation {
+        display: flex;
+        height: 36px;
+        margin-bottom: 16px;
 
-      button {
-        background: none;
-        border: none;
-        font-size: 16px;
-        padding: 5px 10px;
-        color: var(--text-primary);
-        cursor: pointer;
-
-        &:hover {
-          background: var(--bg-hover);
+        button {
+          background: none;
+          border: none;
+          min-width: 36px;
+          color: black; // Серый-800
+          cursor: pointer;
+          font-size: 16px;
           border-radius: 4px;
-        }
-
-        &:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
-      }
-
-      &__label {
-        font-weight: 600;
-        font-size: 16px;
-      }
-    }
-
-    &__month-view {
-      &__weekdays {
-        text-align: center;
-        margin-bottom: 10px;
-        font-size: 14px;
-        color: var(--text-secondary);
-
-        &__weekday {
-          padding: 5px;
-          abbr {
-            text-decoration: none;
-          }
-        }
-      }
-
-      &__days {
-        &__day {
-          padding: 10px;
-          border-radius: 4px;
-          transition: all 0.2s;
-
-          &--neighboringMonth {
-            color: var(--text-disabled);
-          }
+          padding: 0;
+          transition: all 0.3s ease;
 
           &:hover {
-            background: var(--bg-hover);
+            background: #f3f4f6; // Серый-100
+          }
+
+          &:disabled {
+            opacity: 0.5;
+            cursor: default;
+          }
+        }
+
+        &__label {
+          font-weight: 500;
+          font-size: 16px;
+        }
+      }
+
+      &__month-view {
+        &__weekdays {
+          text-align: center;
+          margin-bottom: 8px;
+          font-size: 14px;
+          color: black; // Серый-500
+
+          &__weekday {
+            padding: 8px 0;
+            abbr {
+              text-decoration: none;
+            }
+          }
+        }
+
+        &__days {
+          &__day {
+            padding: 8px 0;
+            border-radius: 4px;
+
+            &--neighboringMonth {
+              color: #9ca3af; // Серый-400
+            }
+          }
+        }
+      }
+
+      &__tile {
+        border: none;
+        background: none;
+        height: 36px;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background: #f3f4f6; // Серый-100
+        }
+
+        &--now {
+          border: 1px solid black; // Синий-100
+          color: black; // Синий-700
+          font-weight: bold;
+        }
+
+        &--active {
+          background: black; // Синий-600
+          color: white;
+
+          &:hover {
+            background: black; // Синий-700
           }
         }
       }
     }
-
-    &__tile {
-      border: none;
-      background: none;
-      height: 36px;
-
-      &--now {
-        background: var(--accent-light);
-        color: var(--accent);
-        font-weight: bold;
-      }
-
-      &--active {
-        background: var(--accent);
-        color: white;
-
-        &:hover {
-          background: var(--accent-dark);
-        }
-      }
-    }
   }
 }
 
-.weekend {
-  color: var(--accent-red) !important;
+// Стили для выходных
+:global(.weekend) {
+  // color: #ef4444 !important; // Красный-500
 }
 
-// Темная тема (если нужно)
-[data-theme="dark"] {
-  .react-calendar {
-    &__tile {
-      color: var(--text-primary);
-
-      &--now {
-        background: var(--accent-dark);
-        color: white;
-      }
-
-      &--active {
-        background: var(--accent);
-      }
-    }
-  }
+// Стиль для выбранного дня
+:global(.selectedDay) {
+  background: black !important; // Синий-600
+  color: white !important;
 }
