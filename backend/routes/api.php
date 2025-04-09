@@ -43,4 +43,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/update/{status}', 'update');
         Route::delete('/delete/{status}', 'destroy');
     });
+
+    Route::controller(NoteController::class)->prefix('note')->group(function () {
+        Route::post('/store', 'store');
+    });
 });

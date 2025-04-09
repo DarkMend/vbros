@@ -12,4 +12,8 @@ class NoteController extends Controller
     public function index() {
         return response()->json(['data' => NoteResource::collection(Note::all()), 'message' => 'Нормик'], 200);
     }
+
+    public function store(Request $request){
+        
+    }
 }
