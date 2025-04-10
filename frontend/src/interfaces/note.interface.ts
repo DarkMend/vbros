@@ -3,5 +3,5 @@ export interface INote {
   description: string;
   status_id: number;
   user_id: number;
-  date: Date | string;
+  date: Date;
 }

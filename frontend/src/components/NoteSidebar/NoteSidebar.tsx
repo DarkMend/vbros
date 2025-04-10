@@ -7,8 +7,7 @@ import { useSibebarStore } from "../../store/sidebar.store";
 import { useModalStore } from "../../store/modalStore";
 import ChangeNoteStatusModal from "../Modals/ChangeNoteStatusModal/ChangeNoteStatusModal";
 import { ReactNode, useEffect } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { statusService } from "../../services/status.service";
+import { useQueryClient } from "@tanstack/react-query";
 import { useNoteStore } from "../../store/noteStore";
 import DateModal from "../Modals/DateModal/DateModal";
 import { useCreateNote } from "../../utils/hooks/Note/useCreateNote";
@@ -24,14 +23,8 @@ export interface INoteSidebar {
 export default function NoteSidebar({ title, icon }: INoteSidebar) {
   const { closeSidebar } = useSibebarStore();
   const { openModal } = useModalStore();
-  const { status, date } = useNoteStore();
+  const { status, date, allStatuses } = useNoteStore();
   const queryClient = useQueryClient();
-
-  const { data } = useQuery({
-    queryKey: ["statuses"],
-    queryFn: () => statusService.getPersonalStatuses(),
-    select: (data) => data.data.data,
-  });
 
   const {
     register,
@@ -78,12 +71,12 @@ export default function NoteSidebar({ title, icon }: INoteSidebar) {
           </div>
         </div>
         <div className={styles.info}>
-          {data ? (
+          {allStatuses ? (
             <NoteInfo
               text={status ? status?.name : ""}
               color={status?.color}
               onClick={() =>
-                openModal(<ChangeNoteStatusModal statuses={data} />)
+                openModal(<ChangeNoteStatusModal statuses={allStatuses} />)
               }
             />
           ) : (

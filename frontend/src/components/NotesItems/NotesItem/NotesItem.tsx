@@ -7,9 +7,11 @@ import { useSibebarStore } from "../../../store/sidebar.store";
 import NoteSidebar from "../../NoteSidebar/NoteSidebar";
 import { Pencil } from "lucide-react";
 import MenuIcon from "../../../../public/icons/menu-select.svg";
+import { useNoteStore } from "../../../store/noteStore";
 
 export default function NotesItem({ note }: INotesItem) {
   const { openSidebar } = useSibebarStore();
+  const { allStatuses, setStatus, setDate } = useNoteStore();
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: note.id,
   });
@@ -22,6 +24,12 @@ export default function NotesItem({ note }: INotesItem) {
   };
 
   const handleOpenSidebar = () => {
+    const status = allStatuses?.find((status) => status.id === note.status_id);
+    if (status) {
+      setStatus(status);
+    }
+    setDate(note.date);
+
     openSidebar(<NoteSidebar title="Обновление заметки" icon={<Pencil />} />);
   };
 

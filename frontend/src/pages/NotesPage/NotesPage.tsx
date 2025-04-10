@@ -8,15 +8,22 @@ import { statusService } from "../../services/status.service";
 import { useModalStore } from "../../store/modalStore";
 import CreateOrUpdateStatusModal from "../../components/Modals/StatusModals/CreateOrUpdateStatusModal/CreateOrUpdateStatusModal";
 import SkeletonItem from "../../components/SkeletonItem/SkeletonItem";
+import { useEffect } from "react";
+import { useNoteStore } from "../../store/noteStore";
 
 export default function NotesPage() {
   const { openModal } = useModalStore();
+  const { setAllStatuses } = useNoteStore();
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ["statuses"],
     queryFn: () => statusService.getPersonalStatuses(),
     select: (data) => data.data.data,
   });
+
+  useEffect(() => {
+    if (data) setAllStatuses(data);
+  }, [data]);
 
   const isLoadingStatus = isLoading || isFetching;
 
