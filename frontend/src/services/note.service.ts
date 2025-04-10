@@ -9,4 +9,8 @@ export const noteService = {
   async createNote(data: INote) {
     return axiosWithAuth.post("/note/store", data);
   },
+
+  async updateNote(data: INote) {
+    return axiosWithAuth.put(`/note/${data.id}`, data);
+  },
 };

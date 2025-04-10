@@ -30,7 +30,9 @@ export default function NotesItem({ note }: INotesItem) {
     }
     setDate(note.date);
 
-    openSidebar(<NoteSidebar title="Обновление заметки" icon={<Pencil />} />);
+    openSidebar(
+      <NoteSidebar title="Обновление заметки" icon={<Pencil />} update={note} />
+    );
   };
 
   return (

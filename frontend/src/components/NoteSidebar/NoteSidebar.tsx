@@ -14,13 +14,15 @@ import { useCreateNote } from "../../utils/hooks/Note/useCreateNote";
 import { useForm } from "react-hook-form";
 import { INote } from "../../interfaces/note.interface";
 import { toast } from "react-toastify";
+import { useUpdateNote } from "../../utils/hooks/Note/useUpdateNote";
 
 export interface INoteSidebar {
   title: string;
   icon: ReactNode;
+  update?: INote;
 }
 
-export default function NoteSidebar({ title, icon }: INoteSidebar) {
+export default function NoteSidebar({ title, icon, update }: INoteSidebar) {
   const { closeSidebar } = useSibebarStore();
   const { openModal } = useModalStore();
   const { status, date, allStatuses } = useNoteStore();
@@ -30,10 +32,24 @@ export default function NoteSidebar({ title, icon }: INoteSidebar) {
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm<INote>({
     mode: "onSubmit",
   });
 
+  useEffect(() => {
+    if (!update) {
+      reset({
+        description: "",
+      });
+    } else {
+      reset({
+        description: update?.description,
+      });
+    }
+  }, [update]);
+
+  // create note
   const { mutate: createMutate, isPending: createPending } = useCreateNote({
     onError(data) {
       toast.error(data.response?.data?.message);
@@ -45,6 +61,10 @@ export default function NoteSidebar({ title, icon }: INoteSidebar) {
     },
   });
 
+  // update note
+
+  const { mutate: updateMutate, isPending: updatePending } = useUpdateNote({});
+
   const createNote = (data: INote) => {
     if (!status) {
       return toast.error("Выберите статус");
@@ -54,7 +74,11 @@ export default function NoteSidebar({ title, icon }: INoteSidebar) {
       return toast.error("Выберите дату");
     }
 
-    createMutate({ ...data, status_id: status?.id, date: date });
+    if (update) {
+      updateMutate({ ...data, status_id: status.id, date: date });
+    } else {
+      createMutate({ ...data, status_id: status?.id, date: date });
+    }
   };
 
   useEffect(() => {
@@ -97,7 +121,7 @@ export default function NoteSidebar({ title, icon }: INoteSidebar) {
               })}
               className={styles.textarea}
               placeholder="Введите заметку"
-            ></textarea>
+            />
           </form>
         </div>
       </div>
@@ -110,7 +134,7 @@ export default function NoteSidebar({ title, icon }: INoteSidebar) {
         </button>
         <ModalButton
           className={styles.button}
-          isLoading={createPending}
+          isLoading={createPending || updatePending}
           form="form"
           type="submit"
         >
