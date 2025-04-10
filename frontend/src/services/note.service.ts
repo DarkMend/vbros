@@ -11,6 +11,10 @@ export const noteService = {
   },
 
   async updateNote(data: INote) {
-    return axiosWithAuth.put(`/note/${data.id}`, data);
+    return axiosWithAuth.put(`/note/${data.id}/update`, data);
+  },
+
+  async deleteNote(id: number) {
+    return axiosWithAuth.delete(`/note/${id}/delete`);
   },
 };

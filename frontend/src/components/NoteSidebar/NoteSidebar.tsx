@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { INote } from "../../interfaces/note.interface";
 import { toast } from "react-toastify";
 import { useUpdateNote } from "../../utils/hooks/Note/useUpdateNote";
+import { useDeleteNote } from "../../utils/hooks/Note/useDeleteNote";
 
 export interface INoteSidebar {
   title: string;
@@ -47,7 +48,7 @@ export default function NoteSidebar({ title, icon, update }: INoteSidebar) {
         description: update?.description,
       });
     }
-  }, [update]);
+  }, [reset, update]);
 
   // create note
   const { mutate: createMutate, isPending: createPending } = useCreateNote({
@@ -63,7 +64,27 @@ export default function NoteSidebar({ title, icon, update }: INoteSidebar) {
 
   // update note
 
-  const { mutate: updateMutate, isPending: updatePending } = useUpdateNote({});
+  const { mutate: updateMutate, isPending: updatePending } = useUpdateNote({
+    onError(data) {
+      toast.error(data.response?.data?.message);
+    },
+    onSuccess() {
+      toast.success("Заметка успешно обновлена");
+      queryClient.invalidateQueries({ queryKey: ["statuses"] });
+    },
+  });
+
+  // delete note
+  const { mutate: deleteMutate, isPending: deletePending } = useDeleteNote({
+    onError(data) {
+      toast.error(data.response?.data?.message);
+    },
+    onSuccess() {
+      toast.success("Заметка успешно обновлена");
+      queryClient.invalidateQueries({ queryKey: ["statuses"] });
+      closeSidebar();
+    },
+  });
 
   const createNote = (data: INote) => {
     if (!status) {
@@ -75,7 +96,12 @@ export default function NoteSidebar({ title, icon, update }: INoteSidebar) {
     }
 
     if (update) {
-      updateMutate({ ...data, status_id: status.id, date: date });
+      updateMutate({
+        ...data,
+        status_id: status.id,
+        date: date,
+        id: update.id,
+      });
     } else {
       createMutate({ ...data, status_id: status?.id, date: date });
     }
@@ -93,6 +119,19 @@ export default function NoteSidebar({ title, icon, update }: INoteSidebar) {
             <div className={styles.icon}>{icon}</div>
             <div className={styles.text}>{title}</div>
           </div>
+          {update && (
+            <ModalButton
+              typeButton="delete"
+              textNone={true}
+              className={styles.deleteButton}
+              onClick={() => {
+                deleteMutate(update.id);
+              }}
+              isLoading={deletePending}
+            >
+              Удалить
+            </ModalButton>
+          )}
         </div>
         <div className={styles.info}>
           {allStatuses ? (
@@ -138,7 +177,7 @@ export default function NoteSidebar({ title, icon, update }: INoteSidebar) {
           form="form"
           type="submit"
         >
-          Сохранить
+          {update ? "Сохранить" : "Создать"}
         </ModalButton>
       </div>
     </div>

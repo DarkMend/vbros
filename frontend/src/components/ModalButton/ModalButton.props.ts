@@ -5,4 +5,5 @@ export interface IModalButton extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: ReactNode;
   isLoading?: boolean;
   typeButton?: "delete";
+  textNone?: boolean;
 }

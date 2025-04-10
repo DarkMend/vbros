@@ -47,5 +47,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::controller(NoteController::class)->prefix('note')->group(function () {
         Route::post('/store', 'store');
         Route::put('/{note}/update', 'update');
+        Route::delete('/{note}/delete', 'destroy');
     });
 });
