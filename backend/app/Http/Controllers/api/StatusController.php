@@ -18,12 +18,12 @@ class StatusController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string'],
+            'name' => ['required', 'string', 'max:240'],
             'color' => ['required'],
         ], [
             'name.required' => 'Введите название',
-            'name.color' => 'Выберите цвет'
-
+            'name.color' => 'Выберите цвет',
+            'name.max' => 'Слишком большое название статуса'
         ]);
 
         Status::create([

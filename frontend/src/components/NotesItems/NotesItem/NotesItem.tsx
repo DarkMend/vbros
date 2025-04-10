@@ -25,10 +25,9 @@ export default function NotesItem({ note }: INotesItem) {
         {...attributes}
         {...listeners}
       >
-        <div className={styles["title"]}>{note.title}</div>
         <div className={styles["description"]}>{note.description}</div>
         <div className={styles["deadline"]}>
-          {new Date(note.created_at).toLocaleDateString()}
+          {new Date(note.date).toLocaleDateString()}
         </div>
       </div>
     </>

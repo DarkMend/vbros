@@ -11,6 +11,10 @@ class Note extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'date' => 'datetime:Y-m-d\TH:i:s.v\Z',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

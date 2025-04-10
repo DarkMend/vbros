@@ -14,6 +14,22 @@ class NoteController extends Controller
     }
 
     public function store(Request $request){
-        
+        $request->validate([
+            'description' => ['required', 'string'],
+            'status_id' => ['required', 'integer', 'exists:statuses,id'],
+            'date' => ['required', 'date'],
+        ], [
+            'description.required' => 'Введите заметку',
+            'date.date' => 'Неправильный формат даты'
+        ]);
+
+        Note::create([
+            'description' => $request->description,
+            'status_id' => $request->status_id,
+            'user_id' => auth()->id(),
+            'date' => \Carbon\Carbon::parse($request->date),
+        ]);
+
+        return response()->json(['message' => 'Успех'], 200);
     }
 }

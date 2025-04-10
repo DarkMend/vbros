@@ -16,11 +16,10 @@ class NoteResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
             'description' => $this->description,
             'status_id' => $this->status_id,
             'user_id' => $this->user_id,
-            'created_at' => $this->created_at
+            'date' => $this->date
         ];
     }
 }
