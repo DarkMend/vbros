@@ -7,7 +7,7 @@ import { useSibebarStore } from "../../store/sidebar.store";
 import { useModalStore } from "../../store/modalStore";
 import ChangeNoteStatusModal from "../Modals/ChangeNoteStatusModal/ChangeNoteStatusModal";
 import { ReactNode, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { statusService } from "../../services/status.service";
 import { useNoteStore } from "../../store/noteStore";
 import DateModal from "../Modals/DateModal/DateModal";
@@ -25,6 +25,7 @@ export default function NoteSidebar({ title, icon }: INoteSidebar) {
   const { closeSidebar } = useSibebarStore();
   const { openModal } = useModalStore();
   const { status, date } = useNoteStore();
+  const queryClient = useQueryClient();
 
   const { data } = useQuery({
     queryKey: ["statuses"],
@@ -46,6 +47,7 @@ export default function NoteSidebar({ title, icon }: INoteSidebar) {
     },
     onSuccess() {
       toast.success("Заметка успешно создана");
+      queryClient.invalidateQueries({ queryKey: ["statuses"] });
       closeSidebar();
     },
   });
