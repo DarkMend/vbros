@@ -19,7 +19,7 @@ export default function NotesItems({ data, className, ...props }: INotesItems) {
   const { openSidebar } = useSibebarStore();
   const { openModal } = useModalStore();
   const { setStatus, setDate } = useNoteStore();
-  const { setNodeRef } = useDroppable({
+  const { setNodeRef, isOver } = useDroppable({
     id: data.id,
   });
 
@@ -35,6 +35,18 @@ export default function NotesItems({ data, className, ...props }: INotesItems) {
       {...props}
       ref={setNodeRef}
     >
+      <div
+        className={cn(styles.over, {
+          [styles.active]: isOver,
+        })}
+      >
+        <div className={styles.overWrapper}>
+          <div>
+            <FileIcon />
+          </div>
+          <p>Переместить сюда</p>
+        </div>
+      </div>
       <div className={styles["notes-items__head"]}>
         <div className={styles["name"]}>
           <div className={styles["img"]}>

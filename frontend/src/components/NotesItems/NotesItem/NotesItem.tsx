@@ -14,6 +14,7 @@ export default function NotesItem({ note }: INotesItem) {
   const { allStatuses, setStatus, setDate } = useNoteStore();
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: note.id,
+    data: note,
   });
 
   const style = {
@@ -21,6 +22,7 @@ export default function NotesItem({ note }: INotesItem) {
       ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
       : undefined,
     cursor: transform ? "grab" : "default",
+    zIndex: transform ? 12 : 10,
   };
 
   const handleOpenSidebar = () => {
