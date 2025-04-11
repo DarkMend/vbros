@@ -80,7 +80,7 @@ export default function NoteSidebar({ title, icon, update }: INoteSidebar) {
       toast.error(data.response?.data?.message);
     },
     onSuccess() {
-      toast.success("Заметка успешно обновлена");
+      toast.success("Заметка успешно удалена");
       queryClient.invalidateQueries({ queryKey: ["statuses"] });
       closeSidebar();
     },

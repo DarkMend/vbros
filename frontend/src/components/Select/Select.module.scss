@@ -13,11 +13,26 @@
   cursor: pointer;
 }
 
+.triggerButton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+}
+
 .triggerContent {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 10px;
+  width: 100%;
+  p {
+    white-space: nowrap;
+    overflow: hidden;
+    width: 200px;
+    text-overflow: ellipsis;
+  }
 }
 
 .content {
@@ -41,6 +56,13 @@
   gap: 10px;
   transition: all 0.3s ease;
   border-radius: 10px;
+  width: 100%;
+
+  p {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
   &:hover {
     background: #6363631a;

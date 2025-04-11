@@ -8,6 +8,7 @@
   border: 1px solid black;
   border-radius: 12px;
   cursor: pointer;
+  max-width: 200px;
 
   .icon {
     width: 16px;
@@ -30,5 +31,9 @@
   .text {
     font-size: 14px;
     font-weight: 500;
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }

@@ -51,22 +51,25 @@ const Select = forwardRef<HTMLButtonElement, ISelectIcon>(
               : { background: "#6363631a" }
           }
         >
-          <button>
+          <button className={styles.triggerButton}>
             {value ? (
               <div className={styles.triggerContent}>
-                <ColorSquare color={value.color} />
+                <div>
+                  <ColorSquare color={value.color} />
+                </div>
                 <p>{value.name}</p>
               </div>
             ) : (
               <p>Выберите статус</p>
             )}
-
-            <div
-              className={cn(styles.selectIcon, {
-                [styles.active]: open,
-              })}
-            >
-              <ChevronDown />
+            <div>
+              <div
+                className={cn(styles.selectIcon, {
+                  [styles.active]: open,
+                })}
+              >
+                <ChevronDown />
+              </div>
             </div>
           </button>
         </Popover.Trigger>
@@ -97,8 +100,10 @@ const Select = forwardRef<HTMLButtonElement, ISelectIcon>(
                       }
                       onClick={() => handleChange(item)}
                     >
-                      <ColorSquare color={item.color} />
-                      {item.name}
+                      <div>
+                        <ColorSquare color={item.color} />
+                      </div>
+                      <p>{item.name}</p>
                     </div>
                   ))}
                 </motion.div>

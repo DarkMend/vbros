@@ -17,18 +17,20 @@ export default function NoteInfo({ icon, text, color, ...props }: INoteInfo) {
       }}
       {...props}
     >
-      <div className={styles.icon}>
-        {icon ? (
-          icon
-        ) : (
-          <div
-            className={styles.circle}
-            style={{
-              background: color,
-              boxShadow: `0px 2px 4px 0px ${color}`,
-            }}
-          ></div>
-        )}
+      <div>
+        <div className={styles.icon}>
+          {icon ? (
+            icon
+          ) : (
+            <div
+              className={styles.circle}
+              style={{
+                background: color,
+                boxShadow: `0px 2px 4px 0px ${color}`,
+              }}
+            ></div>
+          )}
+        </div>
       </div>
       <div className={styles.text}>{text}</div>
     </button>
