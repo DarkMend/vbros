@@ -36,6 +36,9 @@ export default function NoteSidebar({ title, icon, update }: INoteSidebar) {
     reset,
   } = useForm<INote>({
     mode: "onSubmit",
+    defaultValues: {
+      description: update && update.description,
+    },
   });
 
   useEffect(() => {
@@ -58,6 +61,7 @@ export default function NoteSidebar({ title, icon, update }: INoteSidebar) {
     onSuccess() {
       toast.success("Заметка успешно создана");
       queryClient.invalidateQueries({ queryKey: ["statuses"] });
+      reset();
       closeSidebar();
     },
   });
@@ -83,6 +87,7 @@ export default function NoteSidebar({ title, icon, update }: INoteSidebar) {
       toast.success("Заметка успешно удалена");
       queryClient.invalidateQueries({ queryKey: ["statuses"] });
       closeSidebar();
+      reset();
     },
   });
 
