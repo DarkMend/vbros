@@ -1,9 +1,9 @@
 import { create } from "zustand";
-import { IStatus } from "../interfaces/status.interface";
+import { IStatus, IStatusWithNotes } from "../interfaces/status.interface";
 
 export interface INoteStore {
-  allStatuses: IStatus[] | null;
-  setAllStatuses: (statuses: IStatus[]) => void;
+  allStatuses: IStatusWithNotes[] | null;
+  setAllStatuses: (statuses: IStatusWithNotes[]) => void;
   status: IStatus | null;
   setStatus: (status: IStatus) => void;
   date: Date | null;

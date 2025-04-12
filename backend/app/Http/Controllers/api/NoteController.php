@@ -30,7 +30,7 @@ class NoteController extends Controller
             'date' => \Carbon\Carbon::parse($request->date),
         ]);
 
-        return response()->json(['message' => 'Успех'], 200);
+        return response()->json(['message' => 'Заметка создана'], 200);
     }
 
     public function update(Request $request, Note $note){
@@ -50,12 +50,12 @@ class NoteController extends Controller
             'date' => \Carbon\Carbon::parse($request->date),
         ]);
 
-        return response()->json(['message' => 'Успех'], 200);
+        return response()->json(['message' => 'Заметка обновлена'], 200);
     }
 
     public function destroy(Note $note){
         $note->delete();
-        return response()->json(['message' => 'Успех'], 200);
+        return response()->json(['message' => 'Заметка удалена'], 200);
     }
 
     public function changeStatus(Request $request, Note $note){
@@ -66,5 +66,7 @@ class NoteController extends Controller
         $note->update([
             'status_id' => $request->status_id
         ]);
+
+        return response()->json(['message' => 'Cтатус успешно изменен'], 200);
     }
 }

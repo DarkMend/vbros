@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import ActionButton from "../../components/ActionButton/ActionButton";
 import NotesItems from "../../components/NotesItems/NotesItems";
 import Title from "../../components/Title/Title";
@@ -13,38 +13,69 @@ import { useNoteStore } from "../../store/noteStore";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { useChangeStautsNote } from "../../utils/hooks/Note/useChangeStatusNote";
 import { toast } from "react-toastify";
+import { INote } from "../../interfaces/note.interface";
 
 export default function NotesPage() {
   const { openModal } = useModalStore();
-  const { setAllStatuses } = useNoteStore();
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
+  const { allStatuses, setAllStatuses } = useNoteStore();
 
-  const { data, isLoading, isFetching } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["statuses"],
     queryFn: () => statusService.getPersonalStatuses(),
     select: (data) => data.data.data,
   });
 
-  const { mutate, isPending } = useChangeStautsNote({
-    onError(data) {
-      toast.error(data.response?.data?.message);
-    },
-    onSuccess() {
-      queryClient.invalidateQueries({ queryKey: ["statuses"] });
-    },
-  });
+  const { mutate } = useChangeStautsNote();
 
   useEffect(() => {
     if (data) setAllStatuses(data);
   }, [data, setAllStatuses]);
 
-  const isLoadingStatus = isLoading || isFetching || isPending;
+  const isLoadingStatus = isLoading;
 
   const handleDragEnd = (e: DragEndEvent) => {
+    if (!e.over || !e.active.data.current) return;
+
+    const activeNote = e.active.data.current as INote;
+    const newStatusId = e.over.id as number;
+
+    if (activeNote.status_id === newStatusId) return;
+
     if (e.over?.id === e.active.data.current?.status_id) {
       return;
     }
-    mutate({ id: e.active.id as number, status_id: e.over?.id as number });
+
+    const arr = allStatuses?.map((status) => {
+      if (status.id === newStatusId) {
+        return {
+          ...status,
+          notes: [...status.notes, { ...activeNote, status_id: newStatusId }],
+        };
+      }
+
+      if (status.id == activeNote.status_id) {
+        return {
+          ...status,
+          notes: status.notes.filter((note) => note.id !== activeNote.id),
+        };
+      }
+
+      return status;
+    });
+    if (arr) setAllStatuses(arr);
+
+    if (arr) {
+      mutate(
+        { id: activeNote.id, status_id: newStatusId },
+        {
+          onError(message) {
+            toast.error(message.response?.data?.message);
+            if (data) setAllStatuses(data);
+          },
+        }
+      );
+    }
   };
 
   return (
@@ -74,7 +105,7 @@ export default function NotesPage() {
                 </div>
               ) : (
                 <>
-                  {data?.map((status) => (
+                  {allStatuses?.map((status) => (
                     <NotesItems key={status.id} data={status} />
                   ))}
                   <AddNoteItem

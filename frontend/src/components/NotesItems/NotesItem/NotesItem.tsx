@@ -23,7 +23,7 @@ export default function NotesItem({ note }: INotesItem) {
       ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
       : undefined,
     cursor: transform ? "grab" : "default",
-    zIndex: transform ? 12 : 10,
+    zIndex: transform && 3,
   };
 
   const handleOpenSidebar: PointerEventHandler<HTMLButtonElement> = (e) => {

@@ -22,8 +22,8 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    word-break: break-word; // Изменено с break-all
-    line-height: 1.2; // Добавлено для контроля высоты строки
+    word-break: break-word;
+    line-height: 1.2;
     max-height: 2.4em;
   }
 
