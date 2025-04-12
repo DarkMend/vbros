@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import ActionButton from "../../components/ActionButton/ActionButton";
 import NotesItems from "../../components/NotesItems/NotesItems";
 import Title from "../../components/Title/Title";
@@ -10,11 +10,14 @@ import CreateOrUpdateStatusModal from "../../components/Modals/StatusModals/Crea
 import SkeletonItem from "../../components/SkeletonItem/SkeletonItem";
 import { useEffect } from "react";
 import { useNoteStore } from "../../store/noteStore";
-import { DndContext } from "@dnd-kit/core";
+import { DndContext, DragEndEvent } from "@dnd-kit/core";
+import { useChangeStautsNote } from "../../utils/hooks/Note/useChangeStatusNote";
+import { toast } from "react-toastify";
 
 export default function NotesPage() {
   const { openModal } = useModalStore();
   const { setAllStatuses } = useNoteStore();
+  const queryClient = useQueryClient();
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ["statuses"],
@@ -22,13 +25,27 @@ export default function NotesPage() {
     select: (data) => data.data.data,
   });
 
+  const { mutate, isPending } = useChangeStautsNote({
+    onError(data) {
+      toast.error(data.response?.data?.message);
+    },
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ["statuses"] });
+    },
+  });
+
   useEffect(() => {
     if (data) setAllStatuses(data);
-  }, [data]);
+  }, [data, setAllStatuses]);
 
-  const isLoadingStatus = isLoading || isFetching;
+  const isLoadingStatus = isLoading || isFetching || isPending;
 
-  const handleDragEnd = (e) => {};
+  const handleDragEnd = (e: DragEndEvent) => {
+    if (e.over?.id === e.active.data.current?.status_id) {
+      return;
+    }
+    mutate({ id: e.active.id as number, status_id: e.over?.id as number });
+  };
 
   return (
     <>

@@ -57,4 +57,14 @@ class NoteController extends Controller
         $note->delete();
         return response()->json(['message' => 'Успех'], 200);
     }
+
+    public function changeStatus(Request $request, Note $note){
+        $request->validate([
+            'status_id' => ['required', 'exists:statuses,id']
+        ]);
+        
+        $note->update([
+            'status_id' => $request->status_id
+        ]);
+    }
 }

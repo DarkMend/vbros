@@ -17,4 +17,8 @@ export const noteService = {
   async deleteNote(id: number) {
     return axiosWithAuth.delete(`/note/${id}/delete`);
   },
+
+  async changeStatus(data: { id: number; status_id: number }) {
+    return axiosWithAuth.put(`/note/${data.id}/changeStatus`, data);
+  },
 };
