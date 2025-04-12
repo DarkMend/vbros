@@ -8,6 +8,7 @@ import NoteSidebar from "../../NoteSidebar/NoteSidebar";
 import { Pencil } from "lucide-react";
 import MenuIcon from "../../../../public/icons/menu-select.svg";
 import { useNoteStore } from "../../../store/noteStore";
+import { PointerEventHandler } from "react";
 
 export default function NotesItem({ note }: INotesItem) {
   const { openSidebar } = useSibebarStore();
@@ -25,7 +26,9 @@ export default function NotesItem({ note }: INotesItem) {
     zIndex: transform ? 12 : 10,
   };
 
-  const handleOpenSidebar = () => {
+  const handleOpenSidebar: PointerEventHandler<HTMLButtonElement> = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     const status = allStatuses?.find((status) => status.id === note.status_id);
     if (status) {
       setStatus(status);
@@ -48,7 +51,10 @@ export default function NotesItem({ note }: INotesItem) {
     >
       <div className={styles.notesItemWrapper}>
         <div className={styles["description"]}>{note.description}</div>
-        <button onPointerDown={handleOpenSidebar} className={styles.menuButton}>
+        <button
+          onPointerDown={(e) => handleOpenSidebar(e)}
+          className={styles.menuButton}
+        >
           <MenuIcon />
         </button>
       </div>
