@@ -19,7 +19,8 @@ class NoteResource extends JsonResource
             'description' => $this->description,
             'status_id' => $this->status_id,
             'user_id' => $this->user_id,
-            'date' => $this->date
+            'date' => $this->date,
+            'updated_at' => $this->updated_at
         ];
     }
 }

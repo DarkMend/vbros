@@ -17,7 +17,6 @@ import { INote } from "../../interfaces/note.interface";
 
 export default function NotesPage() {
   const { openModal } = useModalStore();
-  // const queryClient = useQueryClient();
   const { allStatuses, setAllStatuses } = useNoteStore();
 
   const { data, isLoading } = useQuery({
@@ -50,7 +49,10 @@ export default function NotesPage() {
       if (status.id === newStatusId) {
         return {
           ...status,
-          notes: [...status.notes, { ...activeNote, status_id: newStatusId }],
+          notes: [
+            ...status.notes,
+            { ...activeNote, status_id: newStatusId, updated_at: new Date() },
+          ],
         };
       }
 

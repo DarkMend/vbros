@@ -78,7 +78,13 @@ export default function NotesItems({ data, className, ...props }: INotesItems) {
         })}
       >
         {data.notes &&
-          data.notes.map((el) => <NotesItem key={el.id} note={el} />)}
+          data.notes
+            .sort(
+              (a, b) =>
+                new Date(a.updated_at).getTime() -
+                new Date(b.updated_at).getTime()
+            )
+            .map((el) => <NotesItem key={el.id} note={el} />)}
         <AddNoteItem typeButton="note" onClick={openCreateNoteSidebar} />
       </div>
     </div>

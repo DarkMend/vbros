@@ -4,4 +4,5 @@ export interface INote {
   status_id: number;
   user_id: number;
   date: Date;
+  updated_at: Date;
 }
