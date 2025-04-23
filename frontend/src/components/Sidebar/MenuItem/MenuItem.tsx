@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import styles from "./MenuItem.module.scss";
 import { IMenuItem } from "./MenuItem.props";
 import cn from "classnames";
+import PlusIcon from "./../../../../public/icons/plus.svg";
 
 export default function MenuItem({ href, name, icon, ...props }: IMenuItem) {
   return (
@@ -25,11 +26,9 @@ export default function MenuItem({ href, name, icon, ...props }: IMenuItem) {
               <div className={styles["text"]}>{name}</div>
             </div>
           </div>
-          {/* <div className={cn(styles['quantity'], {
-                        [styles['none']]: quantityActive
-                    })}>
-                        24
-                    </div> */}
+          <button className={cn(styles["quantity"])}>
+            <PlusIcon />
+          </button>
         </div>
       )}
     </NavLink>
