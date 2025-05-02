@@ -4,4 +4,5 @@ export interface IMenuItem {
   href: string;
   name: string;
   icon?: ReactNode;
+  teamProject?: boolean;
 }

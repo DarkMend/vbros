@@ -25,6 +25,7 @@ export default function Sidebar() {
                     href={item.href}
                     name={item.name}
                     icon={item.icon}
+                    teamProject={item.href == "/team-project"}
                   />
                 ))}
             </div>

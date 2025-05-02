@@ -4,7 +4,13 @@ import { IMenuItem } from "./MenuItem.props";
 import cn from "classnames";
 import PlusIcon from "./../../../../public/icons/plus.svg";
 
-export default function MenuItem({ href, name, icon, ...props }: IMenuItem) {
+export default function MenuItem({
+  href,
+  name,
+  icon,
+  teamProject,
+  ...props
+}: IMenuItem) {
   return (
     <NavLink to={href}>
       {({ isActive }) => (
@@ -26,7 +32,16 @@ export default function MenuItem({ href, name, icon, ...props }: IMenuItem) {
               <div className={styles["text"]}>{name}</div>
             </div>
           </div>
-          <button className={cn(styles["quantity"])}>
+          <button
+            className={cn(styles["quantity"], {
+              [styles.active]: teamProject,
+            })}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              console.log(1);
+            }}
+          >
             <PlusIcon />
           </button>
         </div>

@@ -8,6 +8,7 @@ interface IMenu {
   href: string;
   icon: ReactNode;
   name: string;
+  teamProject?: boolean;
 }
 
 export const menu: IMenu[] = [
@@ -25,6 +26,7 @@ export const menu: IMenu[] = [
     href: "/team-project",
     icon: <TeamWortsIcon />,
     name: "Проекты",
+    teamProject: true,
   },
   {
     href: "/favourite",
