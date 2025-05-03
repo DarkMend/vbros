@@ -1,7 +1,9 @@
 import MenuItem from "./MenuItem/MenuItem";
+import MenuSelect from "./MenuSelect/MenuSelect";
 import Profile from "./Profile/Profile";
 import styles from "./Sidebar.module.scss";
 import { menu } from "./data";
+import TeamWorksIcon from "./../../../public/icons/team-works.svg";
 
 export default function Sidebar() {
   return (
@@ -28,6 +30,7 @@ export default function Sidebar() {
                     teamProject={item.href == "/team-project"}
                   />
                 ))}
+              <MenuSelect name="Проекты" icon={<TeamWorksIcon />} />
             </div>
             <div className={styles["line"]}></div>
             <div className={styles["menu__wrapper"]}>
