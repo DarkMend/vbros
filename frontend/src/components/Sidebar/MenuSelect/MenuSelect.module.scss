@@ -30,6 +30,11 @@
   }
   &Actions {
     .action {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background: none;
       width: 14px;
       height: 14px;
       cursor: pointer;
