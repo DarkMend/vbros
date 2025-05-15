@@ -1,15 +1,22 @@
+import { useModalStore } from "../../../../store/modalStore";
 import MainInput from "../../../MainInput/MainInput";
+import MainTextarea from "../../../MainTextarea/MainTextarea";
 import ModalFormLayout from "../../../ModalFormLayout/ModalFormLayout";
 import ModalLayout from "../../../ModalLayout/ModalLayout";
-import ModalMenuItem from "../../../ModalMenuItem/ModalMenuItem";
 import TeamProjectIcon from "./../../../../../public/icons/team-project.svg";
+import styles from "./CreateOrUpdateProjectModal.module.scss";
 
 export default function CreateOrUpdateProjectModal() {
+  const { closeModal } = useModalStore();
+
   return (
     <ModalLayout icon={<TeamProjectIcon />} title="Новый проект">
-      <ModalFormLayout submitButtonText="Создать">
+      <ModalFormLayout
+        submitButtonText="Создать"
+        closeHandle={() => closeModal()}
+      >
         <MainInput placeholder="Название" />
-        <ModalMenuItem name="Иконка" icon={<TeamProjectIcon />} />
+        <MainTextarea placeholder="Описание" />
       </ModalFormLayout>
     </ModalLayout>
   );
