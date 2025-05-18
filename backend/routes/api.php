@@ -50,4 +50,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/{note}/delete', 'destroy');
         Route::put('/{note}/changeStatus', 'changeStatus');
     });
+
+    // Route::controller()
 });

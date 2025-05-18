@@ -1,0 +1,54 @@
+.imageLoader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+
+  .input {
+    display: none;
+  }
+
+  .label {
+    width: 43px;
+    height: 43px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    border: 1px solid #e4e4e4;
+    cursor: pointer;
+
+    .img {
+      width: 43px;
+      height: 43px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 12px;
+      }
+
+      &.svg {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+
+        img {
+          border-radius: 0px;
+        }
+      }
+    }
+  }
+
+  .text {
+    font-size: 14px;
+    font-weight: 500;
+    color: #c9c9c9;
+  }
+}

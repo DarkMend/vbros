@@ -2,6 +2,7 @@ import { forwardRef } from "react";
 import styles from "./MainInput.module.scss";
 import { IMainInput } from "./MainInput.props";
 import cn from "classnames";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 const MainInput = forwardRef<HTMLInputElement, IMainInput>(
   ({ type = "text", placeholder, errorMessage, className, ...props }, ref) => {
@@ -16,16 +17,7 @@ const MainInput = forwardRef<HTMLInputElement, IMainInput>(
             [styles["error"]]: !!errorMessage,
           })}
         />
-        <div
-          className={cn(styles["error-message"], {
-            [styles["active"]]: !!errorMessage,
-          })}
-        >
-          <div className={styles["error-icon"]}>
-            <img src="/icons/error-icon.svg" alt="ошибка" />
-          </div>
-          <p className={styles["error-text"]}>{errorMessage}</p>
-        </div>
+        <ErrorMessage errorMessage={errorMessage} />
       </div>
     );
   }

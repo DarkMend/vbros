@@ -1,0 +1,27 @@
+.error-message {
+  display: none;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+
+  .error-icon {
+    width: 20px;
+    height: 20px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  p {
+    font-size: 14px;
+    font-weight: 500;
+    color: #ff4b4b;
+    max-width: 200px;
+  }
+
+  &.active {
+    display: flex;
+  }
+}
