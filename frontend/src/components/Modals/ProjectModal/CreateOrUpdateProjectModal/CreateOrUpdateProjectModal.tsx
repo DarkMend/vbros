@@ -10,11 +10,13 @@ import { useCreateProject } from "../../../../utils/hooks/Project/useCreateProje
 import { useForm } from "react-hook-form";
 import { IProject } from "../../../../interfaces/project.interface";
 import { toast } from "react-toastify";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function CreateOrUpdateProjectModal() {
   const { closeModal } = useModalStore();
   const [image, setImage] = useState<File | null>(null);
   const [isSvg, setIsSvg] = useState<boolean>(false);
+  const queryClient = useQueryClient();
 
   // предзагрузка изображений
   const imageUrl = useMemo(() => {
@@ -48,6 +50,7 @@ export default function CreateOrUpdateProjectModal() {
       onSuccess() {
         reset();
         toast.success("Проект успешно создан");
+        queryClient.invalidateQueries({ queryKey: ["getProjects"] });
         setImage(null);
         setIsSvg(false);
       },

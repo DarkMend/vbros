@@ -9,11 +9,12 @@ use Illuminate\Http\Request;
 
 class NoteController extends Controller
 {
-    public function index() {
-        return response()->json(['data' => NoteResource::collection(Note::all()), 'message' => 'Нормик'], 200);
-    }
+    // public function index() {
+    //     return response()->json(['data' => NoteResource::collection(Note::all()), 'message' => 'Нормик'], 200);
+    // }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $request->validate([
             'description' => ['required', 'string'],
             'status_id' => ['required', 'integer', 'exists:statuses,id'],
@@ -33,16 +34,19 @@ class NoteController extends Controller
         return response()->json(['message' => 'Заметка создана'], 200);
     }
 
-    public function update(Request $request, Note $note){
-        $request -> validate([
-            'description' => ['required', 'string'],
-            'status_id' => ['required', 'integer', 'exists:statuses,id'],
-            'date' => ['required', 'date'],
-        ], 
-        [
-            'description.required' => 'Введите заметку',
-            'date.date' => 'Неправильный формат даты'
-        ]);
+    public function update(Request $request, Note $note)
+    {
+        $request->validate(
+            [
+                'description' => ['required', 'string'],
+                'status_id' => ['required', 'integer', 'exists:statuses,id'],
+                'date' => ['required', 'date'],
+            ],
+            [
+                'description.required' => 'Введите заметку',
+                'date.date' => 'Неправильный формат даты'
+            ]
+        );
 
         $note->update([
             'description' => $request->description,
@@ -53,16 +57,18 @@ class NoteController extends Controller
         return response()->json(['message' => 'Заметка обновлена'], 200);
     }
 
-    public function destroy(Note $note){
+    public function destroy(Note $note)
+    {
         $note->delete();
         return response()->json(['message' => 'Заметка удалена'], 200);
     }
 
-    public function changeStatus(Request $request, Note $note){
+    public function changeStatus(Request $request, Note $note)
+    {
         $request->validate([
             'status_id' => ['required', 'exists:statuses,id']
         ]);
-        
+
         $note->update([
             'status_id' => $request->status_id
         ]);

@@ -4,12 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Project extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
+
+    public function getIconUrl()
+    {
+        if (!$this->icon) {
+            return null;
+        }
+
+        return Storage::url($this->icon);
+    }
 
     public function users()
     {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProjectResource;
 use App\Models\Project;
 use App\Models\StatusProject;
 use Illuminate\Http\Request;
@@ -57,5 +58,11 @@ class ProjectController extends Controller
         });
 
         return response()->json(['message' => 'Проект успешно создан'], 200);
+    }
+
+    public function getProjects()
+    {
+        $projects = auth()->user()->projects;
+        return response()->json(['data' => ProjectResource::collection($projects)], 200);
     }
 }

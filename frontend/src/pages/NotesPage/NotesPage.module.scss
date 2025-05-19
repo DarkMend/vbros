@@ -56,5 +56,9 @@
 .skeletonContainer {
   display: flex;
   flex-direction: column;
-  gap: 0px;
+  gap: 16px;
+
+  br {
+    display: none;
+  }
 }

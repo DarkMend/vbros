@@ -4,6 +4,10 @@ import PlusIcon from "./../../../../public/icons/plus.svg";
 import TeamProjectIcon from "./../../../../public/icons/team-project.svg";
 import { useModalStore } from "../../../store/modalStore";
 import CreateOrUpdateProjectModal from "../../Modals/ProjectModal/CreateOrUpdateProjectModal/CreateOrUpdateProjectModal";
+import { useQuery } from "@tanstack/react-query";
+import { projectService } from "../../../services/project.service";
+import { IProject } from "../../../interfaces/project.interface";
+import SkeletonItem from "../../SkeletonItem/SkeletonItem";
 
 export interface IMenuSelect {
   name: string;
@@ -12,6 +16,11 @@ export interface IMenuSelect {
 
 export default function MenuSelect({ name, icon }: IMenuSelect) {
   const { openModal } = useModalStore();
+  const { data, isFetching } = useQuery({
+    queryKey: ["getProjects"],
+    queryFn: () => projectService.getProjects(),
+    select: (data) => data.data.data,
+  });
 
   return (
     <div className={styles.menuSelect}>
@@ -30,44 +39,32 @@ export default function MenuSelect({ name, icon }: IMenuSelect) {
         </div>
       </div>
       <div className={styles.menuSelectItems}>
-        <div className={styles.menuSelectItem}>
-          <div className={styles.menuSelectMainInfo}>
-            <div className={styles.icon}>
-              <TeamProjectIcon />
-            </div>
-            <div className={styles.text}>{name}</div>
-          </div>
-        </div>
-        <div className={styles.menuSelectItem}>
-          <div className={styles.menuSelectMainInfo}>
-            <div className={styles.icon}>{icon}</div>
-            <div className={styles.text}>{name}</div>
-          </div>
-        </div>
-        <div className={styles.menuSelectItem}>
-          <div className={styles.menuSelectMainInfo}>
-            <div className={styles.icon}>{icon}</div>
-            <div className={styles.text}>{name}</div>
-          </div>
-        </div>
-        <div className={styles.menuSelectItem}>
-          <div className={styles.menuSelectMainInfo}>
-            <div className={styles.icon}>{icon}</div>
-            <div className={styles.text}>{name}</div>
-          </div>
-        </div>
-        <div className={styles.menuSelectItem}>
-          <div className={styles.menuSelectMainInfo}>
-            <div className={styles.icon}>{icon}</div>
-            <div className={styles.text}>{name}</div>
-          </div>
-        </div>
-        <div className={styles.menuSelectItem}>
-          <div className={styles.menuSelectMainInfo}>
-            <div className={styles.icon}>{icon}</div>
-            <div className={styles.text}>{name}</div>
-          </div>
-        </div>
+        {isFetching ? (
+          <SkeletonItem
+            count={2}
+            className={styles.skeleton}
+            classNameContainer={styles.skeletonWrapper}
+          />
+        ) : (
+          data?.map((project: IProject) => {
+            return (
+              <div className={styles.menuSelectItem} key={project.id}>
+                <div className={styles.menuSelectMainInfo}>
+                  <div>
+                    <div className={styles.icon}>
+                      {project.icon ? (
+                        <img src={project.icon as string} alt={project.name} />
+                      ) : (
+                        <TeamProjectIcon />
+                      )}
+                    </div>
+                  </div>
+                  <div className={styles.text}>{project.name}</div>
+                </div>
+              </div>
+            );
+          })
+        )}
       </div>
     </div>
   );

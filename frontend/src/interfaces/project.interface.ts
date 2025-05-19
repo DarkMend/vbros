@@ -2,5 +2,5 @@ export interface IProject {
   id: number;
   name: string;
   description: string;
-  icon: File;
+  icon: File | string;
 }
