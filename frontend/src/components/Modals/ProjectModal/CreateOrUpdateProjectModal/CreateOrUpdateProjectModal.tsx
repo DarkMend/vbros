@@ -47,7 +47,12 @@ export default function CreateOrUpdateProjectModal() {
     {
       onSuccess() {
         reset();
-        toast.success("Успешно");
+        toast.success("Проект успешно создан");
+        setImage(null);
+        setIsSvg(false);
+      },
+      onError(data) {
+        toast.error(data.response?.data?.message);
       },
     }
   );

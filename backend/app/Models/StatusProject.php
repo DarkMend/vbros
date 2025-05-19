@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class StatusProject extends Model
 {
     use HasFactory;
+
+    protected $guarded = [];
 }

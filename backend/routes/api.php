@@ -2,10 +2,9 @@
 
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\NoteController;
+use App\Http\Controllers\api\ProjectController;
 use App\Http\Controllers\api\StatusController;
 use App\Http\Controllers\api\UserController;
-use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -51,5 +50,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{note}/changeStatus', 'changeStatus');
     });
 
-    // Route::controller()
+    Route::controller(ProjectController::class)->prefix('project')->group(function () {
+        Route::post('/createProject', 'store');
+    });
 });
