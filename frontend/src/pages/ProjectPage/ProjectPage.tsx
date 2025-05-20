@@ -7,6 +7,7 @@ import ProjectIcon from "../../../public/icons/team-project.svg";
 import MenuSelect from "../../../public/icons/menu-select.svg";
 import { IUserWithRole } from "../../interfaces/user.interface";
 import AvatarPlug from "../../components/AvatarPlug/AvatarPlug";
+import SkeletonItem from "../../components/SkeletonItem/SkeletonItem";
 
 type ProjectPageParams = {
   id: string;
@@ -29,39 +30,53 @@ export default function ProjectPage() {
 
   const project: IProject = data?.project ?? {};
   const users = data?.users ?? [];
+  const visibleUsers = users.slice(0, 3);
 
   return (
     <div className={styles.project}>
-      <div className={styles.header}>
-        <div className={styles.headerTitle}>
-          <div className={styles.img}>
-            {project?.icon ? (
-              <img src={project?.icon as string} alt={project.name} />
-            ) : (
-              <ProjectIcon />
-            )}
-          </div>
-          <div className={styles.text}>{project.name}</div>
-        </div>
-        <div className={styles.headerActions}>
-          <div className={styles.usersProject}>
-            {users?.map((user: IUserWithRole) =>
-              user.avatar ? (
-                <div className={styles.usersProjectAva}>
-                  <img src={user.avatar} alt="" />
-                </div>
+      {isLoading ? (
+        <SkeletonItem className={styles.headerSkeleton} />
+      ) : (
+        <div className={styles.header}>
+          <div className={styles.headerTitle}>
+            <div className={styles.img}>
+              {project?.icon ? (
+                <img src={project?.icon as string} alt={project.name} />
               ) : (
-                <div className={styles.usersProjectAva}>
-                  <AvatarPlug name={user.name} />
-                </div>
-              )
-            )}
+                <ProjectIcon />
+              )}
+            </div>
+            <div className={styles.text}>{project.name}</div>
           </div>
-          <button className={styles.actions}>
-            <MenuSelect />
-          </button>
+          <div className={styles.headerActions}>
+            <div className={styles.usersProject}>
+              {visibleUsers?.map((user: IUserWithRole, index: number) => (
+                <div
+                  className={styles.usersProjectAva}
+                  key={user.id}
+                  style={{
+                    zIndex: 2 - index,
+                  }}
+                >
+                  {user.avatar ? (
+                    <img src={user.avatar} alt="" />
+                  ) : (
+                    <AvatarPlug name={user.name} />
+                  )}
+                </div>
+              ))}
+              {users.length > 3 && (
+                <div className={styles.count}>+{users.length - 2}</div>
+              )}
+            </div>
+            <button className={styles.actions}>
+              <MenuSelect />
+            </button>
+          </div>
         </div>
-      </div>
+      )}
+      <div className={styles.projectDesc}>{project.description}</div>
+      <p>Заметки</p>
     </div>
   );
 }
