@@ -7,6 +7,7 @@ import StartPage from "./pages/StartPage/StartPage";
 import RegPage from "./pages/RegPage/RegPage";
 import PrivateProvider from "./providers/PrivateProvider";
 import { ErrorBoundary } from "./components/ErrorBoundary/ErrorBoundary";
+import ProjectPage from "./pages/ProjectPage/ProjectPage";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: "/notes",
         element: <NotesPage />,
+      },
+      {
+        path: "/projects/:id",
+        element: <ProjectPage />,
       },
     ],
   },

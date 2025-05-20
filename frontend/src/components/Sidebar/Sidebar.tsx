@@ -4,8 +4,17 @@ import Profile from "./Profile/Profile";
 import styles from "./Sidebar.module.scss";
 import { menu } from "./data";
 import TeamWorksIcon from "./../../../public/icons/team-works.svg";
+import { useQuery } from "@tanstack/react-query";
+import { projectService } from "../../services/project.service";
+import Logo from "../../../public/logo.svg";
 
 export default function Sidebar() {
+  const { data: projects, isFetching } = useQuery({
+    queryKey: ["getProjects"],
+    queryFn: () => projectService.getProjects(),
+    select: (projects) => projects.data.data,
+  });
+
   return (
     <>
       <div className={styles["genjutsu"]}></div>
@@ -13,7 +22,7 @@ export default function Sidebar() {
         <div className={styles["sidebar__nav"]}>
           <div className={styles["logo"]}>
             <div className={styles["img"]}>
-              <img src="./logo.svg" alt="" />
+              <Logo />
             </div>
             <h2>Вброс</h2>
           </div>
@@ -30,7 +39,12 @@ export default function Sidebar() {
                     teamProject={item.href == "/team-project"}
                   />
                 ))}
-              <MenuSelect name="Проекты" icon={<TeamWorksIcon />} />
+              <MenuSelect
+                name="Проекты"
+                icon={<TeamWorksIcon />}
+                isFetching={isFetching}
+                projects={projects}
+              />
             </div>
             <div className={styles["line"]}></div>
             <div className={styles["menu__wrapper"]}>
