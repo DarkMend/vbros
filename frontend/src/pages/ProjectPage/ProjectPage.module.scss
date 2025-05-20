@@ -1,0 +1,69 @@
+.project {
+  .header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    .headerTitle {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 5px;
+
+      .img {
+        width: 30px;
+        height: 30px;
+
+        img,
+        svg {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 5px;
+        }
+      }
+    }
+
+    .headerActions {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 24px;
+
+      .usersProject {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        .usersProjectAva {
+          width: 25px;
+          height: 25px;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 100px;
+          }
+        }
+      }
+
+      .actions {
+        background: none;
+        border: none;
+        outline: none;
+        width: 17px;
+        height: 17px;
+        cursor: pointer;
+        transform: rotate(-90deg);
+
+        svg {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
+      }
+    }
+  }
+}

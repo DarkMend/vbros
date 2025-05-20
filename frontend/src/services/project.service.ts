@@ -8,4 +8,8 @@ export const projectService = {
   async getProjects() {
     return axiosWithAuth.get("/project/personal-projects");
   },
+
+  async getProject(id: number) {
+    return axiosWithAuth.get(`/project/personal-project/${id}`);
+  },
 };

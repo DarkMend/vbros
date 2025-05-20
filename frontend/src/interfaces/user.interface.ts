@@ -5,3 +5,7 @@ export interface IUser {
   password?: string;
   avatar?: string;
 }
+
+export interface IUserWithRole extends IUser {
+  role: string;
+}

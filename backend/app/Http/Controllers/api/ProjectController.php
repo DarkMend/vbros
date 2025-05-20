@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProjectResource;
+use App\Http\Resources\ProjectWithUsersResource;
 use App\Models\Project;
 use App\Models\StatusProject;
 use Illuminate\Http\Request;
@@ -64,5 +65,16 @@ class ProjectController extends Controller
     {
         $projects = auth()->user()->projects;
         return response()->json(['data' => ProjectResource::collection($projects)], 200);
+    }
+
+    public function getProject(Project $project)
+    {
+        if (!$project->users()->where('user_id', auth()->id())->exists()) {
+            return response()->json(['message' => 'У вас нет такого проекта'], 403);
+        }
+
+        $project->load('users');
+
+        return response()->json(['data' => new ProjectWithUsersResource($project)], 200);
     }
 }
