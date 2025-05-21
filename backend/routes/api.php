@@ -54,5 +54,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/createProject', 'store');
         Route::get('/personal-projects', 'getProjects');
         Route::get('/personal-project/{project}', 'getProject');
+        Route::get('/personal-project/{project}/statuses', 'getStatuses');
     });
 });

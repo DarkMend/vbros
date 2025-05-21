@@ -1,0 +1,22 @@
+.notesWrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin-top: 30px;
+  gap: 24px;
+  min-height: calc(100vh - 120px);
+
+  .notesWrapperStatus {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    padding-right: 5px;
+
+    &::-webkit-scrollbar {
+      height: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #d9d9d9;
+    }
+  }
+}

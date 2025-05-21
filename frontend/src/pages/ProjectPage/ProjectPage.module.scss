@@ -5,6 +5,13 @@
 
   .headerSkeleton {
     height: 30px;
+    border-radius: 10px;
+  }
+
+  .headerSkeletonContainer {
+    br {
+      display: none;
+    }
   }
 
   .header {
@@ -112,6 +119,33 @@
     word-break: break-word;
     hyphens: auto;
     max-width: 100%;
-    margin-bottom: 24px;
   }
+}
+
+.skeletonWrapper {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.skeleton {
+  min-width: 251px;
+  border-radius: 10px;
+  height: 53px !important;
+}
+
+.skeletonContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  br {
+    display: none;
+  }
+}
+
+.notesWrapper {
+  margin-top: 0;
+  min-height: calc(90vh - 200px) !important;
 }

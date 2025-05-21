@@ -8,6 +8,8 @@ import MenuSelect from "../../../public/icons/menu-select.svg";
 import { IUserWithRole } from "../../interfaces/user.interface";
 import AvatarPlug from "../../components/AvatarPlug/AvatarPlug";
 import SkeletonItem from "../../components/SkeletonItem/SkeletonItem";
+import Title from "../../components/Title/Title";
+import NotesWrapper from "../../components/NotesWrapper/NotesWrapper";
 
 type ProjectPageParams = {
   id: string;
@@ -16,6 +18,7 @@ type ProjectPageParams = {
 export default function ProjectPage() {
   const { id } = useParams<ProjectPageParams>();
   const projectId = id ? parseInt(id) : NaN;
+
   const { data, isLoading } = useQuery({
     queryKey: ["project", id],
     queryFn: () => {
@@ -28,6 +31,18 @@ export default function ProjectPage() {
     select: (data) => data.data.data,
   });
 
+  const { data: statuses, isLoading: isStasusesLoading } = useQuery({
+    queryKey: ["projectStatuses", projectId],
+    queryFn: () => {
+      if (isNaN(projectId)) {
+        throw new Error("Invalid project ID");
+      }
+
+      return projectService.getStatuses(projectId);
+    },
+    select: (statuses) => statuses.data.data,
+  });
+
   const project: IProject = data?.project ?? {};
   const users = data?.users ?? [];
   const visibleUsers = users.slice(0, 3);
@@ -35,7 +50,10 @@ export default function ProjectPage() {
   return (
     <div className={styles.project}>
       {isLoading ? (
-        <SkeletonItem className={styles.headerSkeleton} />
+        <SkeletonItem
+          className={styles.headerSkeleton}
+          classNameContainer={styles.headerSkeletonContainer}
+        />
       ) : (
         <div className={styles.header}>
           <div className={styles.headerTitle}>
@@ -75,8 +93,29 @@ export default function ProjectPage() {
           </div>
         </div>
       )}
-      <div className={styles.projectDesc}>{project.description}</div>
-      <p>Заметки</p>
+      {!isLoading && (
+        <>
+          <div className={styles.projectDesc}>{project.description}</div>
+          <Title>Заметки</Title>
+        </>
+      )}
+
+      <NotesWrapper className={styles.notesWrapper}>
+        {isLoading || isStasusesLoading ? (
+          <div className={styles.skeletonWrapper}>
+            {Array.from({ length: 4 }, (_, index) => (
+              <SkeletonItem
+                key={"skeleton-" + index}
+                count={2}
+                className={styles.skeleton}
+                classNameContainer={styles.skeletonContainer}
+              />
+            ))}
+          </div>
+        ) : (
+          <div>1</div>
+        )}
+      </NotesWrapper>
     </div>
   );
 }

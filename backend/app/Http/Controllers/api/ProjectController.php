@@ -77,4 +77,6 @@ class ProjectController extends Controller
 
         return response()->json(['data' => new ProjectWithUsersResource($project)], 200);
     }
+
+    public function getStatuses(Project $project) {}
 }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->dateTime('сompletion_time');
             $table->foreignId('project_id')->constrained()->cascadeOnDelete();
             $table->foreignId('status_project_id')->constrained('status_projects')->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

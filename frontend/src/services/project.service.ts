@@ -12,4 +12,8 @@ export const projectService = {
   async getProject(id: number) {
     return axiosWithAuth.get(`/project/personal-project/${id}`);
   },
+
+  async getStatuses(id: number) {
+    return axiosWithAuth.get(`/project/personal-project/${id}/statuses`);
+  },
 };

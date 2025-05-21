@@ -14,6 +14,7 @@ import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { useChangeStautsNote } from "../../utils/hooks/Note/useChangeStatusNote";
 import { toast } from "react-toastify";
 import { INote } from "../../interfaces/note.interface";
+import NotesWrapper from "../../components/NotesWrapper/NotesWrapper";
 
 export default function NotesPage() {
   const { openModal } = useModalStore();
@@ -92,32 +93,30 @@ export default function NotesPage() {
           </div>
         </div>
         <DndContext onDragEnd={handleDragEnd}>
-          <div className={styles["notes__wrapper"]}>
-            <div className={styles["notes__wrapper-status"]}>
-              {isLoadingStatus ? (
-                <div className={styles.skeletonWrapper}>
-                  {Array.from({ length: 4 }, (_, index) => (
-                    <SkeletonItem
-                      key={"skeleton-" + index}
-                      count={2}
-                      className={styles.skeleton}
-                      classNameContainer={styles.skeletonContainer}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <>
-                  {allStatuses?.map((status) => (
-                    <NotesItems key={status.id} data={status} />
-                  ))}
-                  <AddNoteItem
-                    typeButton="status"
-                    onClick={() => openModal(<CreateOrUpdateStatusModal />)}
+          <NotesWrapper>
+            {isLoadingStatus ? (
+              <div className={styles.skeletonWrapper}>
+                {Array.from({ length: 4 }, (_, index) => (
+                  <SkeletonItem
+                    key={"skeleton-" + index}
+                    count={2}
+                    className={styles.skeleton}
+                    classNameContainer={styles.skeletonContainer}
                   />
-                </>
-              )}
-            </div>
-          </div>
+                ))}
+              </div>
+            ) : (
+              <>
+                {allStatuses?.map((status) => (
+                  <NotesItems key={status.id} data={status} />
+                ))}
+                <AddNoteItem
+                  typeButton="status"
+                  onClick={() => openModal(<CreateOrUpdateStatusModal />)}
+                />
+              </>
+            )}
+          </NotesWrapper>
         </DndContext>
       </div>
     </>
