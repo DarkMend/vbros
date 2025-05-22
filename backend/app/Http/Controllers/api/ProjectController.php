@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProjectResource;
 use App\Http\Resources\ProjectWithUsersResource;
+use App\Http\Resources\StatusProjectResource;
 use App\Models\Project;
 use App\Models\StatusProject;
 use Illuminate\Http\Request;
@@ -78,5 +79,22 @@ class ProjectController extends Controller
         return response()->json(['data' => new ProjectWithUsersResource($project)], 200);
     }
 
-    public function getStatuses(Project $project) {}
+    public function getStatuses(Project $project)
+    {
+        if (!$project->users()->where('user_id', auth()->id())->exists()) {
+            return response()->json(['message' => 'Доступ запрещён'], 403);
+        }
+
+        // Загружаем данные с оптимальными запросами
+        $statuses = $project->load([
+            'statuses.tasks' => function ($query) {
+                $query->orderBy('created_at', 'desc');
+            },
+            'statuses.tasks.user.projects' => function ($query) use ($project) {
+                $query->where('projects.id', $project->id);
+            }
+        ])->statuses;
+
+        return StatusProjectResource::collection($statuses);
+    }
 }

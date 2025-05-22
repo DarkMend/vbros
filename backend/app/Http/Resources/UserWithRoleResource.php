@@ -19,7 +19,7 @@ class UserWithRoleResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'avatar' => $this->getAvatarUrl(),
-            'role' => $this->pivot->role
+            'role' => $this->pivot->role ?? $this->role,
         ];
     }
 }
