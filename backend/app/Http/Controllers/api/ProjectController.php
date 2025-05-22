@@ -85,7 +85,6 @@ class ProjectController extends Controller
             return response()->json(['message' => 'Доступ запрещён'], 403);
         }
 
-        // Загружаем данные с оптимальными запросами
         $statuses = $project->load([
             'statuses.tasks' => function ($query) {
                 $query->orderBy('created_at', 'desc');

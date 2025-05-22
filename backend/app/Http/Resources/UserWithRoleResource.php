@@ -14,12 +14,15 @@ class UserWithRoleResource extends JsonResource
      */
     public function toArray($request)
     {
+
+        $projectRole = $this->projects->first()?->pivot->role ?? null;
+
         return [
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
             'avatar' => $this->getAvatarUrl(),
-            'role' => $this->pivot->role ?? $this->role,
+            'role' => $projectRole,
         ];
     }
 }
