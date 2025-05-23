@@ -20,6 +20,7 @@ class TaskResource extends JsonResource
             'completionTime' => $this->сompletion_time,
             'projectId' => $this->project_id,
             'statusProjectId' => $this->status_project_id,
+            'updatedAt' => $this->updated_at,
             'user' => new UserWithRoleResource($this->user),
         ];
     }

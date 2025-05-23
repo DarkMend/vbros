@@ -10,6 +10,8 @@ import AvatarPlug from "../../components/AvatarPlug/AvatarPlug";
 import SkeletonItem from "../../components/SkeletonItem/SkeletonItem";
 import Title from "../../components/Title/Title";
 import NotesWrapper from "../../components/NotesWrapper/NotesWrapper";
+import TaskItems from "../../components/TaskItems/TaskItems";
+import { IStatusProjectWithTasks } from "../../interfaces/statusProject";
 
 type ProjectPageParams = {
   id: string;
@@ -113,7 +115,9 @@ export default function ProjectPage() {
             ))}
           </div>
         ) : (
-          <div>1</div>
+          statuses?.map((status: IStatusProjectWithTasks) => (
+            <TaskItems data={status} key={status.id} />
+          ))
         )}
       </NotesWrapper>
     </div>

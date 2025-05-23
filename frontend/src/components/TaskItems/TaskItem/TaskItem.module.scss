@@ -1,0 +1,71 @@
+@import "./../../../index.scss";
+
+.notes-item {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border: 1px solid #e4e4e4;
+  border-radius: 12px;
+  padding: 12px;
+  gap: 6px;
+  opacity: 1;
+  cursor: default;
+  width: 100%;
+  touch-action: none;
+
+  .description {
+    font-size: 15px;
+    font-weight: 400;
+    color: $font-color;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    line-height: 1.2;
+    max-height: 2.4em;
+  }
+
+  .deadline {
+    font-size: 12px;
+    font-weight: 500;
+    color: #bcbcbc;
+  }
+
+  &.isDragging {
+    opacity: 0.5;
+  }
+}
+
+.prewiev {
+  background: red;
+}
+
+.notesItemWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  .menuButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    cursor: pointer;
+
+    svg {
+      color: #636363;
+      transition: all 0.3s ease;
+    }
+
+    &:hover {
+      svg {
+        color: black;
+      }
+    }
+  }
+}
