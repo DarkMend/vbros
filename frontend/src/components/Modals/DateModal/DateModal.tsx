@@ -5,15 +5,27 @@ import Calendar from "react-calendar";
 import { useNoteStore } from "../../../store/noteStore";
 import { useModalStore } from "../../../store/modalStore";
 import ParagraphModal from "../../ParagraphModal/ParagraphModal";
+import { useTaskStore } from "../../../store/taskStore";
 
-export default function DateModal() {
+export default function DateModal({
+  isStatusProject,
+}: {
+  isStatusProject?: boolean;
+}) {
   const { date, setDate } = useNoteStore();
+  const { date: projectDate, setDate: setProjectDate } = useTaskStore();
   const { closeModal } = useModalStore();
 
   const changeDate = (date: Date) => {
-    setDate(date);
+    if (isStatusProject) {
+      setProjectDate(date);
+    } else {
+      setDate(date);
+    }
     closeModal();
   };
+  console.log(projectDate);
+  console.log(date);
 
   return (
     <ModalLayout title="Дедлайн" icon={<CalendarIcon />}>
@@ -23,7 +35,7 @@ export default function DateModal() {
         </ParagraphModal>
         <Calendar
           onClickDay={changeDate}
-          value={date}
+          value={isStatusProject ? projectDate : date}
           locale="ru-RU"
           minDetail="year"
           next2Label={null}
@@ -35,9 +47,7 @@ export default function DateModal() {
               if (day.getDay() === 0 || day.getDay() === 6) {
                 classes.push("weekend");
               }
-              if (date && day.toDateString() === date.toDateString()) {
-                classes.push("selectedDay");
-              }
+
               return classes.join(" ");
             }
             return null;

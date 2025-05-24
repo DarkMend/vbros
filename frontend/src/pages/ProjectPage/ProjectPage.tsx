@@ -26,7 +26,7 @@ export default function ProjectPage() {
   const { id } = useParams<ProjectPageParams>();
   const projectId = id ? parseInt(id) : NaN;
   const { openModal } = useModalStore();
-  const { allStatuses, setAllStatuses } = useTaskStore();
+  const { allStatuses, setAllStatuses, setAllUsers } = useTaskStore();
 
   const { data, isLoading } = useQuery({
     queryKey: ["project", projectId],
@@ -58,6 +58,11 @@ export default function ProjectPage() {
 
   const project: IProject = data?.project ?? {};
   const users = data?.users ?? [];
+
+  useEffect(() => {
+    if (data) setAllUsers(data.users);
+  }, [data, setAllUsers]);
+
   const visibleUsers = users.slice(0, 3);
 
   return (

@@ -3,6 +3,7 @@ import {
   IStatusProject,
   IStatusProjectWithTasks,
 } from "../interfaces/statusProject";
+import { IUserWithRole } from "../interfaces/user.interface";
 
 export interface ITaskStore {
   allStatuses: IStatusProjectWithTasks[] | null;
@@ -11,6 +12,10 @@ export interface ITaskStore {
   setStatus: (status: IStatusProject) => void;
   date: Date | null;
   setDate: (date: Date) => void;
+  allUsers: IUserWithRole[] | null;
+  setAllUsers: (users: IUserWithRole[]) => void;
+  user: IUserWithRole | null;
+  setUser: (user: IUserWithRole) => void;
 }
 
 const useTaskStore = create<ITaskStore>((set) => ({
@@ -23,6 +28,10 @@ const useTaskStore = create<ITaskStore>((set) => ({
     const dateObj = typeof date === "string" ? new Date(date) : date;
     set({ date: dateObj });
   },
+  allUsers: null,
+  setAllUsers: (users) => set({ allUsers: users }),
+  user: null,
+  setUser: (user) => set({ user: user }),
 }));
 
 export { useTaskStore };

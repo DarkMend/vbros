@@ -18,6 +18,8 @@ import { useUpdateNote } from "../../utils/hooks/Note/useUpdateNote";
 import ModalConfirmation from "../ModalConfirmation/ModalConfirmation";
 import { useDeleteNoteHook } from "./useDeleteNote";
 import { useTaskStore } from "../../store/taskStore";
+import SelectUser from "../Select/SelectUser";
+import Title from "../Title/Title";
 
 export interface INoteSidebar {
   title: string;
@@ -34,6 +36,7 @@ export default function NoteSidebar({
 }: INoteSidebar) {
   const { closeSidebar } = useSibebarStore();
   const { openModal, closeModal } = useModalStore();
+  const { allUsers, setUser, user } = useTaskStore();
   const noteStore = useNoteStore();
   const taskStore = useTaskStore();
 
@@ -176,13 +179,20 @@ export default function NoteSidebar({
           ) : (
             "Нету"
           )}
-
           <NoteInfo
             text={date?.toLocaleDateString()}
             icon={<CalendarIcon />}
-            onClick={() => openModal(<DateModal />)}
+            onClick={() =>
+              openModal(<DateModal isStatusProject={isStatusProject} />)
+            }
           />
         </div>
+        {isStatusProject && allUsers && (
+          <div className={styles.selectUserWrapper}>
+            <Title>Выполняет: </Title>
+            <SelectUser value={user} setValue={setUser} users={allUsers} />
+          </div>
+        )}
         <div className={styles.main}>
           <form onSubmit={handleSubmit(createNote)} id="form">
             <textarea

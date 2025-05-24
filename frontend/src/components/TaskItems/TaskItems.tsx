@@ -23,12 +23,16 @@ export interface ITaskItems {
 export default function TaskItems({ className, data, ...props }: ITaskItems) {
   const [visibleItem, setVisibleItem] = useState(false);
   const { openModal } = useModalStore();
-  const { setStatus, setDate } = useTaskStore();
+  const { setStatus, setDate, setUser, allUsers } = useTaskStore();
   const { openSidebar } = useSibebarStore();
 
   const openCreateNoteSidebar = () => {
     setStatus(data);
     setDate(new Date());
+
+    if (allUsers) {
+      setUser(allUsers[0]);
+    }
     openSidebar(
       <NoteSidebar
         title="Создать задачу"
