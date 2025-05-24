@@ -4,6 +4,7 @@ use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\NoteController;
 use App\Http\Controllers\api\ProjectController;
 use App\Http\Controllers\api\StatusController;
+use App\Http\Controllers\api\StatusProjectController;
 use App\Http\Controllers\api\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -55,5 +56,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/personal-projects', 'getProjects');
         Route::get('/personal-project/{project}', 'getProject');
         Route::get('/personal-project/{project}/statuses', 'getStatuses');
+    });
+
+    Route::controller(StatusProjectController::class)->prefix('status-project')->group(function () {
+        Route::post('/store', 'store');
+        Route::put('/update/{statusProject}', 'update');
+        Route::delete('/delete/{statusProject}', 'destroy');
     });
 });

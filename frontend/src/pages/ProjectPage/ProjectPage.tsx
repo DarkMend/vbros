@@ -12,6 +12,9 @@ import Title from "../../components/Title/Title";
 import NotesWrapper from "../../components/NotesWrapper/NotesWrapper";
 import TaskItems from "../../components/TaskItems/TaskItems";
 import { IStatusProjectWithTasks } from "../../interfaces/statusProject";
+import AddNoteItem from "../../components/NotesItems/AddNoteItem/AddNoteItem";
+import CreateOrUpdateStatusModal from "../../components/Modals/StatusModals/CreateOrUpdateStatusModal/CreateOrUpdateStatusModal";
+import { useModalStore } from "../../store/modalStore";
 
 type ProjectPageParams = {
   id: string;
@@ -20,9 +23,10 @@ type ProjectPageParams = {
 export default function ProjectPage() {
   const { id } = useParams<ProjectPageParams>();
   const projectId = id ? parseInt(id) : NaN;
+  const { openModal } = useModalStore();
 
   const { data, isLoading } = useQuery({
-    queryKey: ["project", id],
+    queryKey: ["project", projectId],
     queryFn: () => {
       if (isNaN(projectId)) {
         throw new Error("Invalid project ID");
@@ -98,7 +102,7 @@ export default function ProjectPage() {
       {!isLoading && (
         <>
           <div className={styles.projectDesc}>{project.description}</div>
-          <Title>Заметки</Title>
+          <Title>Задачи</Title>
         </>
       )}
 
@@ -115,9 +119,20 @@ export default function ProjectPage() {
             ))}
           </div>
         ) : (
-          statuses?.map((status: IStatusProjectWithTasks) => (
-            <TaskItems data={status} key={status.id} />
-          ))
+          <>
+            {statuses?.map((status: IStatusProjectWithTasks) => (
+              <TaskItems data={status} key={status.id} />
+            ))}
+
+            <AddNoteItem
+              typeButton="status"
+              onClick={() =>
+                openModal(
+                  <CreateOrUpdateStatusModal statusProjectId={projectId} />
+                )
+              }
+            />
+          </>
         )}
       </NotesWrapper>
     </div>

@@ -3,14 +3,14 @@ import cn from "classnames";
 import FileIcon from "../../../public/icons/file-outline.svg";
 import ColorSquare from "../ColorSquare/ColorSquare";
 import { useState } from "react";
-// import CreateOrUpdateStatusModal from "../Modals/StatusModals/CreateOrUpdateStatusModal/CreateOrUpdateStatusModal";
-// import { useModalStore } from "../../store/modalStore";
 import MenuSelectIcon from "../../../public/icons/menu-select.svg";
 import AddNoteItem from "../NotesItems/AddNoteItem/AddNoteItem";
 import TaskItem from "./TaskItem/TaskItem";
 import { IStatusProjectWithTasks } from "../../interfaces/statusProject";
 import EyeIcon from "./../../../public/icons/eye.svg";
 import EyeCloseIcon from "./../../../public/icons/close-eye.svg";
+import CreateOrUpdateStatusModal from "../Modals/StatusModals/CreateOrUpdateStatusModal/CreateOrUpdateStatusModal";
+import { useModalStore } from "../../store/modalStore";
 
 export interface ITaskItems {
   className?: string;
@@ -19,7 +19,7 @@ export interface ITaskItems {
 
 export default function TaskItems({ className, data, ...props }: ITaskItems) {
   const [visibleItem, setVisibleItem] = useState(false);
-  //   const { openModal } = useModalStore();
+  const { openModal } = useModalStore();
 
   return (
     <div
@@ -28,9 +28,9 @@ export default function TaskItems({ className, data, ...props }: ITaskItems) {
       //   ref={setNodeRef}
     >
       <div
-      // className={cn(styles.over, {
-      //   [styles.active]: isOver,
-      // })}
+        className={cn(styles.over, {
+          // [styles.active]: isOver,
+        })}
       >
         <div className={styles.overWrapper}>
           <div>
@@ -55,9 +55,9 @@ export default function TaskItems({ className, data, ...props }: ITaskItems) {
           </div>
           <button
             className={cn(styles["actions__item"])}
-            // onClick={() =>
-            //   openModal(<CreateOrUpdateStatusModal update={data} />)
-            // }
+            onClick={() =>
+              openModal(<CreateOrUpdateStatusModal statusProject={data} />)
+            }
           >
             <MenuSelectIcon />
           </button>

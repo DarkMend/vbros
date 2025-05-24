@@ -18,16 +18,28 @@ import { useModalStore } from "../../../../store/modalStore";
 import { useQueryClient } from "@tanstack/react-query";
 import { useUpdateStatus } from "../../../../utils/hooks/Status/useUpdateStatus";
 import ModalConfirmation from "../../../ModalConfirmation/ModalConfirmation";
-import { useDeleteStatusHook } from "./useDeleteStatus";
+import {
+  useDeleteStatusHook,
+  useDeleteStatusProjectHook,
+} from "./useDeleteStatus";
+import { useCreateStatusProject } from "../../../../utils/hooks/StatusProject/useCreateStatusProject";
+import { IStatusProjectWithTasks } from "../../../../interfaces/statusProject";
+import { useUpdateStatusProject } from "../../../../utils/hooks/StatusProject/useUpdateStatusProject";
 
 export interface ICreateOrUpdateStatusModal {
   update?: IStatusWithNotes;
+  statusProjectId?: number;
+  statusProject?: IStatusProjectWithTasks;
 }
 
 export default function CreateOrUpdateStatusModal({
   update,
+  statusProject,
+  statusProjectId,
 }: ICreateOrUpdateStatusModal) {
-  const [color, setColor] = useState(update ? update.color : "#FF9D00");
+  const [color, setColor] = useState(
+    update ? update.color : statusProject ? statusProject.color : "#FF9D00"
+  );
   const {
     register,
     formState: { errors },
@@ -35,7 +47,7 @@ export default function CreateOrUpdateStatusModal({
     reset,
   } = useForm<IStatus>({
     defaultValues: {
-      name: update?.name,
+      name: update?.name || statusProject?.name,
     },
   });
   const { closeModal, changeContent } = useModalStore();
@@ -53,6 +65,22 @@ export default function CreateOrUpdateStatusModal({
     },
   });
 
+  // Создание статуса в проекте
+
+  const { mutate: createStatusProject, isPending: isPendingStatusProject } =
+    useCreateStatusProject({
+      onError(data) {
+        toast.error(data.response?.data?.message);
+      },
+      onSuccess() {
+        reset();
+        toast.success("Статус успешно создан");
+        queryClient.invalidateQueries({
+          queryKey: ["projectStatuses", statusProjectId],
+        });
+      },
+    });
+
   // Редактирование
   const { mutate: updateMutate, isPending: isUpdatePending } = useUpdateStatus({
     onError(data) {
@@ -64,11 +92,43 @@ export default function CreateOrUpdateStatusModal({
     },
   });
 
+  // Редактирование статуса у проекта
+
+  const {
+    mutate: updateStatusProject,
+    isPending: isUpdateStatusProjectPending,
+  } = useUpdateStatusProject({
+    onError(data) {
+      toast.error(data.response?.data?.message);
+    },
+    onSuccess() {
+      toast.success("Статус успешно обновлен");
+      queryClient.invalidateQueries({
+        queryKey: ["projectStatuses", statusProject?.project_id],
+      });
+    },
+  });
+
   const onSubmit = (data: IStatus) => {
     if (update) {
       updateMutate({ ...data, color, id: update.id });
+    } else if (statusProject) {
+      updateStatusProject({
+        ...data,
+        color,
+        project_id: statusProject.project_id,
+        id: statusProject.id,
+      });
     } else {
-      mutate({ ...data, color });
+      if (statusProjectId) {
+        createStatusProject({
+          ...data,
+          color,
+          project_id: statusProjectId,
+        });
+      } else {
+        mutate({ ...data, color });
+      }
     }
   };
 
@@ -84,17 +144,34 @@ export default function CreateOrUpdateStatusModal({
           handleConfirmation={useDeleteStatusHook}
         />
       );
+    } else if (statusProject) {
+      changeContent(
+        <ModalConfirmation
+          text="Вы точно хотите удалить статус и все находящиеся задачи в нём?"
+          backAction={() =>
+            changeContent(
+              <CreateOrUpdateStatusModal statusProject={statusProject} />
+            )
+          }
+          id={statusProject.id}
+          handleConfirmation={useDeleteStatusProjectHook}
+        />
+      );
     }
   };
 
   return (
     <ModalLayout
-      icon={update ? <Pencil /> : <ClipboardPlus />}
-      title={update ? "Редактирование статуса" : "Добавить статус блок"}
+      icon={update || statusProject ? <Pencil /> : <ClipboardPlus />}
+      title={
+        update || statusProject
+          ? "Редактирование статуса"
+          : "Добавить статус блок"
+      }
     >
       <div className={styles.status}>
         <ParagraphModal>
-          {update
+          {update || statusProject
             ? "Здесь вы сможете обновить свой статус блок"
             : "Здесь вы сможете создать свой статус блок"}
         </ParagraphModal>
@@ -113,11 +190,18 @@ export default function CreateOrUpdateStatusModal({
         />
         <SeparationLine />
         <ModalFormLayout
-          submitButtonText={update ? "Обновить" : "Создать"}
-          isPending={isPending || isUpdatePending}
+          submitButtonText={update || statusProject ? "Обновить" : "Создать"}
+          isPending={
+            isPending ||
+            isUpdatePending ||
+            isPendingStatusProject ||
+            isUpdateStatusProjectPending
+          }
           onSubmit={handleSubmit(onSubmit)}
           closeHandle={closeModal}
-          deleteButton={update && openModalConfirmatinDeleteStatus}
+          deleteButton={
+            (update || statusProject) && openModalConfirmatinDeleteStatus
+          }
         >
           <MainInput
             placeholder="Название"

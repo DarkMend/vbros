@@ -17,10 +17,10 @@ class TaskResource extends JsonResource
         return [
             'id' => $this->id,
             'description' => $this->description,
-            'completionTime' => $this->сompletion_time,
-            'projectId' => $this->project_id,
-            'statusProjectId' => $this->status_project_id,
-            'updatedAt' => $this->updated_at,
+            'completion_time' => $this->сompletion_time,
+            'project_id' => $this->project_id,
+            'status_project_id' => $this->status_project_id,
+            'updated_at' => $this->updated_at,
             'user' => new UserWithRoleResource($this->user),
         ];
     }
