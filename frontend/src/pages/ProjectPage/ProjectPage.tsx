@@ -15,6 +15,8 @@ import { IStatusProjectWithTasks } from "../../interfaces/statusProject";
 import AddNoteItem from "../../components/NotesItems/AddNoteItem/AddNoteItem";
 import CreateOrUpdateStatusModal from "../../components/Modals/StatusModals/CreateOrUpdateStatusModal/CreateOrUpdateStatusModal";
 import { useModalStore } from "../../store/modalStore";
+import { useTaskStore } from "../../store/taskStore";
+import { useEffect } from "react";
 
 type ProjectPageParams = {
   id: string;
@@ -24,6 +26,7 @@ export default function ProjectPage() {
   const { id } = useParams<ProjectPageParams>();
   const projectId = id ? parseInt(id) : NaN;
   const { openModal } = useModalStore();
+  const { allStatuses, setAllStatuses } = useTaskStore();
 
   const { data, isLoading } = useQuery({
     queryKey: ["project", projectId],
@@ -48,6 +51,10 @@ export default function ProjectPage() {
     },
     select: (statuses) => statuses.data.data,
   });
+
+  useEffect(() => {
+    if (statuses) setAllStatuses(statuses);
+  }, [statuses, setAllStatuses]);
 
   const project: IProject = data?.project ?? {};
   const users = data?.users ?? [];
@@ -120,7 +127,7 @@ export default function ProjectPage() {
           </div>
         ) : (
           <>
-            {statuses?.map((status: IStatusProjectWithTasks) => (
+            {allStatuses?.map((status: IStatusProjectWithTasks) => (
               <TaskItems data={status} key={status.id} />
             ))}
 

@@ -17,17 +17,38 @@ import { toast } from "react-toastify";
 import { useUpdateNote } from "../../utils/hooks/Note/useUpdateNote";
 import ModalConfirmation from "../ModalConfirmation/ModalConfirmation";
 import { useDeleteNoteHook } from "./useDeleteNote";
+import { useTaskStore } from "../../store/taskStore";
 
 export interface INoteSidebar {
   title: string;
   icon: ReactNode;
   update?: INote;
+  isStatusProject?: boolean;
 }
 
-export default function NoteSidebar({ title, icon, update }: INoteSidebar) {
+export default function NoteSidebar({
+  title,
+  icon,
+  update,
+  isStatusProject,
+}: INoteSidebar) {
   const { closeSidebar } = useSibebarStore();
   const { openModal, closeModal } = useModalStore();
-  const { status, date, allStatuses } = useNoteStore();
+  const noteStore = useNoteStore();
+  const taskStore = useTaskStore();
+
+  const { status, date, allStatuses } = isStatusProject
+    ? {
+        status: taskStore.status,
+        date: taskStore.date,
+        allStatuses: taskStore.allStatuses,
+      }
+    : {
+        status: noteStore.status,
+        date: noteStore.date,
+        allStatuses: noteStore.allStatuses,
+      };
+
   const queryClient = useQueryClient();
 
   const {
@@ -144,7 +165,12 @@ export default function NoteSidebar({ title, icon, update }: INoteSidebar) {
               text={status ? status?.name : ""}
               color={status?.color}
               onClick={() =>
-                openModal(<ChangeNoteStatusModal statuses={allStatuses} />)
+                openModal(
+                  <ChangeNoteStatusModal
+                    statuses={allStatuses}
+                    isStatusProject={isStatusProject}
+                  />
+                )
               }
             />
           ) : (

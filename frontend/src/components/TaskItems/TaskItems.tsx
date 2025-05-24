@@ -11,6 +11,9 @@ import EyeIcon from "./../../../public/icons/eye.svg";
 import EyeCloseIcon from "./../../../public/icons/close-eye.svg";
 import CreateOrUpdateStatusModal from "../Modals/StatusModals/CreateOrUpdateStatusModal/CreateOrUpdateStatusModal";
 import { useModalStore } from "../../store/modalStore";
+import { useTaskStore } from "../../store/taskStore";
+import NoteSidebar from "../NoteSidebar/NoteSidebar";
+import { useSibebarStore } from "../../store/sidebar.store";
 
 export interface ITaskItems {
   className?: string;
@@ -20,6 +23,20 @@ export interface ITaskItems {
 export default function TaskItems({ className, data, ...props }: ITaskItems) {
   const [visibleItem, setVisibleItem] = useState(false);
   const { openModal } = useModalStore();
+  const { setStatus, setDate } = useTaskStore();
+  const { openSidebar } = useSibebarStore();
+
+  const openCreateNoteSidebar = () => {
+    setStatus(data);
+    setDate(new Date());
+    openSidebar(
+      <NoteSidebar
+        title="Создать задачу"
+        icon={<FileIcon />}
+        isStatusProject={true}
+      />
+    );
+  };
 
   return (
     <div
@@ -75,8 +92,8 @@ export default function TaskItems({ className, data, ...props }: ITaskItems) {
                 new Date(a.updatedAt).getTime() -
                 new Date(b.updatedAt).getTime()
             )
-            .map((el) => <TaskItem key={el.id} note={el} />)}
-        <AddNoteItem typeButton="note" />
+            .map((el) => <TaskItem key={el.id} task={el} />)}
+        <AddNoteItem typeButton="note" onClick={openCreateNoteSidebar} />
       </div>
     </div>
   );

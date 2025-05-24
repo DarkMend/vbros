@@ -6,6 +6,7 @@ import { forwardRef, useState } from "react";
 import cn from "classnames";
 import ColorSquare from "../ColorSquare/ColorSquare";
 import { IStatus } from "../../interfaces/status.interface";
+import { IStatusProject } from "../../interfaces/statusProject";
 
 const animationVariants = {
   hidden: {
@@ -25,16 +26,16 @@ const animationVariants = {
 };
 
 export interface ISelectIcon {
-  statuses?: IStatus[];
-  value: IStatus | null;
-  setValue: (value: IStatus) => void;
+  statuses?: IStatus[] | IStatusProject[];
+  value: IStatus | IStatusProject | null;
+  setValue: (value: IStatus | IStatusProject) => void;
 }
 
 const Select = forwardRef<HTMLButtonElement, ISelectIcon>(
   ({ statuses, value, setValue }, ref) => {
     const [open, setOpen] = useState(false);
 
-    const handleChange = (item: IStatus) => {
+    const handleChange = (item: IStatus | IStatusProject) => {
       setValue(item);
       setOpen(false);
     };
