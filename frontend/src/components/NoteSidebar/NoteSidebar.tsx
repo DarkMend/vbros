@@ -15,7 +15,8 @@ import { useForm } from "react-hook-form";
 import { INote } from "../../interfaces/note.interface";
 import { toast } from "react-toastify";
 import { useUpdateNote } from "../../utils/hooks/Note/useUpdateNote";
-import { useDeleteNote } from "../../utils/hooks/Note/useDeleteNote";
+import ModalConfirmation from "../ModalConfirmation/ModalConfirmation";
+import { useDeleteNoteHook } from "./useDeleteNote";
 
 export interface INoteSidebar {
   title: string;
@@ -25,7 +26,7 @@ export interface INoteSidebar {
 
 export default function NoteSidebar({ title, icon, update }: INoteSidebar) {
   const { closeSidebar } = useSibebarStore();
-  const { openModal } = useModalStore();
+  const { openModal, closeModal } = useModalStore();
   const { status, date, allStatuses } = useNoteStore();
   const queryClient = useQueryClient();
 
@@ -79,17 +80,19 @@ export default function NoteSidebar({ title, icon, update }: INoteSidebar) {
   });
 
   // delete note
-  const { mutate: deleteMutate, isPending: deletePending } = useDeleteNote({
-    onError(data) {
-      toast.error(data.response?.data?.message);
-    },
-    onSuccess() {
-      toast.success("Заметка успешно удалена");
-      queryClient.invalidateQueries({ queryKey: ["statuses"] });
-      closeSidebar();
-      reset();
-    },
-  });
+
+  const deleteHandle = () => {
+    if (update) {
+      openModal(
+        <ModalConfirmation
+          text="Вы точно хотите удалить заметку"
+          backAction={closeModal}
+          id={update.id}
+          handleConfirmation={useDeleteNoteHook}
+        />
+      );
+    }
+  };
 
   const createNote = (data: INote) => {
     if (!status) {
@@ -129,10 +132,7 @@ export default function NoteSidebar({ title, icon, update }: INoteSidebar) {
               typeButton="delete"
               textNone={true}
               className={styles.deleteButton}
-              onClick={() => {
-                deleteMutate(update.id);
-              }}
-              isLoading={deletePending}
+              onClick={deleteHandle}
             >
               Удалить
             </ModalButton>
