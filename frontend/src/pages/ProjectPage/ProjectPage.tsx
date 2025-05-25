@@ -1,6 +1,6 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styles from "./ProjectPage.module.scss";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { projectService } from "../../services/project.service";
 import { IProject } from "../../interfaces/project.interface";
 import ProjectIcon from "../../../public/icons/team-project.svg";
@@ -29,6 +29,8 @@ import CreateOrUpdateProjectModal from "../../components/Modals/ProjectModal/Cre
 import DropdownMenuItem from "../../components/DropdownMenuLayout/DropdownMenuItem";
 import ModalConfirmation from "../../components/ModalConfirmation/ModalConfirmation";
 import { useDeleteProjectHook } from "../../components/Modals/ProjectModal/CreateOrUpdateProjectModal/useDeleteProject";
+import { useJoinProject } from "../../utils/hooks/Project/useJoinProject";
+import LinkModal from "../../components/Modals/LinkModal/LinkModal";
 
 type ProjectPageParams = {
   id: string;
@@ -39,6 +41,35 @@ export default function ProjectPage() {
   const projectId = id ? parseInt(id) : NaN;
   const { openModal, closeModal } = useModalStore();
   const { allStatuses, setAllStatuses, setAllUsers } = useTaskStore();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  // invite по ссылке
+  const { mutate: joinMutate } = useJoinProject({
+    onSuccess() {
+      toast.success("Вы успешно вступили в проект");
+      navigate(`/projects/${projectId}`);
+      queryClient.invalidateQueries({ queryKey: ["getProjects"] });
+    },
+    onError(data) {
+      toast.error(data.response?.data?.message);
+    },
+  });
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("join") === "true") {
+      joinMutate(projectId);
+
+      // Очищаем параметр из URL
+      urlParams.delete("join");
+      window.history.replaceState(
+        {},
+        "",
+        `${window.location.pathname}?${urlParams.toString()}`
+      );
+    }
+  }, [joinMutate, projectId]);
 
   const { mutate } = useChangeStatusTask();
 
@@ -187,7 +218,17 @@ export default function ProjectPage() {
             <PageMenu>
               <div className={styles.pageMenu}>
                 <DropdownMenuItem>
-                  <ProfileSettingsItem icon={<ShareIcon />} name="Поделиться" />
+                  <ProfileSettingsItem
+                    icon={<ShareIcon />}
+                    name="Поделиться"
+                    onClick={() =>
+                      openModal(
+                        <LinkModal
+                          value={`${window.location.origin}/projects/${projectId}?join=true`}
+                        />
+                      )
+                    }
+                  />
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <ProfileSettingsItem

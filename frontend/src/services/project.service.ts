@@ -24,4 +24,8 @@ export const projectService = {
   async deleteProject(data: number) {
     return axiosWithAuth.delete(`/project/delete/${data}`);
   },
+
+  async joinProject(data: number) {
+    return axiosWithAuth.post(`/projects/${data}/join`);
+  },
 };

@@ -8,6 +8,7 @@ use App\Http\Resources\ProjectWithUsersResource;
 use App\Http\Resources\StatusProjectResource;
 use App\Models\Project;
 use App\Models\StatusProject;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -140,5 +141,16 @@ class ProjectController extends Controller
         $project->delete();
 
         return response()->json(['message' => 'Проект успешно удален'], 200);
+    }
+
+    public function joinProject(Project $project)
+    {
+        $user = User::findOrFail(auth()->id());
+        if ($user->projects()->where('project_id', $project->id)->exists()) {
+            return response()->json(['message' => 'Вы уже состоите в этом проекте'], 400);
+        }
+
+        $project->users()->attach(auth()->id(), ['role' => 'participant']);
+        return response()->json(['message' => 'Вы усепшно вступили в проект'], 200);
     }
 }
