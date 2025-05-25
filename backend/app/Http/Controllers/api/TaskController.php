@@ -59,4 +59,17 @@ class TaskController extends Controller
         $task->delete();
         return response()->json(['message' => 'Задача успешно удалена'], 200);
     }
+
+    public function changeStatus(Request $request, Task $task)
+    {
+        $request->validate([
+            'status_project_id' => ['required', 'exists:status_projects,id']
+        ]);
+
+        $task->update([
+            'status_project_id' => $request->status_project_id
+        ]);
+
+        return response()->json(['message' => 'Cтатус успешно изменен'], 200);
+    }
 }

@@ -13,4 +13,8 @@ export const taskService = {
   async deleteTask(data: number) {
     return axiosWithAuth.delete(`/task/delete/${data}`);
   },
+
+  async changeStatusTask(data: { id: number; status_project_id: number }) {
+    return axiosWithAuth.put(`/task/change-status/${data.id}`, data);
+  },
 };

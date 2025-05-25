@@ -66,6 +66,7 @@ export default function NotesPage() {
 
       return status;
     });
+
     if (arr) setAllStatuses(arr);
 
     if (arr) {

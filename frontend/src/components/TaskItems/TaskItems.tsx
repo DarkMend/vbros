@@ -14,6 +14,7 @@ import { useModalStore } from "../../store/modalStore";
 import { useTaskStore } from "../../store/taskStore";
 import NoteSidebar from "../NoteSidebar/NoteSidebar";
 import { useSibebarStore } from "../../store/sidebar.store";
+import { useDroppable } from "@dnd-kit/core";
 
 export interface ITaskItems {
   className?: string;
@@ -25,6 +26,9 @@ export default function TaskItems({ className, data, ...props }: ITaskItems) {
   const { openModal } = useModalStore();
   const { setStatus, setDate, setUser, allUsers } = useTaskStore();
   const { openSidebar } = useSibebarStore();
+  const { setNodeRef, isOver } = useDroppable({
+    id: data.id,
+  });
 
   const openCreateNoteSidebar = () => {
     setStatus(data);
@@ -46,11 +50,11 @@ export default function TaskItems({ className, data, ...props }: ITaskItems) {
     <div
       className={cn(styles["notes-items"], className)}
       {...props}
-      //   ref={setNodeRef}
+      ref={setNodeRef}
     >
       <div
         className={cn(styles.over, {
-          // [styles.active]: isOver,
+          [styles.active]: isOver,
         })}
       >
         <div className={styles.overWrapper}>

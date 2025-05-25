@@ -17,6 +17,10 @@ import CreateOrUpdateStatusModal from "../../components/Modals/StatusModals/Crea
 import { useModalStore } from "../../store/modalStore";
 import { useTaskStore } from "../../store/taskStore";
 import { useEffect } from "react";
+import { DndContext, DragEndEvent } from "@dnd-kit/core";
+import { ITask } from "../../interfaces/task";
+import { useChangeStatusTask } from "../../utils/hooks/Task/useChangeStatusTask";
+import { toast } from "react-toastify";
 
 type ProjectPageParams = {
   id: string;
@@ -27,6 +31,8 @@ export default function ProjectPage() {
   const projectId = id ? parseInt(id) : NaN;
   const { openModal } = useModalStore();
   const { allStatuses, setAllStatuses, setAllUsers } = useTaskStore();
+
+  const { mutate } = useChangeStatusTask();
 
   const { data, isLoading } = useQuery({
     queryKey: ["project", projectId],
@@ -50,6 +56,7 @@ export default function ProjectPage() {
       return projectService.getStatuses(projectId);
     },
     select: (statuses) => statuses.data.data,
+    refetchInterval: 20000,
   });
 
   useEffect(() => {
@@ -64,6 +71,59 @@ export default function ProjectPage() {
   }, [data, setAllUsers]);
 
   const visibleUsers = users.slice(0, 3);
+
+  // dnd
+  const handleDragEnd = (e: DragEndEvent) => {
+    if (!e.over || !e.active.data.current) return;
+
+    const activeTask = e.active.data.current as ITask;
+    const newStatusId = e.over.id as number;
+
+    if (activeTask.status_project_id === newStatusId) return;
+
+    if (e.over?.id === e.active.data.current?.status_id) {
+      return;
+    }
+
+    const arr = allStatuses?.map((status) => {
+      if (status.id === newStatusId) {
+        return {
+          ...status,
+          tasks: [
+            ...status.tasks,
+            {
+              ...activeTask,
+              status_project_id: newStatusId,
+              updated_at: new Date(),
+            },
+          ],
+        };
+      }
+
+      if (status.id == activeTask.status_project_id) {
+        return {
+          ...status,
+          tasks: status.tasks.filter((task) => task.id !== activeTask.id),
+        };
+      }
+
+      return status;
+    });
+
+    if (arr) setAllStatuses(arr);
+
+    if (arr) {
+      mutate(
+        { id: activeTask.id, status_project_id: newStatusId },
+        {
+          onError(message) {
+            toast.error(message.response?.data?.message);
+            if (statuses) setAllStatuses(statuses);
+          },
+        }
+      );
+    }
+  };
 
   return (
     <div className={styles.project}>
@@ -117,36 +177,37 @@ export default function ProjectPage() {
           <Title>Задачи</Title>
         </>
       )}
+      <DndContext onDragEnd={handleDragEnd}>
+        <NotesWrapper className={styles.notesWrapper}>
+          {isLoading || isStasusesLoading ? (
+            <div className={styles.skeletonWrapper}>
+              {Array.from({ length: 4 }, (_, index) => (
+                <SkeletonItem
+                  key={"skeleton-" + index}
+                  count={2}
+                  className={styles.skeleton}
+                  classNameContainer={styles.skeletonContainer}
+                />
+              ))}
+            </div>
+          ) : (
+            <>
+              {allStatuses?.map((status: IStatusProjectWithTasks) => (
+                <TaskItems data={status} key={status.id} />
+              ))}
 
-      <NotesWrapper className={styles.notesWrapper}>
-        {isLoading || isStasusesLoading ? (
-          <div className={styles.skeletonWrapper}>
-            {Array.from({ length: 4 }, (_, index) => (
-              <SkeletonItem
-                key={"skeleton-" + index}
-                count={2}
-                className={styles.skeleton}
-                classNameContainer={styles.skeletonContainer}
+              <AddNoteItem
+                typeButton="status"
+                onClick={() =>
+                  openModal(
+                    <CreateOrUpdateStatusModal statusProjectId={projectId} />
+                  )
+                }
               />
-            ))}
-          </div>
-        ) : (
-          <>
-            {allStatuses?.map((status: IStatusProjectWithTasks) => (
-              <TaskItems data={status} key={status.id} />
-            ))}
-
-            <AddNoteItem
-              typeButton="status"
-              onClick={() =>
-                openModal(
-                  <CreateOrUpdateStatusModal statusProjectId={projectId} />
-                )
-              }
-            />
-          </>
-        )}
-      </NotesWrapper>
+            </>
+          )}
+        </NotesWrapper>
+      </DndContext>
     </div>
   );
 }

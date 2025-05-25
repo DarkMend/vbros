@@ -69,5 +69,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/create', 'store');
         Route::put('/update/{task}', 'update');
         Route::delete('/delete/{task}', 'destroy');
+        Route::put('/change-status/{task}', 'changeStatus');
     });
 });
