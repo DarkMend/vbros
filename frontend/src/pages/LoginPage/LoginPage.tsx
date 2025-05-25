@@ -7,46 +7,53 @@ import { useForm } from "react-hook-form";
 import { useLoginUser } from "../../utils/hooks/User/useLoginUser";
 import { IUser } from "../../interfaces/user.interface";
 import { toast } from "react-toastify";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
-type IFormLogin = Omit<IUser, 'name'>
+type IFormLogin = Omit<IUser, "name">;
 
 export interface ILoginResponse {
-  message: string,
-  token: string,
-  user: IUser
+  message: string;
+  token: string;
+  user: IUser;
 }
 
 export default function LoginPage() {
-
-  const { register, formState: { errors }, handleSubmit } = useForm<IFormLogin>({
-    mode: 'onSubmit'
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<IFormLogin>({
+    mode: "onSubmit",
   });
 
   const route = useNavigate();
 
   const { mutate, isPending } = useLoginUser({
     onSuccess(data) {
-      Cookies.set('access_token', data.token, { sameSite: 'strict' });
+      Cookies.set("access_token", data.token, { sameSite: "strict" });
       toast.success(data?.message);
-      route('/');
+      route("/notes");
     },
     onError(error) {
       toast.error(error.response?.data?.message, {
-        autoClose: false
+        autoClose: false,
       });
       console.log(error);
-    }
+    },
   });
 
   const onSubmit = (data: IFormLogin) => {
     mutate(data);
-  }
+  };
 
   return (
     <div className={styles["auth-page"]}>
       <h1>Создайте аккаунт</h1>
-      <FormLayout onSubmit={handleSubmit(onSubmit)} isLoading={isPending} buttonText="Войти">
+      <FormLayout
+        onSubmit={handleSubmit(onSubmit)}
+        isLoading={isPending}
+        buttonText="Войти"
+      >
         <MainInput
           placeholder="Почта"
           {...register("email", {
@@ -56,7 +63,6 @@ export default function LoginPage() {
               message: "Введите корректную почту",
             },
           })}
-          
           errorMessage={errors.email?.message}
         />
         <MainInput

@@ -1,40 +1,24 @@
-import { useEffect, useRef, useState } from "react";
 import ProfileIconButton from "../../ProfileIconButton/ProfileIconButton";
 import styles from "./Profile.module.scss";
-import ProfileSettings from "./ProfileSettings/ProfileSettings";
 import MenuSelectIcon from "./../../../../public/icons/menu-select.svg";
 import { useUserStore } from "../../../store/userStore";
 import AvatarPlug from "../../AvatarPlug/AvatarPlug";
+import DropdownMenuLayout from "../../DropdownMenuLayout/DropdownMenuLayout";
+import ProfileSettingsItem from "./ProfileSettings/ProfileSettingsItem/ProfileSettingsItem";
+import AccountModal from "../../Modals/AccountModal/AccountModal";
+import { useLogoutUser } from "../../../utils/hooks/User/useLogoutUser";
+import AccountIcon from "./../../../../public/icons/account.svg";
+import GearIcon from "./../../../../public/icons/gear.svg";
+import SupportIcon from "./../../../../public/icons/support.svg";
+import ExitIcon from "./../../../../public/icons/exit.svg";
+import { useModalStore } from "../../../store/modalStore";
+import DropdownMenuItem from "../../DropdownMenuLayout/DropdownMenuItem";
 
 export default function Profile() {
-  const [isActive, setIsActive] = useState(false);
-  const profileSettingsRef = useRef<HTMLDivElement>(null);
-  const profileIconButtonRef = useRef<HTMLButtonElement>(null);
   const user = useUserStore((state) => state.user);
+  const { openModal } = useModalStore();
 
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        profileIconButtonRef.current &&
-        profileIconButtonRef.current.contains(e.target as Node)
-      ) {
-        return;
-      }
-
-      if (
-        profileSettingsRef.current &&
-        !profileSettingsRef.current.contains(e.target as Node)
-      ) {
-        setIsActive(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [profileSettingsRef]);
+  const { logout, isPending } = useLogoutUser();
 
   return (
     <>
@@ -53,13 +37,48 @@ export default function Profile() {
           </div>
         </div>
         <div className={styles["arrow"]}>
-          <ProfileIconButton
-            onClick={() => setIsActive((state) => !state)}
-            ref={profileIconButtonRef}
-          >
-            <MenuSelectIcon />
-          </ProfileIconButton>
-          <ProfileSettings isActive={isActive} ref={profileSettingsRef} />
+          <DropdownMenuLayout
+            buttonTrigger={
+              <ProfileIconButton>
+                <MenuSelectIcon />
+              </ProfileIconButton>
+            }
+            className={styles.dropdown}
+            content={
+              <div className={styles.dropdownWrapper}>
+                <div className={styles["profile-settings__wrapper"]}>
+                  <DropdownMenuItem>
+                    <ProfileSettingsItem
+                      name="Аккаунт"
+                      onClick={() => openModal(<AccountModal />)}
+                      icon={<AccountIcon />}
+                    />
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <ProfileSettingsItem name="Настройки" icon={<GearIcon />} />
+                  </DropdownMenuItem>
+                </div>
+                <div className={styles["hr"]}></div>
+                <div className={styles["profile-settings__wrapper"]}>
+                  <DropdownMenuItem>
+                    <ProfileSettingsItem
+                      name="Поддержка"
+                      icon={<SupportIcon />}
+                    />
+                  </DropdownMenuItem>
+                </div>
+                <div className={styles["hr"]}></div>
+                <div className={styles["profile-settings__wrapper"]}>
+                  <ProfileSettingsItem
+                    isLoading={isPending}
+                    name="Выйти"
+                    icon={<ExitIcon />}
+                    onClick={logout}
+                  />
+                </div>
+              </div>
+            }
+          />
         </div>
       </div>
     </>

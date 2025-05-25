@@ -26,7 +26,7 @@ export default function ChangeNameModal() {
   const { mutate, isPending } = useChangeName({
     onSuccess() {
       toast.success("Вы успешно сменили имя");
-      queryClient.invalidateQueries({ queryKey: ["user"] });
+      queryClient.invalidateQueries();
     },
     onError(data) {
       toast.error(data.response?.data?.message);

@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import NotesIcon from "./../../../public/icons/notes.svg";
-import WorkspaceIcon from "./../../../public/icons/work-obl.svg";
+// import WorkspaceIcon from "./../../../public/icons/work-obl.svg";
 import Favourite from "./../../../public/icons/favourite.svg";
 
 interface IMenu {
@@ -11,11 +11,11 @@ interface IMenu {
 }
 
 export const menu: IMenu[] = [
-  {
-    href: "/workspace",
-    icon: <WorkspaceIcon />,
-    name: "Рабочая область",
-  },
+  // {
+  //   href: "/workspace",
+  //   icon: <WorkspaceIcon />,
+  //   name: "Рабочая область",
+  // },
   {
     href: "/notes",
     icon: <NotesIcon />,

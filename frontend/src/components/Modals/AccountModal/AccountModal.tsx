@@ -13,7 +13,7 @@ import { ChangeEvent, useState } from "react";
 import { useChangeAvatarUser } from "../../../utils/hooks/User/useChangeAvatarUser";
 import Loader from "../../Loader/Loader";
 import { toast } from "react-toastify";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { userService } from "../../../services/user.service";
 import { useModalStore } from "../../../store/modalStore";
 import ChangeNameModal from "../ChangeNameModal/ChangeNameModal";
@@ -25,7 +25,8 @@ export default function AccountModal() {
     queryKey: ["user"],
     queryFn: () => userService.infoUser(),
   });
-  const { openModal, changeContent } = useModalStore();
+  const queryClient = useQueryClient();
+  const { changeContent } = useModalStore();
 
   const { logout, isPending } = useLogoutUser();
 
@@ -35,6 +36,7 @@ export default function AccountModal() {
       setIsLoadingAvatar(true);
       refetch().finally(() => {
         setIsLoadingAvatar(false);
+        queryClient.invalidateQueries();
       });
     },
     onError(data) {
@@ -47,7 +49,6 @@ export default function AccountModal() {
     if (avatar) {
       const formData = new FormData();
       formData.append("avatar", avatar);
-      console.log(formData.get("avatar"));
       mutate(formData);
     }
   };

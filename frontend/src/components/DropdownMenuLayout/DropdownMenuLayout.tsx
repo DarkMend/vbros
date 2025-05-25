@@ -2,15 +2,17 @@ import { AnimatePresence, motion } from "motion/react";
 import { DropdownMenu } from "radix-ui";
 import { forwardRef, ReactNode, useState } from "react";
 import styles from "./DropdownMenuLayout.module.scss";
+import cn from "classnames";
 
 export interface IDropdownMenuLayout {
   content: ReactNode;
   buttonTrigger: ReactNode;
   isPageMenu?: boolean;
+  className?: string;
 }
 
 const DropdownMenuLayout = forwardRef<HTMLButtonElement, IDropdownMenuLayout>(
-  ({ buttonTrigger, content, isPageMenu = false }, ref) => {
+  ({ buttonTrigger, content, isPageMenu = false, className }, ref) => {
     const [open, setOpen] = useState(false);
 
     const animationVariants = {
@@ -42,7 +44,7 @@ const DropdownMenuLayout = forwardRef<HTMLButtonElement, IDropdownMenuLayout>(
           {open && (
             <DropdownMenu.Portal forceMount>
               <DropdownMenu.Content
-                className={styles.content}
+                className={cn(styles.content, className)}
                 sideOffset={20}
                 alignOffset={isPageMenu ? -15 : 0}
                 asChild
