@@ -3,6 +3,7 @@
   border-radius: 10px;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
   position: relative;
+  padding: 12px;
 
   .close {
     background: none;
@@ -20,4 +21,8 @@
       object-fit: contain;
     }
   }
+}
+
+.dropdownMenuItem {
+  outline: none;
 }

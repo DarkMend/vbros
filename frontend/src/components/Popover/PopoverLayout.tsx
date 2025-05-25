@@ -41,8 +41,9 @@ const PopoverLayout = forwardRef<HTMLButtonElement, IPopoverLayout>(
             <Popover.Portal forceMount>
               <Popover.Content
                 style={{
-                  paddingTop: isCloseButton ? "30px" : "",
+                  zIndex: isCloseButton ? "10" : "2",
                   padding: isCloseButton ? "15px" : "12px",
+                  paddingTop: isCloseButton ? "30px" : "",
                 }}
                 className={styles.content}
                 sideOffset={10}

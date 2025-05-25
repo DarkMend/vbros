@@ -25,6 +25,8 @@ import PageMenu from "../../components/PageMenu/PageMenu";
 import ProfileSettingsItem from "../../components/Sidebar/Profile/ProfileSettings/ProfileSettingsItem/ProfileSettingsItem";
 import GearIcon from "./../../../public/icons/gear.svg";
 import DeleteIcon from "./../../../public/icons/trash.svg";
+import CreateOrUpdateProjectModal from "../../components/Modals/ProjectModal/CreateOrUpdateProjectModal/CreateOrUpdateProjectModal";
+import DropdownMenuItem from "../../components/DropdownMenuLayout/DropdownMenuItem";
 
 type ProjectPageParams = {
   id: string;
@@ -171,17 +173,24 @@ export default function ProjectPage() {
             </div>
             <PageMenu>
               <div className={styles.pageMenu}>
-                <ProfileSettingsItem icon={<ShareIcon />} name="Поделиться" />
-                <ProfileSettingsItem
-                  icon={<GearIcon />}
-                  name="Изменить проект"
-                />
+                <DropdownMenuItem>
+                  <ProfileSettingsItem icon={<ShareIcon />} name="Поделиться" />
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <ProfileSettingsItem
+                    icon={<GearIcon />}
+                    name="Изменить проект"
+                    onClick={() => openModal(<CreateOrUpdateProjectModal />)}
+                  />
+                </DropdownMenuItem>
                 <div className={styles.line}></div>
-                <ProfileSettingsItem
-                  icon={<DeleteIcon />}
-                  name="Удалить проект"
-                  deleteButton={true}
-                />
+                <DropdownMenuItem>
+                  <ProfileSettingsItem
+                    icon={<DeleteIcon />}
+                    name="Удалить проект"
+                    deleteButton={true}
+                  />
+                </DropdownMenuItem>
               </div>
             </PageMenu>
           </div>

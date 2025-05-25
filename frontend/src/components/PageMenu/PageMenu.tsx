@@ -1,8 +1,9 @@
-import PopoverLayout from "../Popover/PopoverLayout";
+// import PopoverLayout from "../Popover/PopoverLayout";
 import MenuSelectIcon from "../../../public/icons/menu-select.svg";
 import styles from "./PageMenu.module.scss";
 
 import { ReactNode } from "react";
+import DropdownMenuLayout from "../DropdownMenuLayout/DropdownMenuLayout";
 
 export interface IPageMenu {
   children: ReactNode;
@@ -10,13 +11,22 @@ export interface IPageMenu {
 
 export default function PageMenu({ children }: IPageMenu) {
   return (
-    <PopoverLayout
+    // <PopoverLayout
+    //   buttonTrigger={
+    //     <button className={styles.actions}>
+    //       <MenuSelectIcon />
+    //     </button>
+    //   }
+    //   isCloseButton={false}
+    //   content={children}
+    // />
+    <DropdownMenuLayout
       buttonTrigger={
         <button className={styles.actions}>
           <MenuSelectIcon />
         </button>
       }
-      isCloseButton={false}
+      isPageMenu={true}
       content={children}
     />
   );
