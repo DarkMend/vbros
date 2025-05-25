@@ -16,16 +16,21 @@ import { INote } from "../../interfaces/note.interface";
 import { toast } from "react-toastify";
 import { useUpdateNote } from "../../utils/hooks/Note/useUpdateNote";
 import ModalConfirmation from "../ModalConfirmation/ModalConfirmation";
-import { useDeleteNoteHook } from "./useDeleteNote";
+import { useDeleteNoteHook, useDeleteTaskHook } from "./useDeleteNote";
 import { useTaskStore } from "../../store/taskStore";
 import SelectUser from "../Select/SelectUser";
 import Title from "../Title/Title";
+import { useCreateTask } from "../../utils/hooks/Task/useCreateTask";
+import { IStatusProject } from "../../interfaces/statusProject";
+import { ITask } from "../../interfaces/task";
+import { useUpdateTask } from "../../utils/hooks/Task/useUpdateTask";
 
 export interface INoteSidebar {
   title: string;
   icon: ReactNode;
   update?: INote;
   isStatusProject?: boolean;
+  updateTask?: ITask;
 }
 
 export default function NoteSidebar({
@@ -33,6 +38,7 @@ export default function NoteSidebar({
   icon,
   update,
   isStatusProject,
+  updateTask,
 }: INoteSidebar) {
   const { closeSidebar } = useSibebarStore();
   const { openModal, closeModal } = useModalStore();
@@ -61,22 +67,19 @@ export default function NoteSidebar({
     reset,
   } = useForm<INote>({
     mode: "onSubmit",
-    defaultValues: {
-      description: update && update.description,
-    },
   });
 
   useEffect(() => {
-    if (!update) {
+    if (!update && !updateTask) {
       reset({
         description: "",
       });
     } else {
       reset({
-        description: update?.description,
+        description: update?.description ?? updateTask?.description,
       });
     }
-  }, [reset, update]);
+  }, [reset, update, updateTask]);
 
   // create note
   const { mutate: createMutate, isPending: createPending } = useCreateNote({
@@ -86,6 +89,22 @@ export default function NoteSidebar({
     onSuccess() {
       toast.success("Заметка успешно создана");
       queryClient.invalidateQueries({ queryKey: ["statuses"] });
+      reset();
+      closeSidebar();
+    },
+  });
+
+  // create task
+
+  const { mutate: createTask, isPending: createTaskPending } = useCreateTask({
+    onError(data) {
+      toast.error(data.response?.data?.message);
+    },
+    onSuccess() {
+      toast.success("Задача успешно создана");
+      queryClient.invalidateQueries({
+        queryKey: ["projectStatuses", (status as IStatusProject)?.project_id],
+      });
       reset();
       closeSidebar();
     },
@@ -103,6 +122,21 @@ export default function NoteSidebar({
     },
   });
 
+  // update task
+
+  const { mutate: updateTaskMutate, isPending: updateTaskPending } =
+    useUpdateTask({
+      onError(data) {
+        toast.error(data.response?.data?.message);
+      },
+      onSuccess() {
+        toast.success("Задача успешно обновлена");
+        queryClient.invalidateQueries({
+          queryKey: ["projectStatuses", updateTask?.project_id],
+        });
+      },
+    });
+
   // delete note
 
   const deleteHandle = () => {
@@ -113,6 +147,15 @@ export default function NoteSidebar({
           backAction={closeModal}
           id={update.id}
           handleConfirmation={useDeleteNoteHook}
+        />
+      );
+    } else if (updateTask) {
+      openModal(
+        <ModalConfirmation
+          text="Вы точно хотите удалить задачу"
+          backAction={closeModal}
+          id={updateTask.id}
+          handleConfirmation={useDeleteTaskHook}
         />
       );
     }
@@ -134,8 +177,26 @@ export default function NoteSidebar({
         date: date,
         id: update.id,
       });
+    } else if (updateTask) {
+      updateTaskMutate({
+        ...data,
+        status_project_id: status.id,
+        completion_time: date,
+        user: user?.id as number,
+        id: updateTask.id,
+      });
     } else {
-      createMutate({ ...data, status_id: status?.id, date: date });
+      if (isStatusProject) {
+        createTask({
+          ...data,
+          status_project_id: status?.id,
+          completion_time: date,
+          project_id: (status as IStatusProject)?.project_id,
+          user: user?.id as number,
+        });
+      } else {
+        createMutate({ ...data, status_id: status?.id, date: date });
+      }
     }
   };
 
@@ -151,7 +212,7 @@ export default function NoteSidebar({
             <div className={styles.icon}>{icon}</div>
             <div className={styles.text}>{title}</div>
           </div>
-          {update && (
+          {(update || updateTask) && (
             <ModalButton
               typeButton="delete"
               textNone={true}
@@ -190,7 +251,12 @@ export default function NoteSidebar({
         {isStatusProject && allUsers && (
           <div className={styles.selectUserWrapper}>
             <Title>Выполняет: </Title>
-            <SelectUser value={user} setValue={setUser} users={allUsers} />
+            <SelectUser
+              value={user}
+              setValue={setUser}
+              users={allUsers}
+              color={status?.color}
+            />
           </div>
         )}
         <div className={styles.main}>
@@ -214,11 +280,16 @@ export default function NoteSidebar({
         </button>
         <ModalButton
           className={styles.button}
-          isLoading={createPending || updatePending}
+          isLoading={
+            createPending ||
+            updatePending ||
+            createTaskPending ||
+            updateTaskPending
+          }
           form="form"
           type="submit"
         >
-          {update ? "Сохранить" : "Создать"}
+          {update || updateTask ? "Сохранить" : "Создать"}
         </ModalButton>
       </div>
     </div>

@@ -24,8 +24,6 @@ export default function DateModal({
     }
     closeModal();
   };
-  console.log(projectDate);
-  console.log(date);
 
   return (
     <ModalLayout title="Дедлайн" icon={<CalendarIcon />}>

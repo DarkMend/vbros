@@ -28,10 +28,11 @@ export interface ISelectIcon {
   users?: IUserWithRole[];
   value: IUserWithRole | null;
   setValue: (value: IUserWithRole) => void;
+  color?: string;
 }
 
 const SelectUser = forwardRef<HTMLButtonElement, ISelectIcon>(
-  ({ users, value, setValue }, ref) => {
+  ({ users, value, setValue, color }, ref) => {
     const [open, setOpen] = useState(false);
 
     const handleChange = (item: IUserWithRole) => {
@@ -45,7 +46,7 @@ const SelectUser = forwardRef<HTMLButtonElement, ISelectIcon>(
           ref={ref}
           asChild
           className={styles.selectTrigger}
-          style={{ background: "#6363631a" }}
+          style={{ background: color ? `${color}1A` : "#6363631a" }}
         >
           <button className={styles.triggerButton}>
             {value ? (
@@ -96,7 +97,7 @@ const SelectUser = forwardRef<HTMLButtonElement, ISelectIcon>(
                       style={
                         value?.id == item.id
                           ? {
-                              background: `#6363631a`,
+                              background: color ? `${color}1A` : "#6363631a",
                             }
                           : undefined
                       }

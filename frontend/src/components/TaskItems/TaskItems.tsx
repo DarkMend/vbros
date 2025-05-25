@@ -93,8 +93,8 @@ export default function TaskItems({ className, data, ...props }: ITaskItems) {
           data.tasks
             .sort(
               (a, b) =>
-                new Date(a.updatedAt).getTime() -
-                new Date(b.updatedAt).getTime()
+                new Date(a.updated_at).getTime() -
+                new Date(b.updated_at).getTime()
             )
             .map((el) => <TaskItem key={el.id} task={el} />)}
         <AddNoteItem typeButton="note" onClick={openCreateNoteSidebar} />

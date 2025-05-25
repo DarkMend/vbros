@@ -5,6 +5,7 @@ use App\Http\Controllers\api\NoteController;
 use App\Http\Controllers\api\ProjectController;
 use App\Http\Controllers\api\StatusController;
 use App\Http\Controllers\api\StatusProjectController;
+use App\Http\Controllers\api\TaskController;
 use App\Http\Controllers\api\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -62,5 +63,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/store', 'store');
         Route::put('/update/{statusProject}', 'update');
         Route::delete('/delete/{statusProject}', 'destroy');
+    });
+
+    Route::controller(TaskController::class)->prefix('task')->group(function () {
+        Route::post('/create', 'store');
+        Route::put('/update/{task}', 'update');
+        Route::delete('/delete/{task}', 'destroy');
     });
 });

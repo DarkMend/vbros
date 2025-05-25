@@ -6,9 +6,11 @@ import { useSibebarStore } from "../../../store/sidebar.store";
 import NoteSidebar from "../../NoteSidebar/NoteSidebar";
 import { Pencil } from "lucide-react";
 import MenuIcon from "../../../../public/icons/menu-select.svg";
-import { useNoteStore } from "../../../store/noteStore";
 import { PointerEventHandler } from "react";
 import { ITask } from "../../../interfaces/task";
+import { IUserWithRole } from "../../../interfaces/user.interface";
+import AvatarPlug from "../../AvatarPlug/AvatarPlug";
+import { useTaskStore } from "../../../store/taskStore";
 
 export interface ITaskItem {
   task: ITask;
@@ -16,11 +18,12 @@ export interface ITaskItem {
 
 export default function TaskItem({ task }: ITaskItem) {
   const { openSidebar } = useSibebarStore();
-  const { allStatuses, setStatus, setDate } = useNoteStore();
+  const { allStatuses, setStatus, setDate, setUser } = useTaskStore();
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: task.id,
     data: task,
   });
+  const user = task.user as IUserWithRole;
 
   const style = {
     transform: transform
@@ -30,19 +33,27 @@ export default function TaskItem({ task }: ITaskItem) {
     zIndex: transform && 3,
   };
 
-  // const handleOpenSidebar: PointerEventHandler<HTMLButtonElement> = (e) => {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  //   const status = allStatuses?.find((status) => status.id === task.status_id);
-  //   if (status) {
-  //     setStatus(status);
-  //   }
-  //   setDate(note.date);
+  const handleOpenSidebar: PointerEventHandler<HTMLButtonElement> = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const status = allStatuses?.find(
+      (status) => status.id === task.status_project_id
+    );
+    if (status) {
+      setStatus(status);
+    }
+    setDate(new Date(task.completion_time));
+    setUser(task.user as IUserWithRole);
 
-  //   openSidebar(
-  //     <NoteSidebar title="Обновление заметки" icon={<Pencil />} update={note} />
-  //   );
-  // };
+    openSidebar(
+      <NoteSidebar
+        title="Обновление задачи"
+        icon={<Pencil />}
+        updateTask={task}
+        isStatusProject={true}
+      />
+    );
+  };
 
   return (
     <div
@@ -61,6 +72,16 @@ export default function TaskItem({ task }: ITaskItem) {
         >
           <MenuIcon />
         </button>
+      </div>
+      <div className={styles.user}>
+        {user.avatar ? (
+          <img src={user.avatar} />
+        ) : (
+          <AvatarPlug name={user.name} />
+        )}
+      </div>
+      <div className={styles.date}>
+        Дата выполнения: {new Date(task?.completion_time).toLocaleDateString()}
       </div>
     </div>
   );
