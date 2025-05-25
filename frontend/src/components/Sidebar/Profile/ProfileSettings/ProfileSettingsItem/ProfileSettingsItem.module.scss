@@ -1,45 +1,59 @@
 .profile-settings__item {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
-    border: none;
-    border-radius: 10px;
-    background: none;
-    padding: 12px;
-    cursor: pointer;
-    transition: all .3s ease;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  background: none;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 
-    .icon {
-        width: 20px;
-        height: 20px;
+  .icon {
+    width: 20px;
+    height: 20px;
 
-        svg {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            color: #636363;
-            transition: all .3s ease;
-        }
+    svg {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      color: #636363;
+      transition: all 0.3s ease;
     }
+  }
 
-    .text {
-        color: #636363;
-        font-size: 14px;
-        font-weight: 500;
-        transition: all .3s ease;
-    }
+  .text {
+    color: #636363;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
 
-    &:hover {
-        background: #F5F5F5;
-    }
+  &:hover {
+    background: #f5f5f5;
+  }
 
-    &:hover .text {
-        color: black;
-    }
+  &:hover .text {
+    color: black;
+  }
 
-    &:hover .icon svg {
-        color: black;
-    }
+  &:hover .icon svg {
+    color: black;
+  }
+}
+
+.delete {
+  .text {
+    color: #ff0000;
+  }
+
+  &:hover {
+    background: #ff00001a;
+  }
+
+  &:hover .text {
+    color: #ff0000;
+  }
 }

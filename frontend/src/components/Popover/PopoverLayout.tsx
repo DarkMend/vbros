@@ -7,6 +7,7 @@ import { X } from "lucide-react";
 export interface IPopoverLayout {
   content: ReactNode;
   buttonTrigger: ReactNode;
+  isCloseButton?: boolean;
 }
 
 const animationVariants = {
@@ -27,7 +28,7 @@ const animationVariants = {
 };
 
 const PopoverLayout = forwardRef<HTMLButtonElement, IPopoverLayout>(
-  ({ content, buttonTrigger }, ref) => {
+  ({ content, buttonTrigger, isCloseButton = true }, ref) => {
     const [open, setOpen] = useState(false);
 
     return (
@@ -39,6 +40,10 @@ const PopoverLayout = forwardRef<HTMLButtonElement, IPopoverLayout>(
           {open && (
             <Popover.Portal forceMount>
               <Popover.Content
+                style={{
+                  paddingTop: isCloseButton ? "30px" : "",
+                  padding: isCloseButton ? "15px" : "12px",
+                }}
                 className={styles.content}
                 sideOffset={10}
                 asChild
@@ -51,9 +56,12 @@ const PopoverLayout = forwardRef<HTMLButtonElement, IPopoverLayout>(
                   animate="visible"
                   transition={{ duration: 0.2 }}
                 >
-                  <Popover.Close className={styles.close}>
-                    <X />
-                  </Popover.Close>
+                  {isCloseButton && (
+                    <Popover.Close className={styles.close}>
+                      <X />
+                    </Popover.Close>
+                  )}
+
                   {content}
                   <Popover.Arrow style={{ fill: "white" }} />
                 </motion.div>

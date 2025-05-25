@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { projectService } from "../../services/project.service";
 import { IProject } from "../../interfaces/project.interface";
 import ProjectIcon from "../../../public/icons/team-project.svg";
-import MenuSelect from "../../../public/icons/menu-select.svg";
+import ShareIcon from "./../../../public/icons/share.svg";
 import { IUserWithRole } from "../../interfaces/user.interface";
 import AvatarPlug from "../../components/AvatarPlug/AvatarPlug";
 import SkeletonItem from "../../components/SkeletonItem/SkeletonItem";
@@ -21,6 +21,10 @@ import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { ITask } from "../../interfaces/task";
 import { useChangeStatusTask } from "../../utils/hooks/Task/useChangeStatusTask";
 import { toast } from "react-toastify";
+import PageMenu from "../../components/PageMenu/PageMenu";
+import ProfileSettingsItem from "../../components/Sidebar/Profile/ProfileSettings/ProfileSettingsItem/ProfileSettingsItem";
+import GearIcon from "./../../../public/icons/gear.svg";
+import DeleteIcon from "./../../../public/icons/trash.svg";
 
 type ProjectPageParams = {
   id: string;
@@ -165,9 +169,21 @@ export default function ProjectPage() {
                 <div className={styles.count}>+{users.length - 2}</div>
               )}
             </div>
-            <button className={styles.actions}>
-              <MenuSelect />
-            </button>
+            <PageMenu>
+              <div className={styles.pageMenu}>
+                <ProfileSettingsItem icon={<ShareIcon />} name="Поделиться" />
+                <ProfileSettingsItem
+                  icon={<GearIcon />}
+                  name="Изменить проект"
+                />
+                <div className={styles.line}></div>
+                <ProfileSettingsItem
+                  icon={<DeleteIcon />}
+                  name="Удалить проект"
+                  deleteButton={true}
+                />
+              </div>
+            </PageMenu>
           </div>
         </div>
       )}

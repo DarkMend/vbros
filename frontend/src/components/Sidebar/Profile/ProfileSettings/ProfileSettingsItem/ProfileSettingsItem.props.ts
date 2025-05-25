@@ -4,5 +4,6 @@ export interface IProfileSettingsItem
   extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon: ReactNode;
   name: string;
-  isLoading?: boolean
+  isLoading?: boolean;
+  deleteButton?: boolean;
 }
