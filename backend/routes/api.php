@@ -57,6 +57,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/personal-projects', 'getProjects');
         Route::get('/personal-project/{project}', 'getProject');
         Route::get('/personal-project/{project}/statuses', 'getStatuses');
+        Route::post('/update/{project}', 'update');
+        Route::delete('/delete/{project}', 'destroy');
     });
 
     Route::controller(StatusProjectController::class)->prefix('status-project')->group(function () {

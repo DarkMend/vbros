@@ -10,6 +10,7 @@ use App\Models\Project;
 use App\Models\StatusProject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -95,5 +96,49 @@ class ProjectController extends Controller
         ])->statuses;
 
         return StatusProjectResource::collection($statuses);
+    }
+
+    public function update(Request $request, Project $project)
+    {
+
+        $data = $request->validate([
+            'name' => ['required', 'string'],
+            'description' => ['required', 'string'],
+            'icon' => ['mimes:jpeg,png,jpg,svg']
+        ], [
+            'name.required' => 'Введите имя',
+            'name.string' => 'Имя должно состоять из символов',
+            'description.required' => 'Введите описание',
+            'description.string' => 'Описание должно состоять из символов',
+            'icon.mimes' => 'Неправильный формат изображения'
+        ]);
+
+        if (!$request->hasFile('icon')) {
+            unset($data['icon']);
+            $data['icon'] = $project->icon;
+        } else {
+            $image = $request->file('icon')->store('projects/icons');
+
+            if ($project->icon && Storage::exists($project->icon)) {
+                Storage::delete($project->icon);
+            }
+
+            $data['icon'] = $image;
+        }
+
+        $project->update($data);
+
+        return response()->json(['message' => 'Проект успешно обновлен'], 200);
+    }
+
+    public function destroy(Project $project)
+    {
+        if ($project->icon && Storage::exists($project->icon)) {
+            Storage::delete($project->icon);
+        }
+
+        $project->delete();
+
+        return response()->json(['message' => 'Проект успешно удален'], 200);
     }
 }

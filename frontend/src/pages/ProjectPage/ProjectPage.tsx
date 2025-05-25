@@ -27,6 +27,8 @@ import GearIcon from "./../../../public/icons/gear.svg";
 import DeleteIcon from "./../../../public/icons/trash.svg";
 import CreateOrUpdateProjectModal from "../../components/Modals/ProjectModal/CreateOrUpdateProjectModal/CreateOrUpdateProjectModal";
 import DropdownMenuItem from "../../components/DropdownMenuLayout/DropdownMenuItem";
+import ModalConfirmation from "../../components/ModalConfirmation/ModalConfirmation";
+import { useDeleteProjectHook } from "../../components/Modals/ProjectModal/CreateOrUpdateProjectModal/useDeleteProject";
 
 type ProjectPageParams = {
   id: string;
@@ -35,7 +37,7 @@ type ProjectPageParams = {
 export default function ProjectPage() {
   const { id } = useParams<ProjectPageParams>();
   const projectId = id ? parseInt(id) : NaN;
-  const { openModal } = useModalStore();
+  const { openModal, closeModal } = useModalStore();
   const { allStatuses, setAllStatuses, setAllUsers } = useTaskStore();
 
   const { mutate } = useChangeStatusTask();
@@ -131,6 +133,17 @@ export default function ProjectPage() {
     }
   };
 
+  const openModalConfirmatinDeleteStatus = () => {
+    openModal(
+      <ModalConfirmation
+        text="Вы точно хотите удалить проект и все находящиеся задачи в нём?"
+        backAction={() => closeModal()}
+        id={projectId}
+        handleConfirmation={useDeleteProjectHook}
+      />
+    );
+  };
+
   return (
     <div className={styles.project}>
       {isLoading ? (
@@ -180,7 +193,11 @@ export default function ProjectPage() {
                   <ProfileSettingsItem
                     icon={<GearIcon />}
                     name="Изменить проект"
-                    onClick={() => openModal(<CreateOrUpdateProjectModal />)}
+                    onClick={() =>
+                      openModal(
+                        <CreateOrUpdateProjectModal update={data.project} />
+                      )
+                    }
                   />
                 </DropdownMenuItem>
                 <div className={styles.line}></div>
@@ -189,6 +206,7 @@ export default function ProjectPage() {
                     icon={<DeleteIcon />}
                     name="Удалить проект"
                     deleteButton={true}
+                    onClick={openModalConfirmatinDeleteStatus}
                   />
                 </DropdownMenuItem>
               </div>

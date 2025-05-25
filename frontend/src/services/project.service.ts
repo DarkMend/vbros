@@ -16,4 +16,12 @@ export const projectService = {
   async getStatuses(id: number) {
     return axiosWithAuth.get(`/project/personal-project/${id}/statuses`);
   },
+
+  async updateProject(data: FormData) {
+    return axiosWithAuth.post(`/project/update/${data.get("id")}`, data);
+  },
+
+  async deleteProject(data: number) {
+    return axiosWithAuth.delete(`/project/delete/${data}`);
+  },
 };

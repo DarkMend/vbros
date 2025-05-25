@@ -1,4 +1,4 @@
-import { ChangeEventHandler, useMemo, useState } from "react";
+import { ChangeEventHandler, useEffect, useMemo, useState } from "react";
 import { useModalStore } from "../../../../store/modalStore";
 import ImageLoader from "../../../ImageLoader/ImageLoader";
 import MainInput from "../../../MainInput/MainInput";
@@ -11,16 +11,51 @@ import { useForm } from "react-hook-form";
 import { IProject } from "../../../../interfaces/project.interface";
 import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
+import { useUpdateProject } from "../../../../utils/hooks/Project/useUpdateProject";
 
-export default function CreateOrUpdateProjectModal() {
+export interface ICreateOrUpdateProjectModal {
+  update?: IProject;
+}
+
+export default function CreateOrUpdateProjectModal({
+  update,
+}: ICreateOrUpdateProjectModal) {
   const { closeModal } = useModalStore();
-  const [image, setImage] = useState<File | null>(null);
+  const [image, setImage] = useState<File | string | null>(null);
   const [isSvg, setIsSvg] = useState<boolean>(false);
   const queryClient = useQueryClient();
+
+  // создание формы
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<IProject>();
+
+  useEffect(() => {
+    if (update) {
+      reset({
+        name: update.name,
+        description: update.description,
+      });
+    }
+
+    if (update?.icon) {
+      setImage(update.icon);
+      setIsSvg((update.icon as string).endsWith(".svg"));
+    }
+  }, [update, reset]);
 
   // предзагрузка изображений
   const imageUrl = useMemo(() => {
     if (!image) return null;
+
+    if (typeof image === "string") {
+      return image;
+    }
+
     return URL.createObjectURL(image);
   }, [image]);
 
@@ -36,15 +71,7 @@ export default function CreateOrUpdateProjectModal() {
     }
   };
 
-  // создание формы
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<IProject>();
-
+  // создание
   const { mutate: createMutate, isPending: isCreatePending } = useCreateProject(
     {
       onSuccess() {
@@ -60,23 +87,48 @@ export default function CreateOrUpdateProjectModal() {
     }
   );
 
+  // update
+  const { mutate: updateMutate, isPending: updatePending } = useUpdateProject({
+    onSuccess() {
+      reset();
+      toast.success("Проект успешно обновлен");
+      queryClient.invalidateQueries({ queryKey: ["project", update?.id] });
+      queryClient.invalidateQueries({
+        queryKey: ["projectStatuses", update?.id],
+      });
+      setImage(null);
+      setIsSvg(false);
+      closeModal();
+    },
+    onError(data) {
+      toast.error(data.response?.data?.message);
+    },
+  });
+
   const onSubmit = (data: IProject) => {
     const formData = new FormData();
-
     formData.append("name", data.name);
     formData.append("description", data.description);
-    if (image) formData.append("icon", image);
+    if (image && typeof image !== "string") formData.append("icon", image);
 
-    createMutate(formData);
+    if (update) {
+      formData.append("id", update?.id.toString());
+      updateMutate(formData);
+    } else {
+      createMutate(formData);
+    }
   };
 
   return (
-    <ModalLayout icon={<TeamProjectIcon />} title="Новый проект">
+    <ModalLayout
+      icon={<TeamProjectIcon />}
+      title={update ? "Редактирование проекта" : "Новый проект"}
+    >
       <ModalFormLayout
-        submitButtonText="Создать"
+        submitButtonText={update ? "Сохранить" : "Создать"}
         closeHandle={() => closeModal()}
         onSubmit={handleSubmit(onSubmit)}
-        isPending={isCreatePending}
+        isPending={isCreatePending || updatePending}
       >
         <MainInput
           placeholder="Название"
