@@ -15,7 +15,15 @@ class UserWithRoleResource extends JsonResource
     public function toArray($request)
     {
 
-        $projectRole = $this->projects->first()?->pivot->role ?? null;
+        $projectId = $request->route('project')?->id ??
+            $request->input('project_id') ??
+            $this->pivot->project_id;
+
+        // Находим конкретную связь с текущим проектом
+        $projectRole = $this->projects
+            ->firstWhere('id', $projectId)
+            ?->pivot
+            ?->role ?? null;
 
         return [
             'id' => $this->id,
