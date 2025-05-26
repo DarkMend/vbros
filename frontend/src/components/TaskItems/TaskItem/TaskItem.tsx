@@ -18,10 +18,16 @@ export interface ITaskItem {
 
 export default function TaskItem({ task }: ITaskItem) {
   const { openSidebar } = useSibebarStore();
-  const { allStatuses, setStatus, setDate, setUser } = useTaskStore();
+  const { allStatuses, setStatus, setDate, setUser, currentUser } =
+    useTaskStore();
+  const isDraggable =
+    currentUser?.id === (task.user as IUserWithRole).id ||
+    currentUser?.role === "creator";
+
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: task.id,
     data: task,
+    disabled: !isDraggable,
   });
   const user = task.user as IUserWithRole;
 

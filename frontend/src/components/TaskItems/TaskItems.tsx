@@ -24,7 +24,7 @@ export interface ITaskItems {
 export default function TaskItems({ className, data, ...props }: ITaskItems) {
   const [visibleItem, setVisibleItem] = useState(false);
   const { openModal } = useModalStore();
-  const { setStatus, setDate, setUser, allUsers } = useTaskStore();
+  const { setStatus, setDate, setUser, allUsers, currentUser } = useTaskStore();
   const { openSidebar } = useSibebarStore();
   const { setNodeRef, isOver } = useDroppable({
     id: data.id,
@@ -78,14 +78,16 @@ export default function TaskItems({ className, data, ...props }: ITaskItems) {
           >
             {!visibleItem ? <EyeIcon /> : <EyeCloseIcon />}
           </div>
-          <button
-            className={cn(styles["actions__item"])}
-            onClick={() =>
-              openModal(<CreateOrUpdateStatusModal statusProject={data} />)
-            }
-          >
-            <MenuSelectIcon />
-          </button>
+          {currentUser?.role === "creator" && (
+            <button
+              className={cn(styles["actions__item"])}
+              onClick={() =>
+                openModal(<CreateOrUpdateStatusModal statusProject={data} />)
+              }
+            >
+              <MenuSelectIcon />
+            </button>
+          )}
         </div>
       </div>
       <div
@@ -101,7 +103,9 @@ export default function TaskItems({ className, data, ...props }: ITaskItems) {
                 new Date(b.updated_at).getTime()
             )
             .map((el) => <TaskItem key={el.id} task={el} />)}
-        <AddNoteItem typeButton="note" onClick={openCreateNoteSidebar} />
+        {currentUser?.role === "creator" && (
+          <AddNoteItem typeButton="note" onClick={openCreateNoteSidebar} />
+        )}
       </div>
     </div>
   );

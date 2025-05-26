@@ -28,9 +28,14 @@ import DeleteIcon from "./../../../public/icons/trash.svg";
 import CreateOrUpdateProjectModal from "../../components/Modals/ProjectModal/CreateOrUpdateProjectModal/CreateOrUpdateProjectModal";
 import DropdownMenuItem from "../../components/DropdownMenuLayout/DropdownMenuItem";
 import ModalConfirmation from "../../components/ModalConfirmation/ModalConfirmation";
-import { useDeleteProjectHook } from "../../components/Modals/ProjectModal/CreateOrUpdateProjectModal/useDeleteProject";
+import {
+  useDeleteProjectHook,
+  useExitProjectHook,
+} from "../../components/Modals/ProjectModal/CreateOrUpdateProjectModal/useDeleteProject";
 import { useJoinProject } from "../../utils/hooks/Project/useJoinProject";
 import LinkModal from "../../components/Modals/LinkModal/LinkModal";
+import { useUserStore } from "../../store/userStore";
+import ExitIcon from "./../../../public/icons/exit.svg";
 
 type ProjectPageParams = {
   id: string;
@@ -40,7 +45,14 @@ export default function ProjectPage() {
   const { id } = useParams<ProjectPageParams>();
   const projectId = id ? parseInt(id) : NaN;
   const { openModal, closeModal } = useModalStore();
-  const { allStatuses, setAllStatuses, setAllUsers } = useTaskStore();
+  const {
+    allStatuses,
+    setAllStatuses,
+    setAllUsers,
+    setCurrentUser,
+    currentUser,
+  } = useTaskStore();
+  const { user } = useUserStore();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -106,8 +118,16 @@ export default function ProjectPage() {
   const users = data?.users ?? [];
 
   useEffect(() => {
-    if (data) setAllUsers(data.users);
-  }, [data, setAllUsers]);
+    if (data) {
+      setAllUsers(data.users);
+
+      setCurrentUser(
+        data.users.find(
+          (currentUser: IUserWithRole) => currentUser.id === user?.id
+        )
+      );
+    }
+  }, [data, setAllUsers, setCurrentUser, user]);
 
   const visibleUsers = users.slice(0, 3);
 
@@ -119,6 +139,10 @@ export default function ProjectPage() {
     const newStatusId = e.over.id as number;
 
     if (activeTask.status_project_id === newStatusId) return;
+
+    if (currentUser?.role !== "creator") {
+      if (currentUser?.id !== (activeTask.user as IUserWithRole)?.id) return;
+    }
 
     if (e.over?.id === e.active.data.current?.status_id) {
       return;
@@ -171,6 +195,17 @@ export default function ProjectPage() {
         backAction={() => closeModal()}
         id={projectId}
         handleConfirmation={useDeleteProjectHook}
+      />
+    );
+  };
+
+  const openModalConfirmatinExitInProject = () => {
+    openModal(
+      <ModalConfirmation
+        text="Вы точно хотите удалить этот проект у себя?"
+        backAction={() => closeModal()}
+        id={projectId}
+        handleConfirmation={useExitProjectHook}
       />
     );
   };
@@ -230,26 +265,40 @@ export default function ProjectPage() {
                     }
                   />
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <ProfileSettingsItem
-                    icon={<GearIcon />}
-                    name="Изменить проект"
-                    onClick={() =>
-                      openModal(
-                        <CreateOrUpdateProjectModal update={data.project} />
-                      )
-                    }
-                  />
-                </DropdownMenuItem>
+                {currentUser?.role === "creator" && (
+                  <DropdownMenuItem>
+                    <ProfileSettingsItem
+                      icon={<GearIcon />}
+                      name="Изменить проект"
+                      onClick={() =>
+                        openModal(
+                          <CreateOrUpdateProjectModal update={data.project} />
+                        )
+                      }
+                    />
+                  </DropdownMenuItem>
+                )}
+
                 <div className={styles.line}></div>
-                <DropdownMenuItem>
-                  <ProfileSettingsItem
-                    icon={<DeleteIcon />}
-                    name="Удалить проект"
-                    deleteButton={true}
-                    onClick={openModalConfirmatinDeleteStatus}
-                  />
-                </DropdownMenuItem>
+                {currentUser?.role === "creator" ? (
+                  <DropdownMenuItem>
+                    <ProfileSettingsItem
+                      icon={<DeleteIcon />}
+                      name="Удалить проект"
+                      deleteButton={true}
+                      onClick={openModalConfirmatinDeleteStatus}
+                    />
+                  </DropdownMenuItem>
+                ) : (
+                  <DropdownMenuItem>
+                    <ProfileSettingsItem
+                      icon={<ExitIcon />}
+                      name="Выйти из проекта"
+                      deleteButton={true}
+                      onClick={openModalConfirmatinExitInProject}
+                    />
+                  </DropdownMenuItem>
+                )}
               </div>
             </PageMenu>
           </div>
@@ -280,14 +329,16 @@ export default function ProjectPage() {
                 <TaskItems data={status} key={status.id} />
               ))}
 
-              <AddNoteItem
-                typeButton="status"
-                onClick={() =>
-                  openModal(
-                    <CreateOrUpdateStatusModal statusProjectId={projectId} />
-                  )
-                }
-              />
+              {currentUser?.role === "creator" && (
+                <AddNoteItem
+                  typeButton="status"
+                  onClick={() =>
+                    openModal(
+                      <CreateOrUpdateStatusModal statusProjectId={projectId} />
+                    )
+                  }
+                />
+              )}
             </>
           )}
         </NotesWrapper>

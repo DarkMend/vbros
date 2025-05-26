@@ -49,6 +49,16 @@
     color: #ff0000;
   }
 
+  .icon {
+    svg {
+      color: #ff0000;
+    }
+  }
+
+  &:hover .icon svg {
+    color: #ff0000;
+  }
+
   &:hover {
     background: #ff00001a;
   }

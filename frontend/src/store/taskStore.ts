@@ -16,6 +16,8 @@ export interface ITaskStore {
   setAllUsers: (users: IUserWithRole[]) => void;
   user: IUserWithRole | null;
   setUser: (user: IUserWithRole) => void;
+  currentUser: IUserWithRole | null;
+  setCurrentUser: (user: IUserWithRole) => void;
 }
 
 const useTaskStore = create<ITaskStore>((set) => ({
@@ -32,6 +34,8 @@ const useTaskStore = create<ITaskStore>((set) => ({
   setAllUsers: (users) => set({ allUsers: users }),
   user: null,
   setUser: (user) => set({ user: user }),
+  currentUser: null,
+  setCurrentUser: (user) => set({ currentUser: user }),
 }));
 
 export { useTaskStore };

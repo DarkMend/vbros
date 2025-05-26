@@ -151,6 +151,17 @@ class ProjectController extends Controller
         }
 
         $project->users()->attach(auth()->id(), ['role' => 'participant']);
-        return response()->json(['message' => 'Вы усепшно вступили в проект'], 200);
+        return response()->json(['message' => 'Вы успeшно вступили в проект'], 200);
+    }
+
+    public function exitProject(Project $project)
+    {
+        DB::transaction(function () use ($project) {
+            $project->users()->detach(auth()->id());
+
+            $project->tasks()->where('user_id', auth()->id())->delete();
+        });
+
+        return response()->json(['message' => 'Вы вышли из проекта'], 200);
     }
 }
