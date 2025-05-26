@@ -24,6 +24,8 @@ import { useCreateTask } from "../../utils/hooks/Task/useCreateTask";
 import { IStatusProject } from "../../interfaces/statusProject";
 import { ITask } from "../../interfaces/task";
 import { useUpdateTask } from "../../utils/hooks/Task/useUpdateTask";
+import { IUserWithRole } from "../../interfaces/user.interface";
+import SelectButton from "../Select/SelectButton";
 
 export interface INoteSidebar {
   title: string;
@@ -42,7 +44,7 @@ export default function NoteSidebar({
 }: INoteSidebar) {
   const { closeSidebar } = useSibebarStore();
   const { openModal, closeModal } = useModalStore();
-  const { allUsers, setUser, user } = useTaskStore();
+  const { allUsers, setUser, user, currentUser } = useTaskStore();
   const noteStore = useNoteStore();
   const taskStore = useTaskStore();
 
@@ -204,6 +206,24 @@ export default function NoteSidebar({
     if (errors.description) toast.error(errors.description.message);
   }, [errors.description]);
 
+  const showDeleteButton =
+    (update || updateTask) &&
+    (!updateTask ||
+      (updateTask &&
+        (currentUser?.id === (updateTask.user as IUserWithRole).id ||
+          currentUser?.role === "creator")));
+
+  const canChangeStatus =
+    !updateTask ||
+    (updateTask &&
+      (currentUser?.id === (updateTask.user as IUserWithRole).id ||
+        currentUser?.role === "creator"));
+
+  const isEditable =
+    (!isStatusProject && !updateTask) ||
+    currentUser?.role === "creator" ||
+    (updateTask && currentUser?.id === (updateTask.user as IUserWithRole)?.id);
+
   return (
     <div className={styles.noteSidebar}>
       <div className={styles.content}>
@@ -212,7 +232,7 @@ export default function NoteSidebar({
             <div className={styles.icon}>{icon}</div>
             <div className={styles.text}>{title}</div>
           </div>
-          {(update || updateTask) && (
+          {showDeleteButton && (
             <ModalButton
               typeButton="delete"
               textNone={true}
@@ -228,14 +248,16 @@ export default function NoteSidebar({
             <NoteInfo
               text={status ? status?.name : ""}
               color={status?.color}
-              onClick={() =>
-                openModal(
-                  <ChangeNoteStatusModal
-                    statuses={allStatuses}
-                    isStatusProject={isStatusProject}
-                  />
-                )
-              }
+              onClick={() => {
+                if (canChangeStatus) {
+                  openModal(
+                    <ChangeNoteStatusModal
+                      statuses={allStatuses}
+                      isStatusProject={isStatusProject}
+                    />
+                  );
+                }
+              }}
             />
           ) : (
             "Нету"
@@ -243,20 +265,31 @@ export default function NoteSidebar({
           <NoteInfo
             text={date?.toLocaleDateString()}
             icon={<CalendarIcon />}
-            onClick={() =>
-              openModal(<DateModal isStatusProject={isStatusProject} />)
-            }
+            onClick={() => {
+              if (canChangeStatus) {
+                openModal(<DateModal isStatusProject={isStatusProject} />);
+              }
+            }}
           />
         </div>
         {isStatusProject && allUsers && (
           <div className={styles.selectUserWrapper}>
             <Title>Выполняет: </Title>
-            <SelectUser
-              value={user}
-              setValue={setUser}
-              users={allUsers}
-              color={status?.color}
-            />
+            {currentUser?.role === "creator" ? (
+              <SelectUser
+                value={user}
+                setValue={setUser}
+                users={allUsers}
+                color={status?.color}
+              />
+            ) : (
+              updateTask && (
+                <SelectButton
+                  value={updateTask.user as IUserWithRole}
+                  color={status?.color as string}
+                />
+              )
+            )}
           </div>
         )}
         <div className={styles.main}>
@@ -267,6 +300,7 @@ export default function NoteSidebar({
               })}
               className={styles.textarea}
               placeholder="Введите заметку"
+              readOnly={!isEditable}
             />
           </form>
         </div>
@@ -278,19 +312,21 @@ export default function NoteSidebar({
           </div>
           <div className={styles.closeText}>Назад</div>
         </button>
-        <ModalButton
-          className={styles.button}
-          isLoading={
-            createPending ||
-            updatePending ||
-            createTaskPending ||
-            updateTaskPending
-          }
-          form="form"
-          type="submit"
-        >
-          {update || updateTask ? "Сохранить" : "Создать"}
-        </ModalButton>
+        {isEditable && (
+          <ModalButton
+            className={styles.button}
+            isLoading={
+              createPending ||
+              updatePending ||
+              createTaskPending ||
+              updateTaskPending
+            }
+            form="form"
+            type="submit"
+          >
+            {update || updateTask ? "Сохранить" : "Создать"}
+          </ModalButton>
+        )}
       </div>
     </div>
   );

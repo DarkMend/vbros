@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import ActionButton from "../../components/ActionButton/ActionButton";
+// import ActionButton from "../../components/ActionButton/ActionButton";
 import NotesItems from "../../components/NotesItems/NotesItems";
 import Title from "../../components/Title/Title";
 import styles from "./NotesPage.module.scss";
@@ -88,9 +88,9 @@ export default function NotesPage() {
         <div className={styles["head"]}>
           <Title>Заметки</Title>
           <div className={styles["actions"]}>
-            <ActionButton>
+            {/* <ActionButton>
               <img src="./sqrt.png" alt="" />
-            </ActionButton>
+            </ActionButton> */}
           </div>
         </div>
         <DndContext onDragEnd={handleDragEnd}>
