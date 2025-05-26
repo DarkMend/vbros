@@ -1,9 +1,10 @@
 import { toast } from "react-toastify";
 import { useModalStore } from "../../../../store/modalStore";
 import { useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDeleteProject } from "../../../../utils/hooks/Project/useDeleteProject";
 import { useExitProject } from "../../../../utils/hooks/Project/useExitProject";
+import { useDeleteUser } from "../../../../utils/hooks/Project/useDeleteUser";
 
 // Удаление
 export const useDeleteProjectHook = () => {
@@ -40,6 +41,28 @@ export const useExitProjectHook = () => {
       closeModal();
       queryClient.invalidateQueries({ queryKey: ["getProjects"] });
       route("/notes");
+    },
+  });
+
+  return { mutate, isPending };
+};
+
+export const useDeleteUserHook = () => {
+  const { closeModal } = useModalStore();
+  const queryClient = useQueryClient();
+  const { id } = useParams();
+
+  const { mutate, isPending } = useDeleteUser({
+    onError(data) {
+      toast.error(data.response?.data?.message);
+    },
+    onSuccess() {
+      toast.success("Человек исключен");
+      closeModal();
+      queryClient.invalidateQueries({ queryKey: ["project", id] });
+      queryClient.invalidateQueries({
+        queryKey: ["['projectStatuses', id]", id],
+      });
     },
   });
 

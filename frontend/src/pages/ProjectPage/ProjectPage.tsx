@@ -6,7 +6,6 @@ import { IProject } from "../../interfaces/project.interface";
 import ProjectIcon from "../../../public/icons/team-project.svg";
 import ShareIcon from "./../../../public/icons/share.svg";
 import { IUserWithRole } from "../../interfaces/user.interface";
-import AvatarPlug from "../../components/AvatarPlug/AvatarPlug";
 import SkeletonItem from "../../components/SkeletonItem/SkeletonItem";
 import Title from "../../components/Title/Title";
 import NotesWrapper from "../../components/NotesWrapper/NotesWrapper";
@@ -36,6 +35,7 @@ import { useJoinProject } from "../../utils/hooks/Project/useJoinProject";
 import LinkModal from "../../components/Modals/LinkModal/LinkModal";
 import { useUserStore } from "../../store/userStore";
 import ExitIcon from "./../../../public/icons/exit.svg";
+import ProjectUsers from "../../components/ProjectUsers/ProjectUsers";
 
 type ProjectPageParams = {
   id: string;
@@ -230,26 +230,7 @@ export default function ProjectPage() {
             <div className={styles.text}>{project.name}</div>
           </div>
           <div className={styles.headerActions}>
-            <div className={styles.usersProject}>
-              {visibleUsers?.map((user: IUserWithRole, index: number) => (
-                <div
-                  className={styles.usersProjectAva}
-                  key={user.id}
-                  style={{
-                    zIndex: 2 - index,
-                  }}
-                >
-                  {user.avatar ? (
-                    <img src={user.avatar} alt="" />
-                  ) : (
-                    <AvatarPlug name={user.name} />
-                  )}
-                </div>
-              ))}
-              {users.length > 3 && (
-                <div className={styles.count}>+{users.length - 2}</div>
-              )}
-            </div>
+            <ProjectUsers visibleUsers={visibleUsers} users={users} />
             <PageMenu>
               <div className={styles.pageMenu}>
                 <DropdownMenuItem>

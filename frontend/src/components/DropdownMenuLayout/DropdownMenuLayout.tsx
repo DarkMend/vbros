@@ -18,17 +18,17 @@ const DropdownMenuLayout = forwardRef<HTMLButtonElement, IDropdownMenuLayout>(
     const animationVariants = {
       hidden: {
         opacity: 0,
-        transform: isPageMenu ? "translate(-15px, -15px)" : "translateY(-15px)",
+        transform: isPageMenu ? "translate(-10px, -15px)" : "translateY(-15px)",
       },
 
       visible: {
         opacity: 1,
-        transform: isPageMenu ? "translate(-15px, 0)" : "translateY(0)",
+        transform: isPageMenu ? "translate(-10px, 0)" : "translateY(0)",
       },
 
       exit: {
         opacity: 0,
-        transform: isPageMenu ? "translate(-15px, -15px)" : "translateY(-15px)",
+        transform: isPageMenu ? "translate(-10px, -15px)" : "translateY(-15px)",
       },
     };
 

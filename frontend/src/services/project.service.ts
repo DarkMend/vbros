@@ -32,4 +32,8 @@ export const projectService = {
   async exitProject(data: number) {
     return axiosWithAuth.delete(`/project/${data}/exit`);
   },
+
+  async deleteUser(data: { id: number; user_id: number }) {
+    return axiosWithAuth.post(`/project/${data.id}/user`, data);
+  },
 };

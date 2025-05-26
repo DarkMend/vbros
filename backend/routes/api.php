@@ -60,6 +60,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/update/{project}', 'update');
         Route::delete('/delete/{project}', 'destroy');
         Route::delete('/{project}/exit', 'exitProject');
+        Route::post('/{project}/user', 'deleteUser');
     });
 
     Route::controller(ProjectController::class)->prefix('projects')->group(function () {

@@ -164,4 +164,14 @@ class ProjectController extends Controller
 
         return response()->json(['message' => 'Вы вышли из проекта'], 200);
     }
+
+    public function deleteUser(Request $request, Project $project)
+    {
+        DB::transaction(function () use ($request, $project) {
+            $project->users()->detach($request->user_id);
+            $project->tasks()->where('user_id', $request->user_id)->delete();
+        });
+
+        return response()->json(['message' => 'Пользователь удален'], 200);
+    }
 }
