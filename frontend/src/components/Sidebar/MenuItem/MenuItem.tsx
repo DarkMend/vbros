@@ -39,7 +39,6 @@ export default function MenuItem({
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              console.log(1);
             }}
           >
             <PlusIcon />

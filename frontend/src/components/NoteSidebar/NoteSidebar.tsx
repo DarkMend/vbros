@@ -229,7 +229,9 @@ export default function NoteSidebar({
       <div className={styles.content}>
         <div className={styles.header}>
           <div className={styles.title}>
-            <div className={styles.icon}>{icon}</div>
+            <div>
+              <div className={styles.icon}>{icon}</div>
+            </div>
             <div className={styles.text}>{title}</div>
           </div>
           {showDeleteButton && (

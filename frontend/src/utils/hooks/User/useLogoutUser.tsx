@@ -19,7 +19,7 @@ export const useLogoutUser = () => {
       deleteUser();
       removeToken();
       navigate("/auth/start");
-      queryClient.clear();
+      setTimeout(() => queryClient.clear(), 1000);
       closeModal();
     },
   });

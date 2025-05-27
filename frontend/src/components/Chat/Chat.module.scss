@@ -1,0 +1,288 @@
+.noteSidebar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-height: 100vh;
+  width: 60vw;
+  background: rgb(244, 244, 244);
+  border-radius: 12px 0px 0px 12px;
+  border: 1px solid #e4e4e4;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    .info {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
+    }
+  }
+
+  .textarea {
+    width: 100%;
+    border: none;
+    outline: none;
+    resize: none;
+    font-size: 15px;
+    font-weight: 400;
+    min-height: 300px;
+  }
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    .deleteButton {
+      width: 40px;
+      height: 40px;
+    }
+
+    .title {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
+
+      .icon {
+        width: 24px;
+        height: 24px;
+        color: black;
+
+        svg {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
+
+        .text {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .button {
+      width: 200px;
+    }
+  }
+
+  .close {
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      svg {
+        color: black;
+      }
+
+      .closeText {
+        color: black;
+      }
+    }
+
+    &Svg {
+      width: 13px;
+      height: 13px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+
+      svg {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        color: #636363;
+        transition: all 0.3s ease;
+      }
+    }
+
+    &Text {
+      font-size: 16px;
+      color: #636363;
+      transition: all 0.3s ease;
+    }
+  }
+}
+
+.selectUserWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.chatWrapper {
+  height: 80vh;
+  overflow-y: auto;
+  padding-top: 10px;
+  border: 1px solid #e4e4e4;
+  border-right: 0;
+  border-left: 0;
+  border-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+
+  &::-webkit-scrollbar {
+    width: 2px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #d0d0d0;
+    border-radius: 2px;
+  }
+
+  .chat {
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .chatMessageWrapper {
+      display: flex;
+      flex-direction: row;
+      align-items: end;
+      gap: 5px;
+      max-width: 90%;
+      margin-left: auto;
+
+      &.myMessage {
+        flex-direction: row-reverse;
+
+        .name {
+          display: none;
+        }
+
+        .message {
+          background: #6363631f;
+        }
+      }
+
+      .ava {
+        width: 30px;
+        height: 30px;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 50%;
+        }
+      }
+
+      .message {
+        background: white;
+        padding: 10px;
+        border-radius: 9px;
+        white-space: normal;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        .name {
+          font-size: 12px;
+          font-weight: 700;
+        }
+
+        .text {
+          font-size: 15px;
+          font-weight: 300;
+        }
+      }
+    }
+  }
+
+  .chatTextarea {
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+
+      .formWrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: end;
+        gap: 5px;
+      }
+    }
+
+    .chartActions {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 5px;
+    }
+
+    textarea {
+      width: 100%;
+      resize: none;
+      border-radius: 10px;
+      outline: none;
+      padding: 10px;
+      border: 1px solid #e4e4e4;
+      font-size: 14px;
+      overflow-y: auto;
+
+      &::-webkit-scrollbar {
+        width: 2px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: #d0d0d0;
+        border-radius: 2px;
+      }
+
+      min-height: 44px;
+      max-height: 200px;
+      transition: height 0.2s ease-out;
+    }
+
+    .chartAction {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      outline: none;
+      border-radius: 10px;
+      background: none;
+      width: 25px;
+      height: 25px;
+      cursor: pointer;
+
+      svg {
+        color: #636363;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: all 0.3s ease;
+
+        &:hover {
+          color: black;
+        }
+      }
+    }
+  }
+}

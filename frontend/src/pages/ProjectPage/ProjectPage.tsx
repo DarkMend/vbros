@@ -36,6 +36,9 @@ import LinkModal from "../../components/Modals/LinkModal/LinkModal";
 import { useUserStore } from "../../store/userStore";
 import ExitIcon from "./../../../public/icons/exit.svg";
 import ProjectUsers from "../../components/ProjectUsers/ProjectUsers";
+import { MessageCircleMore } from "lucide-react";
+import { useSibebarStore } from "../../store/sidebar.store";
+import Chat from "../../components/Chat/Chat";
 
 type ProjectPageParams = {
   id: string;
@@ -55,6 +58,7 @@ export default function ProjectPage() {
   const { user } = useUserStore();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { openSidebar } = useSibebarStore();
 
   // invite по ссылке
   const { mutate: joinMutate } = useJoinProject({
@@ -230,6 +234,12 @@ export default function ProjectPage() {
             <div className={styles.text}>{project.name}</div>
           </div>
           <div className={styles.headerActions}>
+            <button
+              className={styles.chat}
+              onClick={() => openSidebar(<Chat text={project.name} />)}
+            >
+              <MessageCircleMore />
+            </button>
             <ProjectUsers visibleUsers={visibleUsers} users={users} />
             <PageMenu>
               <div className={styles.pageMenu}>
@@ -259,7 +269,6 @@ export default function ProjectPage() {
                     />
                   </DropdownMenuItem>
                 )}
-
                 <div className={styles.line}></div>
                 {currentUser?.role === "creator" ? (
                   <DropdownMenuItem>

@@ -7,9 +7,8 @@ import { MouseEvent } from "react";
 export default function NoteSidebarLayout() {
   const { isOpen, content, closeSidebar } = useSibebarStore();
 
-  const handleClose = (e: MouseEvent<HTMLDivElement>) => {
+  const handleClose = (e: MouseEvent<HTMLDivElement>) =>
     e.target === e.currentTarget && closeSidebar();
-  };
 
   return createPortal(
     <div
