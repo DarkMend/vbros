@@ -66,6 +66,22 @@ export default function Chat({ text }: IChat) {
         </div>
         <div className={styles.chatWrapper}>
           <div className={styles.chat}>
+            <div className={cn(styles.chatMessageWrapper)}>
+              <div>
+                <div className={styles.ava}>
+                  <AvatarPlug name="Ayaz" />
+                </div>
+              </div>
+              <div className={styles.message}>
+                <p className={styles.name}>Ayaz</p>
+                <p className={styles.text}>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo
+                  ad assumenda ea quam officia, voluptates quibusdam soluta in
+                  molestiae eos esse deserunt, placeat culpa cupiditate expedita
+                  nobis. Quas, et facere.
+                </p>
+              </div>
+            </div>
             <div className={cn(styles.chatMessageWrapper, styles.myMessage)}>
               <div>
                 <div className={styles.ava}>
