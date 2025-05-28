@@ -236,7 +236,9 @@ export default function ProjectPage() {
           <div className={styles.headerActions}>
             <button
               className={styles.chat}
-              onClick={() => openSidebar(<Chat text={project.name} />)}
+              onClick={() =>
+                openSidebar(<Chat text={project.name} projectId={projectId} />)
+              }
             >
               <MessageCircleMore />
             </button>

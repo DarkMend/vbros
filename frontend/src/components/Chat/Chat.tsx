@@ -3,12 +3,17 @@ import BackIcon from "../../../public/icons/back.svg";
 import { useSibebarStore } from "../../store/sidebar.store";
 import { MessageCircleMore, Paperclip, SendHorizonal } from "lucide-react";
 import FileLoader from "./FileLoader/FileLoader";
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import AvatarPlug from "../AvatarPlug/AvatarPlug";
 import cn from "classnames";
+import { IMessage } from "../../interfaces/message.interface";
+import { useQuery } from "@tanstack/react-query";
+import { messageService } from "../../services/message.service";
+import MessageItem from "./MessageItem/MessageItem";
 
 export interface IChat {
   text: string;
+  projectId: number;
 }
 
 export type UploadedFile = {
@@ -17,11 +22,37 @@ export type UploadedFile = {
   preview?: string;
 };
 
-export default function Chat({ text }: IChat) {
+export default function Chat({ text, projectId }: IChat) {
   const { closeSidebar } = useSibebarStore();
   const [file, setFile] = useState<UploadedFile | null>();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const [messages, setMessages] = useState<IMessage[]>([]);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["messages", projectId],
+    queryFn: () => messageService.getMessages(projectId),
+    select: (data) => data.data.data,
+  });
+
+  useEffect(() => {
+    if (data) setMessages(data);
+  }, [data]);
+
+  // websockets
+  useEffect(() => {
+    const channel = window.Echo.private(`project.${projectId}`);
+
+    channel.listen("NewProjectMessage", (data: { message: IMessage }) => {
+      setMessages((prev) => [...prev, data.message]);
+    });
+
+    return () => {
+      channel.stopListening("NewProjectMessage");
+    };
+  }, [projectId]);
+
+  // upload image
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const selectedFile = e.target.files[0];
@@ -66,38 +97,13 @@ export default function Chat({ text }: IChat) {
         </div>
         <div className={styles.chatWrapper}>
           <div className={styles.chat}>
-            <div className={cn(styles.chatMessageWrapper)}>
-              <div>
-                <div className={styles.ava}>
-                  <AvatarPlug name="Ayaz" />
-                </div>
-              </div>
-              <div className={styles.message}>
-                <p className={styles.name}>Ayaz</p>
-                <p className={styles.text}>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo
-                  ad assumenda ea quam officia, voluptates quibusdam soluta in
-                  molestiae eos esse deserunt, placeat culpa cupiditate expedita
-                  nobis. Quas, et facere.
-                </p>
-              </div>
-            </div>
-            <div className={cn(styles.chatMessageWrapper, styles.myMessage)}>
-              <div>
-                <div className={styles.ava}>
-                  <AvatarPlug name="Ayaz" />
-                </div>
-              </div>
-              <div className={styles.message}>
-                <p className={styles.name}>Ayaz</p>
-                <p className={styles.text}>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo
-                  ad assumenda ea quam officia, voluptates quibusdam soluta in
-                  molestiae eos esse deserunt, placeat culpa cupiditate expedita
-                  nobis. Quas, et facere.
-                </p>
-              </div>
-            </div>
+            {isLoading ? (
+              <div></div>
+            ) : (
+              messages.map((message) => (
+                <MessageItem key={message.id} message={message} />
+              ))
+            )}
           </div>
           <div className={styles.chatTextarea}>
             <form action="">

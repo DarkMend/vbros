@@ -1,0 +1,11 @@
+import { IUserWithRole } from "./user.interface";
+
+export interface IMessage {
+  id: number;
+  message?: string;
+  file?: string | null;
+  fileName?: string | null;
+  projectId: number;
+  user: IUserWithRole;
+  createdAt: Date;
+}
