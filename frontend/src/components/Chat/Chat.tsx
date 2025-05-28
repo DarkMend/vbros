@@ -4,12 +4,13 @@ import { useSibebarStore } from "../../store/sidebar.store";
 import { MessageCircleMore, Paperclip, SendHorizonal } from "lucide-react";
 import FileLoader from "./FileLoader/FileLoader";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
-import AvatarPlug from "../AvatarPlug/AvatarPlug";
-import cn from "classnames";
 import { IMessage } from "../../interfaces/message.interface";
 import { useQuery } from "@tanstack/react-query";
 import { messageService } from "../../services/message.service";
 import MessageItem from "./MessageItem/MessageItem";
+import SkeletonItem from "../SkeletonItem/SkeletonItem";
+import { useForm } from "react-hook-form";
+import { useCreateMessage } from "../../utils/hooks/Message/useCreateMessage";
 
 export interface IChat {
   text: string;
@@ -28,6 +29,8 @@ export default function Chat({ text, projectId }: IChat) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [messages, setMessages] = useState<IMessage[]>([]);
+
+  const { register, handleSubmit, reset } = useForm<IMessage>();
 
   const { data, isLoading } = useQuery({
     queryKey: ["messages", projectId],
@@ -82,6 +85,23 @@ export default function Chat({ text, projectId }: IChat) {
     }
   };
 
+  // отправка сообщения
+
+  const { mutate } = useCreateMessage({
+    onSuccess() {
+      reset();
+    },
+  });
+
+  const onSubmit = (data: IMessage) => {
+    const formData = new FormData();
+    if (data.message) formData.append("message", data.message);
+
+    formData.append("id", projectId.toString());
+
+    mutate(formData);
+  };
+
   return (
     <div className={styles.noteSidebar}>
       <div className={styles.content}>
@@ -98,7 +118,24 @@ export default function Chat({ text, projectId }: IChat) {
         <div className={styles.chatWrapper}>
           <div className={styles.chat}>
             {isLoading ? (
-              <div></div>
+              <div className={styles.skeletonWrapper}>
+                <SkeletonItem
+                  className={styles.skeleton}
+                  classNameContainer={styles.skeleton}
+                />
+                <SkeletonItem
+                  className={styles.skeleton}
+                  classNameContainer={styles.skeleton}
+                />
+                <SkeletonItem
+                  className={styles.skeleton}
+                  classNameContainer={styles.skeleton}
+                />
+                <SkeletonItem
+                  className={styles.skeleton}
+                  classNameContainer={styles.skeleton}
+                />
+              </div>
             ) : (
               messages.map((message) => (
                 <MessageItem key={message.id} message={message} />
@@ -106,7 +143,7 @@ export default function Chat({ text, projectId }: IChat) {
             )}
           </div>
           <div className={styles.chatTextarea}>
-            <form action="">
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className={styles.formWrapper}>
                 <textarea
                   placeholder="Введите сообщение"
@@ -114,6 +151,9 @@ export default function Chat({ text, projectId }: IChat) {
                     e.currentTarget.style.height = "auto";
                     e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
                   }}
+                  {...register("message", {
+                    required: "Введите название",
+                  })}
                 ></textarea>
                 <div className={styles.chartActions}>
                   <label htmlFor="file" className={styles.chartAction}>

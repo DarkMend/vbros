@@ -36,15 +36,15 @@ class MessageController extends Controller
 
         $message = Message::create([
             'message' => $request->message,
-            'file' => $data['file'],
-            'file_name' => $data['file_name'],
+            'file' => $data['file'] ?? null,
+            'file_name' => $data['file_name'] ?? null,
             'project_id' => $project->id,
             'user_id' => auth()->id()
         ]);
 
         $message->load('user');
 
-        broadcast(new NewProjectMessage($message))->toOthers();
+        broadcast(new NewProjectMessage($message));
 
         return response()->json([
             'message' => 'Сообщение успешно отправлено'

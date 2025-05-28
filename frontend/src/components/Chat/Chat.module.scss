@@ -154,8 +154,8 @@
   }
 
   .chat {
-    overflow-y: auto;
-    overflow-x: hidden;
+    // overflow-y: auto;
+    // overflow-x: hidden;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -228,6 +228,33 @@
         &:hover {
           color: black;
         }
+      }
+    }
+  }
+}
+
+.skeletonWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .skeleton {
+    height: 40px;
+
+    br {
+      display: none;
+    }
+
+    &:nth-child(even) {
+      .skeleton {
+        width: 80%;
+        margin-left: auto;
+      }
+    }
+
+    &:nth-child(odd) {
+      .skeleton {
+        width: 80%;
       }
     }
   }
