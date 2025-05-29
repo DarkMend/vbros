@@ -13,6 +13,6 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('project.{projectId}', function ($user, $projectId) {
-    return $user->projects()->where('projects.id', $projectId)->exists();
-});
+// Broadcast::channel('project.{projectId}', function ($user, $projectId) {
+//     return $user->projects()->where('projects.id', $projectId)->exists();
+// });

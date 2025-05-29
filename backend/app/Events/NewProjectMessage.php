@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-use App\Http\Resources\MessageResource;
 use App\Models\Message;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -29,10 +28,5 @@ class NewProjectMessage implements ShouldBroadcast
         return [
             new Channel('project.' . $this->message->project_id),
         ];
-    }
-
-    public function broadcastWith(): array
-    {
-        return (new MessageResource($this->message))->resolve();
     }
 }

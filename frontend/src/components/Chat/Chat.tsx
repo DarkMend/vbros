@@ -11,6 +11,7 @@ import MessageItem from "./MessageItem/MessageItem";
 import SkeletonItem from "../SkeletonItem/SkeletonItem";
 import { useForm } from "react-hook-form";
 import { useCreateMessage } from "../../utils/hooks/Message/useCreateMessage";
+import { echo } from "./../../utils/echo";
 
 export interface IChat {
   text: string;
@@ -44,14 +45,19 @@ export default function Chat({ text, projectId }: IChat) {
 
   // websockets
   useEffect(() => {
-    const channel = window.Echo.private(`project.${projectId}`);
+    if (!echo) {
+      console.error("Echo не инициализирован");
+      return;
+    }
 
-    channel.listen("NewProjectMessage", (data: { message: IMessage }) => {
-      setMessages((prev) => [...prev, data.message]);
-    });
+    echo
+      .channel(`project.${projectId}`)
+      .listen("NewProjectMessage", (data: { message: IMessage }) => {
+        setMessages((prev) => [...prev, data.message]);
+      });
 
     return () => {
-      channel.stopListening("NewProjectMessage");
+      echo.channel(`project.${projectId}`).stopListening("NewProjectMessage");
     };
   }, [projectId]);
 

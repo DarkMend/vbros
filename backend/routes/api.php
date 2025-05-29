@@ -87,5 +87,3 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/{project}/store', 'store');
     });
 });
-
-Broadcast::routes(['middleware' => ['auth:sanctum']]);

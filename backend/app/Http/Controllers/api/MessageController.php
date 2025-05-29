@@ -44,7 +44,7 @@ class MessageController extends Controller
 
         $message->load('user');
 
-        broadcast(new NewProjectMessage($message));
+        NewProjectMessage::dispatch($message);
 
         return response()->json([
             'message' => 'Сообщение успешно отправлено'
