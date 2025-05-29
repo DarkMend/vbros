@@ -12,6 +12,7 @@ import SkeletonItem from "../SkeletonItem/SkeletonItem";
 import { useForm } from "react-hook-form";
 import { useCreateMessage } from "../../utils/hooks/Message/useCreateMessage";
 import { echo } from "./../../utils/echo";
+import { useUserStore } from "../../store/userStore";
 
 export interface IChat {
   text: string;
@@ -28,6 +29,7 @@ export default function Chat({ text, projectId }: IChat) {
   const { closeSidebar } = useSibebarStore();
   const [file, setFile] = useState<UploadedFile | null>();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { user } = useUserStore();
 
   const [messages, setMessages] = useState<IMessage[]>([]);
 
@@ -144,7 +146,11 @@ export default function Chat({ text, projectId }: IChat) {
               </div>
             ) : (
               messages.map((message) => (
-                <MessageItem key={message.id} message={message} />
+                <MessageItem
+                  key={message.id}
+                  message={message}
+                  isMyMessage={message.user.id === user?.id}
+                />
               ))
             )}
           </div>
