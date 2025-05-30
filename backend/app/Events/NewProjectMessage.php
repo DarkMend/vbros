@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Http\Resources\MessageResource;
 use App\Models\Message;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -16,7 +17,7 @@ class NewProjectMessage implements ShouldBroadcast
     /**
      * Create a new event instance.
      */
-    public function __construct(public Message $message) {}
+    public function __construct(public MessageResource $message) {}
 
     /**
      * Get the channels the event should broadcast on.

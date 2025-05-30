@@ -110,6 +110,17 @@ export default function Chat({ text, projectId }: IChat) {
     mutate(formData);
   };
 
+  // groupMessage
+
+  const shouldShowDate = (index: number) => {
+    if (index === 0) return true;
+
+    const currentDate = new Date(messages[index].createdAt).toDateString();
+    const prevDate = new Date(messages[index - 1].createdAt).toDateString();
+
+    return currentDate !== prevDate;
+  };
+
   return (
     <div className={styles.noteSidebar}>
       <div className={styles.content}>
@@ -145,11 +156,12 @@ export default function Chat({ text, projectId }: IChat) {
                 />
               </div>
             ) : (
-              messages.map((message) => (
+              messages.map((message, index) => (
                 <MessageItem
                   key={message.id}
                   message={message}
                   isMyMessage={message.user.id === user?.id}
+                  showDate={shouldShowDate(index)}
                 />
               ))
             )}
