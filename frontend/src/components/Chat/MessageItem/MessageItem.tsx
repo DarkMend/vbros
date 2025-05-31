@@ -4,6 +4,7 @@ import styles from "./MessageItem.module.scss";
 import { IMessage } from "../../../interfaces/message.interface";
 import { format, isToday, isYesterday } from "date-fns";
 import { ru } from "date-fns/locale";
+import FileMessage from "../FileMessage/FileMessage";
 
 export interface IMessageItem {
   message: IMessage;
@@ -71,6 +72,16 @@ export default function MessageItem({
         </div>
         <div className={styles.message}>
           <p className={styles.name}>{message.user.name}</p>
+
+          {message.file && (
+            <div className={styles.fileMessage}>
+              <FileMessage
+                message={message}
+                file={message.file}
+                fileName={message.fileName as string}
+              />
+            </div>
+          )}
           <p className={styles.text}>{message.message}</p>
           <p className={styles.dateTime}>
             {formatMessageTime(message.createdAt)}

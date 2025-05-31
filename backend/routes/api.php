@@ -85,5 +85,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::controller(MessageController::class)->prefix('project-message')->group(function () {
         Route::get('/{project}/messages', 'index');
         Route::post('/{project}/store', 'store');
+        // Route::get('/download/{message}', 'downloadFile');
     });
 });

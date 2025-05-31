@@ -8,6 +8,7 @@ use App\Http\Resources\MessageResource;
 use App\Models\Message;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MessageController extends Controller
 {
@@ -49,5 +50,20 @@ class MessageController extends Controller
         return response()->json([
             'message' => 'Сообщение успешно отправлено'
         ], 201);
+    }
+
+    public function downloadMessage(Message $message)
+    {
+        $filePath = 'public/storage/' . $message->file; // Добавляем public/ если файлы в public disk
+
+        if (!$message->file || !Storage::exists($filePath)) {
+            abort(404, 'File not found');
+        }
+
+        // Для корректного скачивания с оригинальным именем
+        return Storage::download($filePath, $message->file_name, [
+            'Content-Type' => 'application/octet-stream',
+            'Content-Disposition' => 'attachment; filename="' . $message->file_name . '"'
+        ]);
     }
 }

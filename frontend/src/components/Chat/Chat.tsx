@@ -13,6 +13,8 @@ import { useCreateMessage } from "../../utils/hooks/Message/useCreateMessage";
 import { echo } from "./../../utils/echo";
 import { useUserStore } from "../../store/userStore";
 import cn from "classnames";
+import { toast } from "react-toastify";
+import Loader from "../Loader/Loader";
 
 export interface IChat {
   text: string;
@@ -105,19 +107,28 @@ export default function Chat({ text, projectId }: IChat) {
 
   // отправка сообщения
 
-  const { mutate } = useCreateMessage({
+  const { mutate, isPending } = useCreateMessage({
     onSuccess() {
       reset();
+      setFile(null);
+    },
+    onError(data) {
+      toast.error(data.response?.data?.message);
     },
   });
 
   const onSubmit = (data: IMessage) => {
     const formData = new FormData();
     if (data.message) formData.append("message", data.message);
+    if (file) formData.append("file", file.file);
 
     formData.append("id", projectId.toString());
 
-    mutate(formData);
+    if (!data.message && !file?.file) {
+      toast.error("Выберите файл или введите сообщение");
+    } else {
+      mutate(formData);
+    }
   };
 
   // дата над сообщением
@@ -212,9 +223,7 @@ export default function Chat({ text, projectId }: IChat) {
                     e.currentTarget.style.height = "auto";
                     e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
                   }}
-                  {...register("message", {
-                    required: "Введите название",
-                  })}
+                  {...register("message")}
                 ></textarea>
                 <div className={styles.chartActions}>
                   <label htmlFor="file" className={styles.chartAction}>
@@ -227,8 +236,12 @@ export default function Chat({ text, projectId }: IChat) {
                     onChange={handleFileChange}
                     ref={fileInputRef}
                   />
-                  <button className={styles.chartAction} type="submit">
-                    <SendHorizonal />
+                  <button
+                    className={styles.chartAction}
+                    type="submit"
+                    disabled={isLoading}
+                  >
+                    {isPending ? <Loader /> : <SendHorizonal />}
                   </button>
                 </div>
               </div>

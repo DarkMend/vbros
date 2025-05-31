@@ -17,7 +17,7 @@ class Message extends Model
         if (!$this->file) {
             return null;
         }
-        return Storage::url($this->avatar);
+        return Storage::url($this->file);
     }
 
     public function user()
