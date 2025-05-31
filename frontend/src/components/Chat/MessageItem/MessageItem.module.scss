@@ -16,7 +16,7 @@
     }
 
     .message {
-      background: #6363631f;
+      background: rgba(229, 255, 222, 0.54);
     }
   }
 
@@ -33,7 +33,7 @@
   }
 
   .message {
-    background: ghostwhite;
+    background: rgb(255, 255, 255);
     padding: 10px;
     border-radius: 9px;
     white-space: normal;
@@ -42,15 +42,26 @@
     display: flex;
     flex-direction: column;
     gap: 5px;
+    padding-right: 50px;
+    border: 1px solid #6363631f;
 
     .name {
       font-size: 12px;
       font-weight: 700;
+      color: rgb(99, 166, 78);
     }
 
     .text {
       font-size: 15px;
       font-weight: 300;
+    }
+
+    .dateTime {
+      position: absolute;
+      font-size: 12px;
+      bottom: 5px;
+      right: 10px;
+      color: rgba(0, 0, 0, 0.401);
     }
   }
 }
@@ -60,16 +71,24 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  gap: 10px;
 
   .dataMessageItem {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
-    padding: 10px 15px;
+    font-size: 12px;
+    padding: 5px 10px;
     border-radius: 100px;
-    background: rgba(0, 0, 0, 0.499);
+    background: rgba(0, 0, 0, 0.301);
     color: rgb(255, 255, 255);
+    width: 300px;
+  }
+
+  .line {
+    height: 1px;
+    background: #6363631f;
+    width: 100%;
   }
 }

@@ -1,7 +1,6 @@
 import styles from "./Chat.module.scss";
-import BackIcon from "../../../public/icons/back.svg";
 import { useSibebarStore } from "../../store/sidebar.store";
-import { MessageCircleMore, Paperclip, SendHorizonal } from "lucide-react";
+import { MessageCircleMore, Paperclip, SendHorizonal, X } from "lucide-react";
 import FileLoader from "./FileLoader/FileLoader";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { IMessage } from "../../interfaces/message.interface";
@@ -13,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { useCreateMessage } from "../../utils/hooks/Message/useCreateMessage";
 import { echo } from "./../../utils/echo";
 import { useUserStore } from "../../store/userStore";
+import cn from "classnames";
 
 export interface IChat {
   text: string;
@@ -29,6 +29,8 @@ export default function Chat({ text, projectId }: IChat) {
   const { closeSidebar } = useSibebarStore();
   const [file, setFile] = useState<UploadedFile | null>();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+  const isFirstRender = useRef(true);
   const { user } = useUserStore();
 
   const [messages, setMessages] = useState<IMessage[]>([]);
@@ -42,7 +44,15 @@ export default function Chat({ text, projectId }: IChat) {
   });
 
   useEffect(() => {
-    if (data) setMessages(data);
+    if (data) {
+      setMessages(data);
+      requestAnimationFrame(() => {
+        if (isFirstRender.current) {
+          scrollToBottom(false);
+          isFirstRender.current = false;
+        }
+      });
+    }
   }, [data]);
 
   // websockets
@@ -110,7 +120,7 @@ export default function Chat({ text, projectId }: IChat) {
     mutate(formData);
   };
 
-  // groupMessage
+  // дата над сообщением
 
   const shouldShowDate = (index: number) => {
     if (index === 0) return true;
@@ -120,6 +130,22 @@ export default function Chat({ text, projectId }: IChat) {
 
     return currentDate !== prevDate;
   };
+
+  // прокрутка сообщения
+
+  const scrollToBottom = (withAnimation: boolean = true) => {
+    const container = chatContainerRef.current;
+    if (container) {
+      container.scrollTo({
+        top: container.scrollHeight,
+        behavior: withAnimation ? "smooth" : "auto",
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (!isFirstRender.current) scrollToBottom();
+  }, [messages]);
 
   return (
     <div className={styles.noteSidebar}>
@@ -133,9 +159,12 @@ export default function Chat({ text, projectId }: IChat) {
             </div>
             <div className={styles.text}>Чат проекта {text}</div>
           </div>
+          <button className={styles.close} onClick={closeSidebar}>
+            <X />
+          </button>
         </div>
         <div className={styles.chatWrapper}>
-          <div className={styles.chat}>
+          <div className={styles.chat} ref={chatContainerRef}>
             {isLoading ? (
               <div className={styles.skeletonWrapper}>
                 <SkeletonItem
@@ -167,6 +196,14 @@ export default function Chat({ text, projectId }: IChat) {
             )}
           </div>
           <div className={styles.chatTextarea}>
+            <div
+              className={cn(styles.fileLoader, {
+                [styles.fileType]: !file?.file.type.startsWith("image/"),
+                [styles.active]: file,
+              })}
+            >
+              <FileLoader file={file} onRemove={handleRemoveFile} />
+            </div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className={styles.formWrapper}>
                 <textarea
@@ -195,22 +232,17 @@ export default function Chat({ text, projectId }: IChat) {
                   </button>
                 </div>
               </div>
-              {file && (
-                <div className={styles.fileLoader}>
-                  <FileLoader file={file} onRemove={handleRemoveFile} />
-                </div>
-              )}
             </form>
           </div>
         </div>
       </div>
       <div className={styles.actions}>
-        <button className={styles.close} onClick={closeSidebar}>
+        {/* <button className={styles.close} onClick={closeSidebar}>
           <div className={styles.closeSvg}>
             <BackIcon />
           </div>
           <div className={styles.closeText}>Назад</div>
-        </button>
+        </button> */}
       </div>
     </div>
   );

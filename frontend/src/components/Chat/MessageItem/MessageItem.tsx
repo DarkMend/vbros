@@ -48,9 +48,11 @@ export default function MessageItem({
     <>
       {showDate && (
         <div className={styles.dataMessage}>
+          <div className={styles.line}></div>
           <div className={styles.dataMessageItem}>
             {formatMessageDate(message.createdAt)}
           </div>
+          <div className={styles.line}></div>
         </div>
       )}
       <div
@@ -60,13 +62,19 @@ export default function MessageItem({
       >
         <div>
           <div className={styles.ava}>
-            <AvatarPlug name={message.user.name} />
+            {message.user.avatar ? (
+              <img src={message.user.avatar} alt="" />
+            ) : (
+              <AvatarPlug name={message.user.name} />
+            )}
           </div>
         </div>
         <div className={styles.message}>
           <p className={styles.name}>{message.user.name}</p>
           <p className={styles.text}>{message.message}</p>
-          <p>{formatMessageTime(message.createdAt)}</p>
+          <p className={styles.dateTime}>
+            {formatMessageTime(message.createdAt)}
+          </p>
         </div>
       </div>
     </>
