@@ -20,7 +20,7 @@ export default function NotesPage() {
   const { openModal } = useModalStore();
   const { allStatuses, setAllStatuses } = useNoteStore();
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isFetching } = useQuery({
     queryKey: ["statuses"],
     queryFn: () => statusService.getPersonalStatuses(),
     select: (data) => data.data.data,
@@ -95,7 +95,7 @@ export default function NotesPage() {
         </div>
         <DndContext onDragEnd={handleDragEnd}>
           <NotesWrapper>
-            {isLoadingStatus ? (
+            {isLoadingStatus || isFetching ? (
               <div className={styles.skeletonWrapper}>
                 {Array.from({ length: 4 }, (_, index) => (
                   <SkeletonItem

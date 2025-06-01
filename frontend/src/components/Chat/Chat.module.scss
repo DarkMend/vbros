@@ -305,3 +305,11 @@
     }
   }
 }
+
+.textFirst {
+  display: flex;
+  text-align: center;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}

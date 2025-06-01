@@ -39,7 +39,7 @@ export default function Chat({ text, projectId }: IChat) {
 
   const { register, handleSubmit, reset } = useForm<IMessage>();
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isFetching } = useQuery({
     queryKey: ["messages", projectId],
     queryFn: () => messageService.getMessages(projectId),
     select: (data) => data.data.data,
@@ -156,7 +156,7 @@ export default function Chat({ text, projectId }: IChat) {
 
   useEffect(() => {
     if (!isFirstRender.current) scrollToBottom();
-  }, [messages]);
+  }, [messages, isFetching]);
 
   return (
     <div className={styles.noteSidebar}>
@@ -176,7 +176,7 @@ export default function Chat({ text, projectId }: IChat) {
         </div>
         <div className={styles.chatWrapper}>
           <div className={styles.chat} ref={chatContainerRef}>
-            {isLoading ? (
+            {isLoading || isFetching ? (
               <div className={styles.skeletonWrapper}>
                 <SkeletonItem
                   className={styles.skeleton}
@@ -195,7 +195,7 @@ export default function Chat({ text, projectId }: IChat) {
                   classNameContainer={styles.skeleton}
                 />
               </div>
-            ) : (
+            ) : messages.length > 0 ? (
               messages.map((message, index) => (
                 <MessageItem
                   key={message.id}
@@ -204,6 +204,10 @@ export default function Chat({ text, projectId }: IChat) {
                   showDate={shouldShowDate(index)}
                 />
               ))
+            ) : (
+              <div className={styles.textFirst}>
+                Начните первым общение в этом чате
+              </div>
             )}
           </div>
           <div className={styles.chatTextarea}>

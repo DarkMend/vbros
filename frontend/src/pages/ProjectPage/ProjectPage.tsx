@@ -101,7 +101,11 @@ export default function ProjectPage() {
     select: (data) => data.data.data,
   });
 
-  const { data: statuses, isLoading: isStasusesLoading } = useQuery({
+  const {
+    data: statuses,
+    isLoading: isStasusesLoading,
+    isFetching,
+  } = useQuery({
     queryKey: ["projectStatuses", projectId],
     queryFn: () => {
       if (isNaN(projectId)) {
@@ -304,7 +308,7 @@ export default function ProjectPage() {
       )}
       <DndContext onDragEnd={handleDragEnd}>
         <NotesWrapper className={styles.notesWrapper}>
-          {isLoading || isStasusesLoading ? (
+          {isLoading || isStasusesLoading || isFetching ? (
             <div className={styles.skeletonWrapper}>
               {Array.from({ length: 4 }, (_, index) => (
                 <SkeletonItem
