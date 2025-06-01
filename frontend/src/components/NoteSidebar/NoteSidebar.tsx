@@ -183,6 +183,7 @@ export default function NoteSidebar({
       updateTaskMutate({
         ...data,
         status_project_id: status.id,
+        project_id: (status as IStatusProject)?.project_id,
         completion_time: date,
         user: user?.id as number,
         id: updateTask.id,
@@ -208,21 +209,21 @@ export default function NoteSidebar({
 
   const showDeleteButton =
     (update || updateTask) &&
-    (!updateTask ||
-      (updateTask &&
-        (currentUser?.id === (updateTask.user as IUserWithRole).id ||
-          currentUser?.role === "creator")));
+    (!updateTask || (updateTask && currentUser?.role === "creator"));
 
   const canChangeStatus =
     !updateTask ||
     (updateTask &&
-      (currentUser?.id === (updateTask.user as IUserWithRole).id ||
+      ((updateTask.user &&
+        currentUser?.id === (updateTask.user as IUserWithRole).id) ||
         currentUser?.role === "creator"));
 
   const isEditable =
     (!isStatusProject && !updateTask) ||
     currentUser?.role === "creator" ||
-    (updateTask && currentUser?.id === (updateTask.user as IUserWithRole)?.id);
+    (updateTask &&
+      updateTask.user &&
+      currentUser?.id === (updateTask.user as IUserWithRole)?.id);
 
   return (
     <div className={styles.noteSidebar}>

@@ -5,9 +5,7 @@ import { taskService } from "../../../services/task.service";
 
 const KEY = ["updateTask"];
 
-export const useUpdateTask = (
-  options?: IMutationOptions<unknown, Omit<ITask, "project_id">>
-) =>
+export const useUpdateTask = (options?: IMutationOptions<unknown, ITask>) =>
   useMutation({
     mutationKey: KEY,
     mutationFn: (data) => taskService.updateTask(data),

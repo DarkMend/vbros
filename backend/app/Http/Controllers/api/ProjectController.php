@@ -159,7 +159,7 @@ class ProjectController extends Controller
         DB::transaction(function () use ($project) {
             $project->users()->detach(auth()->id());
 
-            $project->tasks()->where('user_id', auth()->id())->delete();
+            $project->tasks()->where('user_id', auth()->id())->update(['user_id' => null]);
         });
 
         return response()->json(['message' => 'Вы вышли из проекта'], 200);

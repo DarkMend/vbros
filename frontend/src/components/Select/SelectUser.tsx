@@ -27,7 +27,7 @@ const animationVariants = {
 export interface ISelectIcon {
   users?: IUserWithRole[];
   value: IUserWithRole | null;
-  setValue: (value: IUserWithRole) => void;
+  setValue: (value: IUserWithRole | null) => void;
   color?: string;
 }
 
@@ -35,7 +35,7 @@ const SelectUser = forwardRef<HTMLButtonElement, ISelectIcon>(
   ({ users, value, setValue, color }, ref) => {
     const [open, setOpen] = useState(false);
 
-    const handleChange = (item: IUserWithRole) => {
+    const handleChange = (item: IUserWithRole | null) => {
       setValue(item);
       setOpen(false);
     };
@@ -63,7 +63,14 @@ const SelectUser = forwardRef<HTMLButtonElement, ISelectIcon>(
                 <p>{value.name}</p>
               </div>
             ) : (
-              <p>Выберите пользователя</p>
+              <div className={styles.triggerContent}>
+                <div>
+                  <div className={styles.avatar}>
+                    <AvatarPlug />
+                  </div>
+                </div>
+                <p>Свободная задача</p>
+              </div>
             )}
             <div>
               <div
@@ -90,6 +97,24 @@ const SelectUser = forwardRef<HTMLButtonElement, ISelectIcon>(
                   exit="exit"
                   animate="visible"
                 >
+                  <div
+                    className={cn(styles.selectItem)}
+                    style={
+                      value == null
+                        ? {
+                            background: "#6363631a",
+                          }
+                        : undefined
+                    }
+                    onClick={() => handleChange(null)}
+                  >
+                    <div>
+                      <div className={styles.avatar}>
+                        <AvatarPlug />
+                      </div>
+                    </div>
+                    <p>Свободная задача</p>
+                  </div>
                   {users?.map((item) => (
                     <div
                       key={item.id}

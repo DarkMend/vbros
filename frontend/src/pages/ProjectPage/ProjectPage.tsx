@@ -68,7 +68,7 @@ export default function ProjectPage() {
       queryClient.invalidateQueries({ queryKey: ["getProjects"] });
     },
     onError(data) {
-      toast.error(data.response?.data?.message);
+      toast.warning(data.response?.data?.message);
     },
   });
 

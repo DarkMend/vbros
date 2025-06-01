@@ -27,18 +27,29 @@ export default function SelectButton({
       }}
     >
       <div className={styles.triggerButton}>
-        <div className={styles.triggerContent}>
-          <div>
-            <div className={styles.avatar}>
-              {value.avatar ? (
-                <img src={value.avatar} alt="" />
-              ) : (
-                <AvatarPlug name={value.name} />
-              )}
+        {value ? (
+          <div className={styles.triggerContent}>
+            <div>
+              <div className={styles.avatar}>
+                {value.avatar ? (
+                  <img src={value.avatar} alt="" />
+                ) : (
+                  <AvatarPlug name={value.name} />
+                )}
+              </div>
             </div>
+            <p>{value.name}</p>
           </div>
-          <p>{value.name}</p>
-        </div>
+        ) : (
+          <div className={styles.triggerContent}>
+            <div>
+              <div className={styles.avatar}>
+                <AvatarPlug />
+              </div>
+            </div>
+            <p>Свободная задача</p>
+          </div>
+        )}
         {/* {isProjectUser && value.role == "creator" && (
           <DropdownMenuItem>
             <div className={styles.deleteUser} onClick={handleDeleteClick}>

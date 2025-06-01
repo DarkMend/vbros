@@ -21,7 +21,7 @@ export default function TaskItem({ task }: ITaskItem) {
   const { allStatuses, setStatus, setDate, setUser, currentUser } =
     useTaskStore();
   const isDraggable =
-    currentUser?.id === (task.user as IUserWithRole).id ||
+    (task.user && currentUser?.id === (task.user as IUserWithRole).id) ||
     currentUser?.role === "creator";
 
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
@@ -49,7 +49,7 @@ export default function TaskItem({ task }: ITaskItem) {
       setStatus(status);
     }
     setDate(new Date(task.completion_time));
-    setUser(task.user as IUserWithRole);
+    if (typeof task.user !== "number") setUser(task.user);
 
     openSidebar(
       <NoteSidebar
@@ -80,10 +80,14 @@ export default function TaskItem({ task }: ITaskItem) {
         </button>
       </div>
       <div className={styles.user}>
-        {user.avatar ? (
-          <img src={user.avatar} />
+        {user ? (
+          user.avatar ? (
+            <img src={user.avatar} />
+          ) : (
+            <AvatarPlug name={user.name} />
+          )
         ) : (
-          <AvatarPlug name={user.name} />
+          <AvatarPlug />
         )}
       </div>
       <div className={styles.date}>

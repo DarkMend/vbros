@@ -80,6 +80,7 @@ export default function CreateOrUpdateProjectModal({
         queryClient.invalidateQueries({ queryKey: ["getProjects"] });
         setImage(null);
         setIsSvg(false);
+        closeModal();
       },
       onError(data) {
         toast.error(data.response?.data?.message);

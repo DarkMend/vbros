@@ -62,6 +62,7 @@ export default function CreateOrUpdateStatusModal({
       reset();
       toast.success("Статус успешно создан");
       queryClient.invalidateQueries({ queryKey: ["statuses"] });
+      closeModal();
     },
   });
 
@@ -78,6 +79,7 @@ export default function CreateOrUpdateStatusModal({
         queryClient.invalidateQueries({
           queryKey: ["projectStatuses", statusProjectId],
         });
+        closeModal();
       },
     });
 

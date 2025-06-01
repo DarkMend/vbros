@@ -7,5 +7,5 @@ export interface ITask {
   project_id: number;
   status_project_id: number;
   updated_at: Date;
-  user: IUserWithRole | number;
+  user: IUserWithRole | number | null;
 }
