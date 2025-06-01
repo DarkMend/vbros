@@ -1,0 +1,50 @@
+.image {
+  width: 400px;
+  height: 400px;
+  border-radius: 12px;
+  position: relative;
+
+  .actions {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 90px;
+    height: 30px;
+    background: white;
+    border-radius: 5px 5px 0px 0px;
+    right: 0;
+    top: -30px;
+
+    .button {
+      display: block;
+      background: none;
+      outline: none;
+      border: none;
+      color: #636363;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        color: black;
+      }
+
+      svg {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px 0px 12px 12px;
+  }
+}

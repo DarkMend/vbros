@@ -17,6 +17,7 @@ class MessageResource extends JsonResource
             'id' => $this->id,
             'message' => $this->message,
             'file' => $this->getFileUrl(),
+            'fileDownloadUrl' => $this->file ? url('api/project-message/download/' . $this->id) : null,
             'fileName' => $this->file_name,
             'projectId' => $this->project_id,
             'user' => new UserResource($this->user),

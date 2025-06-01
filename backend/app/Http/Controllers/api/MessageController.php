@@ -52,16 +52,13 @@ class MessageController extends Controller
         ], 201);
     }
 
-    public function downloadMessage(Message $message)
+    public function downloadFile(Message $message)
     {
-        $filePath = 'public/storage/' . $message->file; // Добавляем public/ если файлы в public disk
-
-        if (!$message->file || !Storage::exists($filePath)) {
-            abort(404, 'File not found');
+        if (!$message->file || !Storage::exists($message->file)) {
+            return response()->json(['message' => 'Нет такого файла'], 404);
         }
 
-        // Для корректного скачивания с оригинальным именем
-        return Storage::download($filePath, $message->file_name, [
+        return Storage::download($message->file, $message->file_name, [
             'Content-Type' => 'application/octet-stream',
             'Content-Disposition' => 'attachment; filename="' . $message->file_name . '"'
         ]);
