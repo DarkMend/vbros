@@ -1,0 +1,17 @@
+.historyWrapper {
+  min-height: 20vh;
+  max-height: 60vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.skeleton {
+  height: 30px;
+}
+
+.text {
+  font-size: 14px;
+  color: #636363;
+}

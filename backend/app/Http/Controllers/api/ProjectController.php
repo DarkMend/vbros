@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ProjectResource;
 use App\Http\Resources\ProjectWithUsersResource;
 use App\Http\Resources\StatusProjectResource;
+use App\Models\History;
 use App\Models\Project;
 use App\Models\StatusProject;
 use App\Models\User;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -58,6 +60,14 @@ class ProjectController extends Controller
                 'color' => '#44FF00',
                 'project_id' => $project->id
 
+            ]);
+
+            History::create([
+                'user_id' => auth()->id(),
+                'project_id' => $project->id,
+                'project_icon' => $data['icon'] ?? null,
+                'project_name' => $project->name,
+                'start_project' => new DateTime(),
             ]);
         });
 
@@ -138,7 +148,15 @@ class ProjectController extends Controller
             Storage::delete($project->icon);
         }
 
-        $project->delete();
+        DB::transaction(function () use ($project) {
+            History::where('project_id', $project->id)->where('user_id', auth()->id())->update([
+                'project_icon' => $project->icon ?? null,
+                'project_name' => $project->name,
+                'finish_project' => new DateTime(),
+            ]);
+
+            $project->delete();
+        });
 
         return response()->json(['message' => 'Проект успешно удален'], 200);
     }
@@ -151,6 +169,15 @@ class ProjectController extends Controller
         }
 
         $project->users()->attach(auth()->id(), ['role' => 'participant']);
+
+        History::create([
+            'user_id' => auth()->id(),
+            'project_id' => $project->id,
+            'project_icon' => $project->icon ?? null,
+            'project_name' => $project->name,
+            'start_project' => new DateTime(),
+        ]);
+
         return response()->json(['message' => 'Вы успeшно вступили в проект'], 200);
     }
 
@@ -160,6 +187,12 @@ class ProjectController extends Controller
             $project->users()->detach(auth()->id());
 
             $project->tasks()->where('user_id', auth()->id())->update(['user_id' => null]);
+
+            History::where('project_id', $project->id)->where('user_id', auth()->id())->update([
+                'project_icon' => $project->icon ?? null,
+                'project_name' => $project->name,
+                'finish_project' => new DateTime(),
+            ]);
         });
 
         return response()->json(['message' => 'Вы вышли из проекта'], 200);
@@ -170,6 +203,12 @@ class ProjectController extends Controller
         DB::transaction(function () use ($request, $project) {
             $project->users()->detach($request->user_id);
             $project->tasks()->where('user_id', $request->user_id)->delete();
+
+            History::where('project_id', $project->id)->where('user_id', $request->user_id)->update([
+                'project_icon' => $project->icon ?? null,
+                'project_name' => $project->name,
+                'finish_project' => new DateTime(),
+            ]);
         });
 
         return response()->json(['message' => 'Пользователь удален'], 200);

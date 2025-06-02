@@ -7,8 +7,14 @@ import TeamWorksIcon from "./../../../public/icons/team-works.svg";
 import { useQuery } from "@tanstack/react-query";
 import { projectService } from "../../services/project.service";
 import Logo from "../../../public/logo.svg";
+import { History } from "lucide-react";
+import cn from "classnames";
+import { useModalStore } from "../../store/modalStore";
+import HistoryModal from "../Modals/HistoryModal/HistoryModal";
 
 export default function Sidebar() {
+  const { openModal } = useModalStore();
+
   const { data: projects, isFetching } = useQuery({
     queryKey: ["getProjects"],
     queryFn: () => projectService.getProjects(),
@@ -48,7 +54,20 @@ export default function Sidebar() {
             </div>
             <div className={styles["line"]}></div>
             <div className={styles["menu__wrapper"]}>
-              {menu
+              <button
+                className={cn(styles["nav"])}
+                onClick={() => openModal(<HistoryModal />)}
+              >
+                <div className={styles["nav__main"]}>
+                  <div className={styles["nav__href"]}>
+                    <div className={styles["icon"]}>
+                      <History />
+                    </div>
+                    <div className={styles["text"]}>История проектов</div>
+                  </div>
+                </div>
+              </button>
+              {/* {menu
                 .filter((item) => item.href == "/favourite")
                 .map((item) => (
                   <MenuItem
@@ -57,7 +76,7 @@ export default function Sidebar() {
                     name={item.name}
                     icon={item.icon}
                   />
-                ))}
+                ))} */}
             </div>
           </div>
         </div>

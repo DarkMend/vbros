@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\api\HistoryController;
 use App\Http\Controllers\api\NoteController;
 use App\Http\Controllers\api\ProjectController;
 use App\Http\Controllers\api\StatusController;
@@ -86,5 +87,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{project}/messages', 'index');
         Route::post('/{project}/store', 'store');
         Route::get('/download/{message}', 'downloadFile');
+    });
+
+    Route::controller(HistoryController::class)->prefix('history')->group(function () {
+        Route::get('/personal-histories', 'index');
     });
 });
