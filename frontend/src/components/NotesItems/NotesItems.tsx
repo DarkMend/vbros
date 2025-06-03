@@ -52,7 +52,10 @@ export default function NotesItems({ data, className, ...props }: INotesItems) {
           <div className={styles["img"]}>
             <ColorSquare color={data.color} />
           </div>
-          <p>{data.name}</p>
+          <div className={styles.nameWrapper}>
+            <div className={cn(styles.statusHover)}>{data.name}</div>
+            <div className={styles.nameP}>{data.name}</div>
+          </div>
         </div>
         <div className={styles["actions"]}>
           <div
