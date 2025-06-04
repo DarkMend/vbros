@@ -139,6 +139,11 @@ class ProjectController extends Controller
 
         $project->update($data);
 
+        History::where('project_id', $project->id)->update([
+            'project_icon' => $data['icon'] ?? $project->icon,
+            'project_name' => $data['name'],
+        ]);
+
         return response()->json(['message' => 'Проект успешно обновлен'], 200);
     }
 
