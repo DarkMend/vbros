@@ -61,8 +61,8 @@ export default function TaskItem({ task }: ITaskItem) {
     );
   };
 
-  // const isOverdue =
-  //   task?.completion_time && new Date(task.completion_time) < new Date();
+  const isOverdue =
+    task?.completion_time && new Date(task.completion_time) < new Date();
 
   return (
     <div
@@ -93,7 +93,11 @@ export default function TaskItem({ task }: ITaskItem) {
           <AvatarPlug />
         )}
       </div>
-      <div className={cn(styles.date)}>
+      <div
+        className={cn(styles.date, {
+          [styles.overdue]: isOverdue,
+        })}
+      >
         Дата выполнения: {new Date(task?.completion_time).toLocaleDateString()}
       </div>
     </div>

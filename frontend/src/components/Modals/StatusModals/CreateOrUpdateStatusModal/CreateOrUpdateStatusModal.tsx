@@ -25,6 +25,7 @@ import {
 import { useCreateStatusProject } from "../../../../utils/hooks/StatusProject/useCreateStatusProject";
 import { IStatusProjectWithTasks } from "../../../../interfaces/statusProject";
 import { useUpdateStatusProject } from "../../../../utils/hooks/StatusProject/useUpdateStatusProject";
+import SwitchItem from "../../../SwitchItem/SwitchItem";
 
 export interface ICreateOrUpdateStatusModal {
   update?: IStatusWithNotes;
@@ -212,6 +213,12 @@ export default function CreateOrUpdateStatusModal({
             })}
             errorMessage={errors?.name?.message}
           />
+          {statusProjectId && (
+            <div className={styles.checkbox}>
+              <label htmlFor="">Сделать блок завершающим</label>
+              <SwitchItem color={color} />
+            </div>
+          )}
         </ModalFormLayout>
       </div>
     </ModalLayout>
