@@ -1,12 +1,22 @@
 .main-layout {
-    display: flex;
-    flex-direction: row;
-    gap: 24px;
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
 }
 
 .page {
+  padding: 24px;
+  padding-left: 0px;
+  width: 100%;
+  min-height: 100vh;
+}
+
+@media (max-width: 700px) {
+  .main-layout {
+    display: block;
+  }
+
+  .page {
     padding: 24px;
-    padding-left: 0px;
-    width: 100%;
-    min-height: 100vh;
+  }
 }

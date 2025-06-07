@@ -143,3 +143,9 @@
 //         visibility: visible;
 //     }
 // }
+
+@media (max-width: 700px) {
+  .text {
+    display: none;
+  }
+}

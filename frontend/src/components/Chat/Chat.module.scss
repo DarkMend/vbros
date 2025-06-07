@@ -313,3 +313,16 @@
   align-items: center;
   justify-content: center;
 }
+
+@media (max-width: 1000px) {
+  .noteSidebar {
+    width: 60vw;
+  }
+}
+
+@media (max-width: 700px) {
+  .noteSidebar {
+    width: 100%;
+    border-radius: 0px;
+  }
+}

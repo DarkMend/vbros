@@ -171,3 +171,59 @@
     transition: all 0.3s ease;
   }
 }
+
+@media (max-width: 700px) {
+  .sidebar {
+    min-width: 100%;
+    min-height: 30px;
+    bottom: 0;
+    flex-direction: row;
+    border: none;
+    border-top: 1px solid #d9d9d9;
+    padding-top: 0px;
+    align-items: center;
+    background: white;
+
+    .logo {
+      h2 {
+        display: none;
+      }
+    }
+
+    &__nav {
+      flex-direction: row;
+      height: 30px;
+      align-items: center;
+
+      .menu {
+        flex-direction: row;
+        gap: 5px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        &__wrapper {
+          padding: 0px;
+          display: flex;
+          flex-direction: row;
+          gap: 5px;
+        }
+
+        .line {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .nav {
+    .text {
+      display: none;
+    }
+  }
+
+  .genjutsu {
+    display: none;
+  }
+}

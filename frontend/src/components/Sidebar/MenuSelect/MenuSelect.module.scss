@@ -132,3 +132,79 @@
     border-radius: 6px;
   }
 }
+
+.menuSelectMainMobile {
+  display: block;
+  border: none;
+  background: none;
+  display: none;
+  color: #636363;
+
+  &:hover {
+    background: #f5f5f5;
+    color: black;
+    border-radius: 12px;
+  }
+}
+
+.wrapperMobile {
+  display: none;
+}
+
+.dropdownMobile {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .menuSelectItemsDesktop {
+    display: none;
+    padding: 0px;
+  }
+
+  .menuSelectMainInfo {
+    .text {
+      display: none;
+    }
+  }
+
+  .menuSelectMainActions {
+    display: none;
+  }
+
+  .menuSelectMain {
+    display: none;
+  }
+
+  .menuSelectMainMobile {
+    display: block;
+  }
+
+  .wrapperMobile {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .menuSelectMainInfoMobile {
+    .text {
+      display: block;
+    }
+  }
+
+  .menuSelectItemMobile {
+    .menuSelectMainActions {
+      display: block;
+    }
+  }
+
+  .dropdownMobile {
+    display: block;
+  }
+
+  .menuSelectItems {
+    .menuSelectItem {
+      padding: 12px;
+      min-width: 150px;
+    }
+  }
+}
