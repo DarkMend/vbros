@@ -18,6 +18,7 @@ class StatusProjectResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'color' => $this->color,
+            'is_final' => $this->is_final,
             'project_id' => $this->project_id,
             'tasks' => TaskResource::collection($this->tasks)
         ];

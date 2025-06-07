@@ -4,6 +4,7 @@ import { EditIcon } from "lucide-react";
 import cn from "classnames";
 import ColorPickerItem from "./ColorPickerItem/ColorPickerItem";
 import ColorSquare from "../ColorSquare/ColorSquare";
+import SwitchItem from "../SwitchItem/SwitchItem";
 
 export default function ModalMenuItem({
   icon,
@@ -16,6 +17,9 @@ export default function ModalMenuItem({
   colorPicker = false,
   color,
   setColor,
+  doneFinalBlock,
+  value,
+  setValue,
 }: {
   icon?: ReactNode;
   nameHover?: boolean;
@@ -27,6 +31,9 @@ export default function ModalMenuItem({
   colorPicker?: boolean;
   color?: string;
   setColor?: (color: string) => void;
+  doneFinalBlock?: boolean;
+  value?: boolean;
+  setValue?: (value: boolean) => void;
 }) {
   return (
     <div className={styles["list-item"]}>
@@ -54,7 +61,13 @@ export default function ModalMenuItem({
           className={styles["list-item__content"]}
           style={{ overflow: overflowHidden ? "hidden" : "visible" }}
         >
-          {colorPicker ? (
+          {doneFinalBlock ? (
+            <SwitchItem
+              color={color}
+              value={value ?? false}
+              setValue={setValue}
+            />
+          ) : colorPicker ? (
             <ColorPickerItem color={color} setColor={setColor} />
           ) : (
             <div className={styles.listItemWrapper}>
@@ -62,6 +75,7 @@ export default function ModalMenuItem({
               {content}
             </div>
           )}
+          {}
         </div>
       </div>
     </div>

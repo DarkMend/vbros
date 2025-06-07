@@ -14,6 +14,7 @@ class StatusProjectController extends Controller
             'name' => ['required', 'string', 'max:240'],
             'color' => ['required', 'string'],
             'project_id' => ['required'],
+            'is_final' => ['required']
         ], [
             'name.required' => 'Введите название',
             'name.color' => 'Выберите цвет',
@@ -23,7 +24,8 @@ class StatusProjectController extends Controller
         StatusProject::create([
             'name' => $request->name,
             'color' => $request->color,
-            'project_id' => $request->project_id
+            'project_id' => $request->project_id,
+            'is_final' => $request->is_final
         ]);
 
         return response()->json(['message' => 'Статус добавлен успешно'], 200);
@@ -34,6 +36,7 @@ class StatusProjectController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:240'],
             'color' => ['required', 'string'],
+            'is_final' => ['required']
         ], [
             'name.required' => 'Введите название',
             'name.color' => 'Выберите цвет',
@@ -43,6 +46,7 @@ class StatusProjectController extends Controller
         $statusProject->update([
             'name' => $request->name,
             'color' => $request->color,
+            'is_final' => $request->is_final
         ]);
 
         return response()->json(['message' => 'Статус успешно обновлен'], 200);

@@ -58,7 +58,8 @@ class ProjectController extends Controller
             StatusProject::create([
                 'name' => 'Завершено',
                 'color' => '#44FF00',
-                'project_id' => $project->id
+                'project_id' => $project->id,
+                'is_final' => true
 
             ]);
 

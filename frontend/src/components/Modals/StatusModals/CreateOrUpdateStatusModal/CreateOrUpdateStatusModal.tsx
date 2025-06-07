@@ -1,4 +1,4 @@
-import { ClipboardPlus, Palette, Pencil } from "lucide-react";
+import { ClipboardPlus, Palette, Pencil, SquareCheckBig } from "lucide-react";
 import ModalLayout from "../../../ModalLayout/ModalLayout";
 import styles from "./CreateOrUpdateStatusModal.module.scss";
 import ParagraphModal from "../../../ParagraphModal/ParagraphModal";
@@ -25,7 +25,6 @@ import {
 import { useCreateStatusProject } from "../../../../utils/hooks/StatusProject/useCreateStatusProject";
 import { IStatusProjectWithTasks } from "../../../../interfaces/statusProject";
 import { useUpdateStatusProject } from "../../../../utils/hooks/StatusProject/useUpdateStatusProject";
-import SwitchItem from "../../../SwitchItem/SwitchItem";
 
 export interface ICreateOrUpdateStatusModal {
   update?: IStatusWithNotes;
@@ -41,6 +40,10 @@ export default function CreateOrUpdateStatusModal({
   const [color, setColor] = useState(
     update ? update.color : statusProject ? statusProject.color : "#FF9D00"
   );
+  const [checked, setChecked] = useState<boolean>(
+    statusProject ? statusProject.is_final : false
+  );
+
   const {
     register,
     formState: { errors },
@@ -121,6 +124,7 @@ export default function CreateOrUpdateStatusModal({
         color,
         project_id: statusProject.project_id,
         id: statusProject.id,
+        is_final: checked,
       });
     } else {
       if (statusProjectId) {
@@ -128,6 +132,7 @@ export default function CreateOrUpdateStatusModal({
           ...data,
           color,
           project_id: statusProjectId,
+          is_final: checked,
         });
       } else {
         mutate({ ...data, color });
@@ -213,11 +218,19 @@ export default function CreateOrUpdateStatusModal({
             })}
             errorMessage={errors?.name?.message}
           />
-          {statusProjectId && (
-            <div className={styles.checkbox}>
-              <label htmlFor="">Сделать блок завершающим</label>
-              <SwitchItem color={color} />
-            </div>
+
+          {statusProjectId || statusProject ? (
+            <ModalMenuItem
+              name="Завершающий блок"
+              icon={<SquareCheckBig />}
+              nameHover={false}
+              color={color}
+              doneFinalBlock={true}
+              value={checked}
+              setValue={setChecked}
+            />
+          ) : (
+            ""
           )}
         </ModalFormLayout>
       </div>

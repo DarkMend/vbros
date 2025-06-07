@@ -105,7 +105,7 @@ export default function TaskItems({ className, data, ...props }: ITaskItems) {
                 new Date(a.updated_at).getTime() -
                 new Date(b.updated_at).getTime()
             )
-            .map((el) => <TaskItem key={el.id} task={el} />)}
+            .map((el) => <TaskItem key={el.id} task={el} status={data} />)}
         {currentUser?.role === "creator" && (
           <AddNoteItem typeButton="note" onClick={openCreateNoteSidebar} />
         )}

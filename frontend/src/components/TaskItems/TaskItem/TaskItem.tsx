@@ -11,12 +11,14 @@ import { ITask } from "../../../interfaces/task";
 import { IUserWithRole } from "../../../interfaces/user.interface";
 import AvatarPlug from "../../AvatarPlug/AvatarPlug";
 import { useTaskStore } from "../../../store/taskStore";
+import { IStatusProject } from "../../../interfaces/statusProject";
 
 export interface ITaskItem {
   task: ITask;
+  status: IStatusProject;
 }
 
-export default function TaskItem({ task }: ITaskItem) {
+export default function TaskItem({ task, status }: ITaskItem) {
   const { openSidebar } = useSibebarStore();
   const { allStatuses, setStatus, setDate, setUser, currentUser } =
     useTaskStore();
@@ -95,7 +97,7 @@ export default function TaskItem({ task }: ITaskItem) {
       </div>
       <div
         className={cn(styles.date, {
-          [styles.overdue]: isOverdue,
+          [styles.overdue]: status.is_final != true && isOverdue,
         })}
       >
         Дата выполнения: {new Date(task?.completion_time).toLocaleDateString()}
