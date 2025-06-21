@@ -97,6 +97,9 @@ export default function CreateOrUpdateProjectModal({
       queryClient.invalidateQueries({
         queryKey: ["projectStatuses", update?.id],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["getProjects"],
+      });
       setImage(null);
       setIsSvg(false);
       closeModal();
