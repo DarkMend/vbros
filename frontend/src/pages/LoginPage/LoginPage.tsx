@@ -48,7 +48,7 @@ export default function LoginPage() {
 
   return (
     <div className={styles["auth-page"]}>
-      <h1>Создайте аккаунт</h1>
+      <h1>Войдите в аккаунт</h1>
       <FormLayout
         onSubmit={handleSubmit(onSubmit)}
         isLoading={isPending}
