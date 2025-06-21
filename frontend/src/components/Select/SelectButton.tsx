@@ -1,44 +1,41 @@
+import { ButtonHTMLAttributes } from "react";
 import { IUserWithRole } from "../../interfaces/user.interface";
 import AvatarPlug from "../AvatarPlug/AvatarPlug";
 import styles from "./SelectUser.module.scss";
-// import TrashIcon from "./../../../public/icons/trash.svg";
-// import DropdownMenuItem from "../DropdownMenuLayout/DropdownMenuItem";
 
-export default function SelectButton({
-  value,
-  color,
-  isProjectUser,
-}: //   onClick,
-{
-  value: IUserWithRole;
+export interface ISelectButton extends ButtonHTMLAttributes<HTMLButtonElement> {
+  user: IUserWithRole;
   color?: string;
   isProjectUser?: boolean;
-  onClick?: (id: number) => void;
-}) {
-  //   const handleDeleteClick = (e: React.MouseEvent) => {
-  //     e.stopPropagation();
-  //     onClick?.(value.id as number);
-  //   };
+}
+
+export default function SelectButton({
+  user,
+  color,
+  isProjectUser,
+  ...props
+}: ISelectButton) {
   return (
     <button
       className={styles.selectTrigger}
       style={{
         background: color ? `${color}1A` : isProjectUser ? "" : "#6363631a",
       }}
+      {...props}
     >
       <div className={styles.triggerButton}>
-        {value ? (
+        {user ? (
           <div className={styles.triggerContent}>
             <div>
               <div className={styles.avatar}>
-                {value.avatar ? (
-                  <img src={value.avatar} alt="" />
+                {user.avatar ? (
+                  <img src={user.avatar} alt="" />
                 ) : (
-                  <AvatarPlug name={value.name} />
+                  <AvatarPlug name={user.name} />
                 )}
               </div>
             </div>
-            <p>{value.name}</p>
+            <p>{user.name}</p>
           </div>
         ) : (
           <div className={styles.triggerContent}>
@@ -50,13 +47,6 @@ export default function SelectButton({
             <p>Свободная задача</p>
           </div>
         )}
-        {/* {isProjectUser && value.role == "creator" && (
-          <DropdownMenuItem>
-            <div className={styles.deleteUser} onClick={handleDeleteClick}>
-              <TrashIcon />
-            </div>
-          </DropdownMenuItem>
-        )} */}
       </div>
     </button>
   );

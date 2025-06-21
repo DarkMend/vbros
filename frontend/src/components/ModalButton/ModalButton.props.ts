@@ -6,4 +6,5 @@ export interface IModalButton extends ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading?: boolean;
   typeButton?: "delete";
   textNone?: boolean;
+  deleteUser?: boolean;
 }

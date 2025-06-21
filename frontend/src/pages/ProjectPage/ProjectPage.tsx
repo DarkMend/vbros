@@ -246,7 +246,11 @@ export default function ProjectPage() {
             >
               <MessageCircleMore />
             </button>
-            <ProjectUsers visibleUsers={visibleUsers} users={users} />
+            <ProjectUsers
+              visibleUsers={visibleUsers}
+              users={users}
+              projectId={projectId}
+            />
             <PageMenu>
               <div className={styles.pageMenu}>
                 <DropdownMenuItem>

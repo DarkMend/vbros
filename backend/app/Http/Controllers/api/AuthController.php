@@ -94,6 +94,11 @@ class AuthController extends Controller
         return response()->json(['data' => new UserResource($user)], 200);
     }
 
+    public function infoUser(User $user)
+    {
+        return response()->json(['data' => new UserResource($user)], 200);
+    }
+
     public function logout()
     {
         $user = request()->user();

@@ -12,6 +12,11 @@
   font-weight: 500;
   width: 250px;
   cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #6363631a;
+  }
 }
 
 .triggerButton {

@@ -207,14 +207,18 @@ class ProjectController extends Controller
     public function deleteUser(Request $request, Project $project)
     {
         DB::transaction(function () use ($request, $project) {
-            $project->users()->detach($request->user_id);
-            $project->tasks()->where('user_id', $request->user_id)->delete();
+            if ($project->users()->where('user_id', auth()->id())->first()->pivot->role == 'creator') {
+                $project->users()->detach($request->user_id);
+                $project->tasks()->where('user_id', $request->user_id)->update(['user_id' => null]);
 
-            History::where('project_id', $project->id)->where('user_id', $request->user_id)->update([
-                'project_icon' => $project->icon ?? null,
-                'project_name' => $project->name,
-                'finish_project' => new DateTime(),
-            ]);
+                History::where('project_id', $project->id)->where('user_id', $request->user_id)->update([
+                    'project_icon' => $project->icon ?? null,
+                    'project_name' => $project->name,
+                    'finish_project' => new DateTime(),
+                ]);
+            } else {
+                return response()->json(['message' => 'У вас нет прав'], 403);
+            }
         });
 
         return response()->json(['message' => 'Пользователь удален'], 200);

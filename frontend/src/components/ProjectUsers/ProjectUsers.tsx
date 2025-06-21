@@ -1,27 +1,27 @@
 import { IUserWithRole } from "../../interfaces/user.interface";
 import { useModalStore } from "../../store/modalStore";
 import AvatarPlug from "../AvatarPlug/AvatarPlug";
+import DropdownMenuItem from "../DropdownMenuLayout/DropdownMenuItem";
 import DropdownMenuLayout from "../DropdownMenuLayout/DropdownMenuLayout";
-import ModalConfirmation from "../ModalConfirmation/ModalConfirmation";
-import { useDeleteUserHook } from "../Modals/ProjectModal/CreateOrUpdateProjectModal/useDeleteProject";
+import UserAccountModal from "../Modals/UserAccountModal/UserAccountModal";
 import SelectButton from "../Select/SelectButton";
 import styles from "./ProjectUsers.module.scss";
 
 export interface IProjectUsers {
   visibleUsers: IUserWithRole[];
   users: IUserWithRole[];
+  projectId: number;
 }
 
-export default function ProjectUsers({ visibleUsers, users }: IProjectUsers) {
-  const { openModal, closeModal } = useModalStore();
-  const deleteHandle = (id: number) => {
+export default function ProjectUsers({
+  visibleUsers,
+  users,
+  projectId,
+}: IProjectUsers) {
+  const { openModal } = useModalStore();
+  const userModalInfo = (userId: number) => {
     openModal(
-      <ModalConfirmation
-        text="Вы точно хотите исключить данного человека?"
-        backAction={closeModal}
-        id={id}
-        handleConfirmation={useDeleteUserHook}
-      />
+      <UserAccountModal projectId={projectId} projectUserId={userId} />
     );
   };
 
@@ -53,12 +53,13 @@ export default function ProjectUsers({ visibleUsers, users }: IProjectUsers) {
       content={
         <div className={styles.users}>
           {users.map((user: IUserWithRole) => (
-            <SelectButton
-              value={user}
-              isProjectUser={true}
-              key={user.id}
-              onClick={() => deleteHandle(user.id as number)}
-            />
+            <DropdownMenuItem key={user.id}>
+              <SelectButton
+                user={user}
+                isProjectUser={true}
+                onClick={() => userModalInfo(user.id as number)}
+              />
+            </DropdownMenuItem>
           ))}
         </div>
       }

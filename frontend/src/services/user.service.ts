@@ -19,6 +19,13 @@ export const userService = {
     return response.data.data;
   },
 
+  async infoProjectUser(id: number): Promise<IUser | undefined> {
+    const response: AxiosResponse<{ data: IUser }> = await axiosWithAuth.get(
+      `/user/info/${id}`
+    );
+    return response.data.data;
+  },
+
   async logout() {
     return axiosWithAuth.post("/auth/logout");
   },
@@ -27,7 +34,7 @@ export const userService = {
     return axiosWithAuth.post<unknown>("/user/changeAvatar", data);
   },
 
-  async changeName(data: Pick<IUser, 'name'>) {
-    return axiosWithAuth.post('/user/changeName', data);
-  }
+  async changeName(data: Pick<IUser, "name">) {
+    return axiosWithAuth.post("/user/changeName", data);
+  },
 };

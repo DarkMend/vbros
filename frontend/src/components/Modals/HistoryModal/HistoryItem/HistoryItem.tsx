@@ -12,14 +12,13 @@ export default function HistoryItem({
   name,
   startProject,
   finishProject,
-  projectIcon,
 }: IHistoryItem) {
   return (
     <div className={styles.wrapper}>
       <div className={styles.name}>
         <div>
           <div className={styles.icon}>
-            {projectIcon ? <img src={projectIcon} alt="" /> : <ProjectIcon />}
+            <ProjectIcon />
           </div>
         </div>
         <div>{name}</div>

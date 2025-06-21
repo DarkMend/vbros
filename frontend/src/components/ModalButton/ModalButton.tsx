@@ -11,6 +11,7 @@ export default function ModalButton({
   className,
   typeButton,
   textNone = false,
+  deleteUser,
   ...props
 }: IModalButton) {
   return (
@@ -33,7 +34,13 @@ export default function ModalButton({
           {textNone ? (
             ""
           ) : (
-            <p>{typeButton === "delete" ? "Удалить" : children}</p>
+            <p>
+              {typeButton === "delete"
+                ? deleteUser
+                  ? children
+                  : "Удалить"
+                : children}
+            </p>
           )}
         </>
       )}
