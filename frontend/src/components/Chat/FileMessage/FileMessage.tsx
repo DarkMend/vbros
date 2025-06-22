@@ -37,21 +37,25 @@ export default function FileMessage({ file, fileName, message }: IFileMessage) {
       className={styles.file}
       onClick={() => openModal(<ImageModal message={message} />)}
     >
-      <div className={styles.image}>
-        <div className={styles.hoverIcon}>
-          <Eye />
+      <div>
+        <div className={styles.image}>
+          <div className={styles.hoverIcon}>
+            <Eye />
+          </div>
+          <img src={file} alt="" />
         </div>
-        <img src={file} alt="" />
       </div>
       <div className={styles.text}>{fileName}</div>
     </button>
   ) : (
     <a onClick={downloadFile} className={styles.file} download>
-      <div className={styles.icon}>
-        <div className={styles.hoverIcon}>
-          <ArrowDownToLine />
+      <div>
+        <div className={styles.icon}>
+          <div className={styles.hoverIcon}>
+            <ArrowDownToLine />
+          </div>
+          <FileIcon />
         </div>
-        <FileIcon />
       </div>
       <div className={styles.text}>{fileName}</div>
     </a>
