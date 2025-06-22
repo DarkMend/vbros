@@ -8,8 +8,8 @@ import ProfileSettingsItem from "./ProfileSettings/ProfileSettingsItem/ProfileSe
 import AccountModal from "../../Modals/AccountModal/AccountModal";
 import { useLogoutUser } from "../../../utils/hooks/User/useLogoutUser";
 import AccountIcon from "./../../../../public/icons/account.svg";
-import GearIcon from "./../../../../public/icons/gear.svg";
-import SupportIcon from "./../../../../public/icons/support.svg";
+// import GearIcon from "./../../../../public/icons/gear.svg";
+// import SupportIcon from "./../../../../public/icons/support.svg";
 import ExitIcon from "./../../../../public/icons/exit.svg";
 import { useModalStore } from "../../../store/modalStore";
 import DropdownMenuItem from "../../DropdownMenuLayout/DropdownMenuItem";
@@ -54,11 +54,11 @@ export default function Profile() {
                       icon={<AccountIcon />}
                     />
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
+                  {/* <DropdownMenuItem>
                     <ProfileSettingsItem name="Настройки" icon={<GearIcon />} />
-                  </DropdownMenuItem>
+                  </DropdownMenuItem> */}
                 </div>
-                <div className={styles["hr"]}></div>
+                {/* <div className={styles["hr"]}></div>
                 <div className={styles["profile-settings__wrapper"]}>
                   <DropdownMenuItem>
                     <ProfileSettingsItem
@@ -66,7 +66,7 @@ export default function Profile() {
                       icon={<SupportIcon />}
                     />
                   </DropdownMenuItem>
-                </div>
+                </div> */}
                 <div className={styles["hr"]}></div>
                 <div className={styles["profile-settings__wrapper"]}>
                   <ProfileSettingsItem
