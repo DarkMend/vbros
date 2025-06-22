@@ -110,6 +110,10 @@ export default function Chat({ text, projectId }: IChat) {
   const { mutate, isPending } = useCreateMessage({
     onSuccess() {
       reset();
+      const textarea = document.querySelector(
+        'textarea[name="message"]'
+      ) as HTMLTextAreaElement | null;
+      if (textarea) textarea.style.height = "44px";
       setFile(null);
     },
     onError(data) {
