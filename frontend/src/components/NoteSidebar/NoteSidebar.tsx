@@ -288,7 +288,7 @@ export default function NoteSidebar({
             ) : (
               updateTask && (
                 <SelectButton
-                  value={updateTask.user as IUserWithRole}
+                  user={updateTask.user as IUserWithRole}
                   color={status?.color as string}
                 />
               )
